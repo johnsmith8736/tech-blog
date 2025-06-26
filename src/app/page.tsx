@@ -6,9 +6,9 @@ export default function HomePage() {
 
   return (
     <section>
-      <header className="text-center mb-16">
-        <h1 className="text-5xl font-bold tracking-tight">Tech Blog</h1>
-        <p className="text-gray-500 mt-3">分享Python爬虫和计算机技术</p>
+      <header className="bg-primary text-white py-20 mb-16 rounded-lg shadow-lg">
+        <h1 className="text-6xl font-extrabold tracking-tight mb-4">Tech Blog</h1>
+        <p className="text-xl opacity-80">分享Python爬虫和计算机技术</p>
         
       </header>
 
