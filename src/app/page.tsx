@@ -20,7 +20,7 @@ export default function HomePage() {
 
       <div className="space-y-10">
         {allPostsData.map(({ id, date, title, excerpt }) => (
-          <article key={id} className="border-b border-gray-200 dark:border-gray-700 pb-6">
+          <article key={id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 mb-6 transition-all duration-300 hover:shadow-lg">
             <h2 className="text-3xl font-bold hover:text-blue-600 dark:hover:text-blue-400">
               <Link href={`/posts/${id}`}>{title}</Link>
             </h2>
