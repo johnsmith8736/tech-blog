@@ -30,7 +30,7 @@ export default function RootLayout({
             <a href="https://instagram.com/izumi.misaki87" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Instagram</a>
             <a href="mailto:johnsmith874436@gmail.com" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Email</a>
             <a href="https://www.youtube.com/@stanleychan87" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">YouTube</a>
-            <a href="https://your-tip-me-link.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-200 font-semibold">打赏我</a>
+            
           </nav>
         </header>
         <main className="container mx-auto px-4 py-8 max-w-4xl">
