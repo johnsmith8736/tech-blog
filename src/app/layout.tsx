@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Playfair_Display, Open_Sans } from "next/font/google";
+
+const playfairDisplay = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair-display" });
+const openSans = Open_Sans({ subsets: ["latin"], variable: "--font-open-sans" });
 import "./globals.css";
 import Link from 'next/link';
 
@@ -16,10 +19,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200`}>
+    <html lang="en" className={`${playfairDisplay.variable} ${openSans.variable}`}>
+      <body className={`${openSans.className} bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200`}>
         <header className="container mx-auto px-4 pt-8 pb-4 max-w-4xl flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white font-playfair-display">
             <Link href="/">Tech Blog</Link>
           </h1>
           <nav className="space-x-4">
