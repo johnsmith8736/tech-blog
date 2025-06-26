@@ -20,7 +20,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfairDisplay.variable} ${openSans.variable}`}>
-      <body className={`${openSans.className} bg-gray-50 text-gray-800 dark:bg-gray-900 dark:text-gray-200`}>
+      <body className={`${openSans.className} bg-background text-foreground`}>
         <header className="container mx-auto px-4 pt-8 pb-4 max-w-4xl flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white font-playfair-display">
             <Link href="/">Tech Blog</Link>
