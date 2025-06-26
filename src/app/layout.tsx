@@ -6,7 +6,7 @@ const openSans = Open_Sans({ subsets: ["latin"], variable: "--font-open-sans" })
 import "./globals.css";
 import Link from 'next/link';
 
-const inter = Inter({ subsets: ["latin"] });
+
 
 export const metadata: Metadata = {
   title: "Tech Blog - Stanley Chan",
