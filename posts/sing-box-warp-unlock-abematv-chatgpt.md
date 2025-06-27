@@ -473,4 +473,3 @@ lsmod | grep bbr
   }
 }
 ```
-在 https://github.com/SagerNet/sing-box/releases 上下载对应的客户端文件，安装。复制客户端配置导入sing-box客户端！

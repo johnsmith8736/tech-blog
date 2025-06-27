@@ -27,7 +27,7 @@ export default async function PostPage({ params }: { params: { id: string } }) {
   }
 
   return (
-    <article className="prose prose-lg mx-auto dark:prose-invert">
+        <article className="prose prose-lg mx-auto dark:prose-invert leading-relaxed">
       <header className="mb-8 border-b pb-4">
         <h1 className="text-4xl font-bold tracking-tight">{postData.title}</h1>
         <div className="text-gray-500 dark:text-gray-400 mt-2">
