@@ -5,6 +5,7 @@ const playfairDisplay = Playfair_Display({ subsets: ["latin"], variable: "--font
 const openSans = Open_Sans({ subsets: ["latin"], variable: "--font-open-sans" });
 import "./globals.css";
 import Link from 'next/link';
+import Image from 'next/image';
 
 
 
@@ -22,9 +23,12 @@ export default function RootLayout({
     <html lang="en" className={`${playfairDisplay.variable} ${openSans.variable}`}>
       <body className={`${openSans.className} bg-background text-foreground`}>
         <header className="container mx-auto px-4 pt-8 pb-4 max-w-4xl flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white font-playfair-display">
-            <Link href="/">Tech Blog</Link>
-          </h1>
+          <div className="flex items-center">
+            <Image src="/avatar.jpg" alt="Avatar" width={40} height={40} className="rounded-full mr-3" />
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white font-playfair-display">
+              <Link href="/">Tech Blog</Link>
+            </h1>
+          </div>
           <nav className="space-x-4">
             <a href="https://github.com/johnsmith8736" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">GitHub</a>
             <a href="https://instagram.com/izumi.misaki87" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Instagram</a>
