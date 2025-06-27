@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { getSortedPostsData } from '@/lib/posts';
 import SearchablePostList from '@/app/components/SearchablePostList';
+import { Suspense } from 'react';
 
 export default function HomePage() {
   const allPostsData = getSortedPostsData();
@@ -21,7 +22,9 @@ export default function HomePage() {
         </p>
       </header>
 
-      <SearchablePostList allPostsData={allPostsData} />
+      <Suspense fallback={<div>Loading search results...</div>}>
+        <SearchablePostList allPostsData={allPostsData} />
+      </Suspense>
     </section>
   );
 }

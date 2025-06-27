@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 interface PostData {
   id: string;
@@ -15,7 +16,8 @@ interface SearchablePostListProps {
 }
 
 export default function SearchablePostList({ allPostsData }: SearchablePostListProps) {
-  const [searchTerm, setSearchTerm] = useState('');
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get('q') || '';
   const [filteredPosts, setFilteredPosts] = useState(allPostsData);
 
   useEffect(() => {
@@ -28,14 +30,6 @@ export default function SearchablePostList({ allPostsData }: SearchablePostListP
 
   return (
     <section>
-      <input
-        type="text"
-        placeholder="搜索文章..."
-        className="w-full p-3 rounded-md text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 mb-8"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-      />
-
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredPosts.map(({ id, date, title, excerpt }) => (
           <article key={id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transition-all duration-300 hover:shadow-lg">
