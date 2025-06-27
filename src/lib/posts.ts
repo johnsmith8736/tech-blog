@@ -2,11 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
-import { remark } from 'remark';
-import remarkParse from 'remark-parse';
-import remarkRehype from 'remark-rehype';
-import rehypeStringify from 'rehype-stringify';
-import rehypeHighlight from 'rehype-highlight';
+import Showdown from 'showdown';
+import showdownHighlight from 'showdown-highlight';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
@@ -48,13 +45,10 @@ export async function getPostData(id: string) {
   const matterResult = matter(fileContents);
 
   // Use remark to convert markdown into HTML string
-  const processedContent = await remark()
-    .use(remarkParse)
-    .use(remarkRehype)
-    .use(rehypeHighlight)
-    .use(rehypeStringify)
-    .process(matterResult.content);
-  const contentHtml = processedContent.toString();
+  const converter = new Showdown.Converter({
+    extensions: [showdownHighlight({ pre: true })],
+  });
+  const contentHtml = converter.makeHtml(matterResult.content);
 
   // Combine the data with the id and contentHtml
   return {
