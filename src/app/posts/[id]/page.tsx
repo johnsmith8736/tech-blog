@@ -1,5 +1,6 @@
 import { getPostData, getAllPostIds } from '@/lib/posts';
 import { notFound } from 'next/navigation';
+import HighlightCode from './HighlightCode';
 import Link from 'next/link';
 import type { Metadata } from 'next';
 
@@ -34,9 +35,7 @@ export default async function PostPage({ params }: { params: { id: string } }) {
         </div>
       </header>
 
-      <div
-        dangerouslySetInnerHTML={{ __html: postData.contentHtml }}
-      />
+      <HighlightCode contentHtml={postData.contentHtml} />
 
       <div className="mt-16 pt-6 border-t">
         <Link href="/" className="text-blue-600 hover:underline dark:text-blue-400">
