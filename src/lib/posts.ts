@@ -1,71 +1,69 @@
 
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
 import Showdown from 'showdown';
 import showdownHighlight from 'showdown-highlight';
 
-const postsDirectory = path.join(process.cwd(), 'posts');
+// 使用环境变量配置 API URL，支持开发和生产环境
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
-export function getSortedPostsData() {
-  // Get file names under /posts
-  const fileNames = fs.readdirSync(postsDirectory);
-  const allPostsData = fileNames.map((fileName) => {
-    // Remove ".md" from file name to get id
-    const id = fileName.replace(/\.md$/, '');
-
-    // Read markdown file as string
-    const fullPath = path.join(postsDirectory, fileName);
-    const fileContents = fs.readFileSync(fullPath, 'utf8');
-
-    // Use gray-matter to parse the post metadata section
-    const matterResult = matter(fileContents);
-
-    // Combine the data with the id
-    return {
-      id,
-      ...(matterResult.data as { title: string; date: string; excerpt: string }),
-    };
-  });
-  // Sort posts by date
-  return allPostsData.sort((a, b) => {
-    if (a.date < b.date) {
-      return 1;
-    } else {
-      return -1;
+export async function getSortedPostsData() {
+  try {
+    const response = await fetch(`${API_URL}/posts/`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  });
+    const posts = await response.json();
+    return posts.sort((a: { date: string }, b: { date: string }) => {
+      if (a.date < b.date) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+  } catch (error) {
+    console.error("Failed to fetch posts:", error);
+    return [];
+  }
 }
 
 export async function getPostData(id: string) {
-  const fullPath = path.join(postsDirectory, `${id}.md`);
-  const fileContents = fs.readFileSync(fullPath, 'utf8');
-
-  // Use gray-matter to parse the post metadata section
-  const matterResult = matter(fileContents);
-
-  // Use remark to convert markdown into HTML string
-  const converter = new Showdown.Converter({
-    extensions: [showdownHighlight({ pre: true })],
-  });
-  const contentHtml = converter.makeHtml(matterResult.content);
-
-  // Combine the data with the id and contentHtml
-  return {
-    id,
-    contentHtml,
-    ...(matterResult.data as { title: string; date: string; excerpt: string }),
-  };
+  try {
+    const response = await fetch(`${API_URL}/posts/${id}/`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const posts = await response.json();
+    if (posts.length === 0) {
+      return null;
+    }
+    const post = posts[0];
+    const converter = new Showdown.Converter({
+      extensions: [showdownHighlight({ pre: true })],
+    });
+    const contentHtml = converter.makeHtml(post.content);
+    return {
+      ...post,
+      contentHtml,
+    };
+  } catch (error) {
+    console.error(`Failed to fetch post with id ${id}:`, error);
+    return null;
+  }
 }
 
-export function getAllPostIds() {
-  const fileNames = fs.readdirSync(postsDirectory);
-
-  return fileNames.map((fileName) => {
-    return {
+export async function getAllPostSlugs() {
+  try {
+    const response = await fetch(`${API_URL}/posts/`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const posts = await response.json();
+    return posts.map((post: { slug: string }) => ({
       params: {
-        id: fileName.replace(/\.md$/, ''),
+        id: post.slug,
       },
-    };
-  });
+    }));
+  } catch (error) {
+    console.error("Failed to fetch post slugs:", error);
+    return [];
+  }
 }

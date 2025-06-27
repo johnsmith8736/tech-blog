@@ -1,10 +1,37 @@
+'use client';
+
 import Image from 'next/image';
-import { getSortedPostsData } from '@/lib/posts';
 import SearchablePostList from '@/app/components/SearchablePostList';
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+import { getSortedPostsData } from '@/lib/posts';
+
+// Define the Post type based on your Django Post model
+interface PostData {
+  id: number;
+  slug: string;
+  date: string;
+  title: string;
+  excerpt: string;
+}
 
 export default function HomePage() {
-  const allPostsData = getSortedPostsData();
+  const [allPostsData, setAllPostsData] = useState<PostData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchPosts() {
+      try {
+        const posts = await getSortedPostsData();
+        setAllPostsData(posts);
+      } catch (error) {
+        console.error('Failed to fetch posts:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchPosts();
+  }, []);
 
   return (
     <section>
@@ -22,9 +49,16 @@ export default function HomePage() {
         </p>
       </header>
 
-      <Suspense fallback={<div>Loading search results...</div>}>
-        <SearchablePostList allPostsData={allPostsData} />
-      </Suspense>
+      {loading ? (
+        <div className="text-center py-8">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+          <p className="mt-2 text-gray-600 dark:text-gray-400">加载文章中...</p>
+        </div>
+      ) : (
+        <Suspense fallback={<div>Loading search results...</div>}>
+          <SearchablePostList allPostsData={allPostsData} />
+        </Suspense>
+      )}
     </section>
   );
 }

@@ -1,0 +1,27 @@
+# SPA 路由支持 - 将所有未找到的路径重定向到 index.html
+# 这确保了客户端路由能够正常工作
+
+# 首先处理静态文件，避免被 SPA 重定向影响
+/_next/* 200
+/favicon.ico 200
+/robots.txt 200
+/sitemap.xml 200
+/*.png 200
+/*.jpg 200
+/*.jpeg 200
+/*.gif 200
+/*.webp 200
+/*.svg 200
+/*.ico 200
+/*.css 200
+/*.js 200
+/*.woff 200
+/*.woff2 200
+/*.ttf 200
+/*.otf 200
+
+# API 路由（如果有的话）
+/api/* 404
+
+# 所有其他路径都重定向到 index.html，支持客户端路由
+/* /index.html 200

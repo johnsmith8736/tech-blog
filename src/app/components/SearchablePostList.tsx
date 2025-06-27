@@ -5,7 +5,8 @@ import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 interface PostData {
-  id: string;
+  id: number; // Keep id as number from Django API
+  slug: string; // Add slug
   date: string;
   title: string;
   excerpt: string;
@@ -31,12 +32,12 @@ export default function SearchablePostList({ allPostsData }: SearchablePostListP
   return (
     <section>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filteredPosts.map(({ id, date, title, excerpt }) => (
+        {filteredPosts.map(({ id, date, title, excerpt, slug }) => (
           <article key={id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transition-all duration-300 hover:shadow-lg">
             <h2 className="text-3xl font-bold hover:text-blue-600 dark:hover:text-blue-400">
-              <Link href={`/posts/${id}`}>{title}</Link>
+              <Link href={`/post?slug=${slug}`}>{title}</Link>
             </h2>
-            <div className="text-sm text-gray-500 dark:text-gray-400 my-2">
+            <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
               <time dateTime={date}>{date}</time>
             </div>
             <p className="text-gray-700 dark:text-gray-300 leading-relaxed">{excerpt}</p>
