@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfairDisplay.variable} ${openSans.variable}`}>
       <head>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/pojoaque.min.css" />
       </head>
       <body className={`${openSans.className} bg-background text-foreground`}>
         <header className="container mx-auto px-4 pt-8 pb-4 max-w-4xl flex justify-between items-center">
