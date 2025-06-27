@@ -3,14 +3,49 @@ title: "sing-box warp解锁abematv和chatgpt"
 date: "2025-06-27"
 excerpt: "sing-box warp解锁abematv和chatgpt"
 ---
+sing-box简介
+
+Sing-box 是一个开源的通用代理平台，以其高性能、灵活性和广泛的协议支持而著称，被誉为网络代理的“瑞士军刀”。它支持多种操作系统，包括 Windows、macOS、Linux、Android 和 iOS，适用于创建代理服务器、客户端和透明代理。
+
+广泛的协议支持：支持 Shadowsocks、Vmess、Trojan、Hysteria、ShadowTLS、VLESS、Socks、HTTP 等多种代理协议，满足多样化的网络需求。
+
+灵活的配置：使用 JSON 格式配置文件，允许用户自定义复杂的路由规则和网络流量管理。配置文件包括日志、DNS、入口、出口、路由等模块，功能强大但配置相对复杂。
+
+跨平台兼容性：支持多平台运行，Android 版本通过 VpnService 提供 TUN 透明代理功能，iOS 版本则支持本地和远程配置文件管理，操作简便。
+
+高效性能：设计注重性能优化，支持一键安装和自动化证书管理（如 Let’s Encrypt），确保高效和安全的网络连接。
+
+开源与社区支持：遵循 GNU General Public License v3.0，由 SagerNet 开发，拥有活跃的社区支持和定期更新。
+
+WARP 和 WireGuard 节点简介
+
+Cloudflare WARP 是一个基于 WireGuard 协议的 VPN 服务，通过 Cloudflare 的全球网络提供安全、高效的网络连接，支持 IPv4 和 IPv6 双栈，适用于隐私保护、网络加速及绕过地域限制。WARP 使用 Cloudflare 的 BoringTun（WireGuard 的用户空间实现），通过其边缘节点加密并优化网络流量。
+
+WireGuard 节点 是指 WARP 使用的 WireGuard 协议配置中的服务器端点（endpoint），通常表现为一个 IP 地址或域名（如 engage.cloudflareclient.com:2408）以及对应的公钥和私钥对，用于建立安全的点对点隧道连接。提取 WARP 的 WireGuard 节点可以让用户在非官方 WARP 客户端的设备上（如 Linux VPS 或路由器）使用 WARP 服务，增加灵活性。
+
+ABEMA 简介
+
+ABEMA 是一家日本流媒体服务平台，最初于2016年4月11日以 AbemaTV 的名称推出，2020年4月更名为 ABEMA。由 CyberAgent（占股55.2%）和 TV Asahi（占股36.8%）共同创立，定位为“新未来电视”，结合了传统电视的线性直播与现代视频点播（VOD）的优势，旨在创新电视观看体验。
+
+ChatGPT 简介
+
+ChatGPT 是由 OpenAI 开发的一种基于 GPT（生成式预训练变换器）架构的对话型人工智能模型，专为自然语言理解和生成设计，广泛应用于回答问题、任务协助、内容创作等场景。
+
+本教程使用sing-box+vless+reality+warp解锁流媒体和chatgpt。
+
+搭建需要linux基础知识，vim使用，拥有自己的vps（GCP/AWS）。
 
 1.安装sing-box
+
+使用一键脚本在VPS上安装sing-box
 
 ```bash
 curl -fsSL https://sing-box.app/install.sh | sh
 ```
 
 2.提取warp中的wg节点,用warp-reg脚本去生成一些信息
+
+保存生成的信息，将相应项填到服务端配置endpoints里
 
 bash -c "$(curl -L warp-reg.vercel.app)"
 
@@ -91,7 +126,7 @@ bash -c "$(curl -L warp-reg.vercel.app)"
       "listen_port": 443,
       "users": [
         {
-          "uuid": "19048463-5d7f-4728-9aef-b7bea26ceb30", //sing-box generate uuid
+          "uuid": "19048463-5d7f-4728-9aef-b7bea26ceb30", // sing-box generate uuid
           "flow": "xtls-rprx-vision"
         }
       ],
@@ -106,7 +141,7 @@ bash -c "$(curl -L warp-reg.vercel.app)"
           },
           "private_key": "iJssLygdap0yGTzg5H7krBTOEqr9ge1sOXJ8H4R2MXs", // sing-box generate reality-keypair
           "short_id": [
-            "458f60c8eaa4751f"
+            "458f60c8eaa4751f" // sing-box generate rand 8 --hex
           ]
         }
       }
@@ -438,3 +473,4 @@ lsmod | grep bbr
   }
 }
 ```
+在 https://github.com/SagerNet/sing-box/releases 上下载对应的客户端文件，安装。复制客户端配置导入sing-box客户端！
