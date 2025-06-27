@@ -6,11 +6,17 @@ excerpt: "sing-box warp解锁abematv和chatgpt"
 
 1.安装sing-box
 
+```bash
 curl -fsSL https://sing-box.app/install.sh | sh
+```
 
 2.提取warp中的wg节点,用warp-reg脚本去生成一些信息
 
 bash -c "$(curl -L warp-reg.vercel.app)"
+
+```bash
+bash -c "$(curl -L warp-reg.vercel.app)"
+```
 
 ```json
 {
@@ -200,25 +206,37 @@ bash -c "$(curl -L warp-reg.vercel.app)"
 ```
 
 4.服务管理
+```bash
 systemctl start sing-box
+```
 
+```bash
 systemctl enable sing-box
+```
 
+```bash
 systemctl status sing-box
+```
 
+```bash
 journalctl -u sing-box --output cat -f
+```
 
 5.启用BBR
 
 直接执行如下代码：
 
+```bash
 echo "net.core.default_qdisc=fq" >> /etc/sysctl.conf
 echo "net.ipv4.tcp_congestion_control=bbr" >> /etc/sysctl.conf
 sysctl -p
+```
 
 查看执行是否成功：
 
+```bash
 lsmod | grep bbr
+```
 
 6.sing-box客户端配置
 
