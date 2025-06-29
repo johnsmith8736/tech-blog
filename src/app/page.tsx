@@ -9,7 +9,7 @@ export default async function HomePage() {
 
   return (
     <section>
-      <header className="bg-primary text-white py-20 mb-16 rounded-lg shadow-lg">
+      <header className="bg-black text-white py-20 mb-16 rounded-lg shadow-lg">
         <div className="flex items-center mb-4">
           <Image src="/avatar.jpg" alt="Avatar" width={96} height={96} className="rounded-full mr-6" />
           <div>
@@ -23,7 +23,15 @@ export default async function HomePage() {
         </p>
       </header>
 
-      <Suspense fallback={<div>Loading search results...</div>}>
+      <Suspense fallback={
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 animate-pulse">
+            <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded mb-2"></div>
+            <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded mb-4"></div>
+            <div className="h-16 bg-gray-300 dark:bg-gray-600 rounded"></div>
+          </div>
+        </div>
+      }>
         <SearchablePostList allPostsData={allPostsData} />
       </Suspense>
     </section>

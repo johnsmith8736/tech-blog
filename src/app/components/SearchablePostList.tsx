@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 
 interface PostData {
   id: number;
@@ -17,7 +18,8 @@ interface SearchablePostListProps {
 
 export default function SearchablePostList({ allPostsData }: SearchablePostListProps) {
   const [filteredPosts, setFilteredPosts] = useState(allPostsData);
-  const [searchTerm, setSearchTerm] = useState('');
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get('q') || '';
 
   useEffect(() => {
     if (!searchTerm) {
@@ -34,16 +36,14 @@ export default function SearchablePostList({ allPostsData }: SearchablePostListP
 
   return (
     <section>
-      {/* 搜索框 */}
-      <div className="mb-8">
-        <input
-          type="text"
-          placeholder="搜索文章..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+      {/* 搜索结果提示 */}
+      {searchTerm && (
+        <div className="mb-6">
+          <p className="text-gray-600 dark:text-gray-400">
+            搜索 "{searchTerm}" 的结果：{filteredPosts.length} 篇文章
+          </p>
+        </div>
+      )}
 
       {/* 文章列表 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -63,7 +63,10 @@ export default function SearchablePostList({ allPostsData }: SearchablePostListP
       {/* 无结果提示 */}
       {filteredPosts.length === 0 && searchTerm && (
         <div className="text-center py-8">
-          <p className="text-gray-600 dark:text-gray-400">没有找到匹配的文章</p>
+          <p className="text-gray-600 dark:text-gray-400">没有找到匹配 "{searchTerm}" 的文章</p>
+          <Link href="/" className="text-blue-600 hover:underline dark:text-blue-400 mt-2 inline-block">
+            查看所有文章
+          </Link>
         </div>
       )}
     </section>

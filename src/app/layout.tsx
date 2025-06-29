@@ -6,6 +6,7 @@ const openSans = Open_Sans({ subsets: ["latin"], variable: "--font-open-sans" })
 import "./globals.css";
 import Link from 'next/link';
 import Image from 'next/image';
+import HeaderSearch from '@/app/components/HeaderSearch';
 
 
 
@@ -37,6 +38,7 @@ export default function RootLayout({
             <a href="https://instagram.com/izumi.misaki87" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Instagram</a>
             <a href="mailto:johnsmith874436@gmail.com" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Email</a>
             <a href="https://www.youtube.com/@stanleychan87" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">YouTube</a>
+            <HeaderSearch />
           </nav>
         </header>
         <main className="container mx-auto px-4 py-8 max-w-4xl">
