@@ -24,18 +24,18 @@ export default async function PostPage({ params }: PostPageProps) {
   }
 
   return (
-    <article className="prose prose-lg mx-auto dark:prose-invert leading-relaxed">
-      <header className="mb-8 border-b pb-4">
-        <h1 className="text-4xl font-bold tracking-tight">{postData.title}</h1>
-        <div className="text-gray-500 dark:text-gray-400 mt-2">
+    <article className="prose prose-lg mx-auto dark:prose-invert leading-relaxed prose-green">
+      <header className="mb-8 border-b border-green-200 pb-4">
+        <h1 className="text-4xl font-bold tracking-tight text-green-600">{postData.title}</h1>
+        <div className="text-green-500 dark:text-green-400 mt-2">
           <time dateTime={postData.date}>{postData.date}</time>
         </div>
       </header>
 
-      <div dangerouslySetInnerHTML={{ __html: postData.contentHtml || '' }} />
+      <div className="text-green-600 dark:text-green-300" dangerouslySetInnerHTML={{ __html: postData.contentHtml || '' }} />
 
-      <div className="mt-16 pt-6 border-t">
-        <Link href="/" className="text-blue-600 hover:underline dark:text-blue-400">
+      <div className="mt-16 pt-6 border-t border-green-200">
+        <Link href="/" className="text-green-600 hover:underline dark:text-green-400">
           ← 返回首页
         </Link>
       </div>

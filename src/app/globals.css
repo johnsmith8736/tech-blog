@@ -2,10 +2,10 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #000000;
-  --primary: #007bff;
-  --secondary: #6c5ce7;
-  --accent: #00bcd4;
+  --foreground: #22c55e;
+  --primary: #16a34a;
+  --secondary: #15803d;
+  --accent: #059669;
 }
 
 @theme inline {
@@ -21,13 +21,65 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #121212;
-    --foreground: #e0e0e0;
+    --foreground: #4ade80;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
+}
+
+/* 全局绿色字体样式 */
+* {
+  color: inherit;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #16a34a !important;
+}
+
+p, span, div, li, td, th {
+  color: #22c55e !important;
+}
+
+a {
+  color: #059669 !important;
+}
+
+a:hover {
+  color: #047857 !important;
+}
+
+/* 文章内容样式 */
+.prose {
+  color: #22c55e !important;
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  color: #16a34a !important;
+}
+
+.prose p, .prose li {
+  color: #22c55e !important;
+}
+
+.prose strong {
+  color: #15803d !important;
+  font-weight: bold;
+}
+
+.prose a {
+  color: #059669 !important;
+}
+
+.prose a:hover {
+  color: #047857 !important;
+}
+
+/* 代码块保持原色 */
+.prose pre, .prose code {
+  color: inherit;
 }
 
 pre code {

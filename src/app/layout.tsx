@@ -29,15 +29,15 @@ export default function RootLayout({
         <header className="container mx-auto px-4 pt-8 pb-4 max-w-4xl flex justify-between items-center">
           <div className="flex items-center">
             <Image src="/avatar.jpg" alt="Avatar" width={40} height={40} className="rounded-full mr-3" />
-            <h1 className="text-2xl font-bold text-gray-900 dark:text-white font-playfair-display">
+            <h1 className="text-2xl font-bold text-green-600 dark:text-green-400 font-playfair-display">
               <Link href="/">Tech Blog</Link>
             </h1>
           </div>
           <nav className="space-x-4 flex items-center">
-            <a href="https://github.com/johnsmith8736" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">GitHub</a>
-            <a href="https://instagram.com/izumi.misaki87" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Instagram</a>
-            <a href="mailto:johnsmith874436@gmail.com" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">Email</a>
-            <a href="https://www.youtube.com/@stanleychan87" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white">YouTube</a>
+            <a href="https://github.com/johnsmith8736" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300">GitHub</a>
+            <a href="https://instagram.com/izumi.misaki87" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300">Instagram</a>
+            <a href="mailto:johnsmith874436@gmail.com" className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300">Email</a>
+            <a href="https://www.youtube.com/@stanleychan87" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300">YouTube</a>
             <HeaderSearch />
           </nav>
         </header>
