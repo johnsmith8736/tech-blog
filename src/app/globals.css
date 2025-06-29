@@ -77,11 +77,137 @@ a:hover {
   color: #047857 !important;
 }
 
-/* 代码块保持原色 */
-.prose pre, .prose code {
-  color: inherit;
+/* 代码块样式 */
+.prose pre {
+  background-color: #1a1a1a !important;
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.prose code {
+  background-color: #f0f0f0;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+.prose pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
 }
 
 pre code {
-  line-height: 1.0em;
+  line-height: 1.4em;
+}
+
+/* Highlight.js 绿色主题样式 */
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0;
+  background: transparent;
+  color: #e6e6e6;
+}
+
+/* 关键字 */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-built_in,
+.hljs-name,
+.hljs-tag {
+  color: #4ade80; /* 绿色 */
+  font-weight: bold;
+}
+
+/* 字符串 */
+.hljs-string,
+.hljs-title,
+.hljs-section,
+.hljs-attribute,
+.hljs-literal,
+.hljs-template-tag,
+.hljs-template-variable,
+.hljs-type,
+.hljs-addition {
+  color: #86efac; /* 浅绿色 */
+}
+
+/* 数字 */
+.hljs-number,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-variable,
+.hljs-link {
+  color: #fbbf24; /* 黄色 */
+}
+
+/* 注释 */
+.hljs-comment,
+.hljs-quote,
+.hljs-deletion,
+.hljs-meta {
+  color: #9ca3af; /* 灰色 */
+  font-style: italic;
+}
+
+/* 函数名 */
+.hljs-function,
+.hljs-title.function_,
+.hljs-params {
+  color: #60a5fa; /* 蓝色 */
+}
+
+/* 类名 */
+.hljs-class,
+.hljs-title.class_,
+.hljs-title.class_.inherited__ {
+  color: #f472b6; /* 粉色 */
+}
+
+/* 操作符 */
+.hljs-operator,
+.hljs-punctuation {
+  color: #e5e7eb; /* 浅灰色 */
+}
+
+/* 属性 */
+.hljs-property,
+.hljs-attr {
+  color: #34d399; /* 翠绿色 */
+}
+
+/* 正则表达式 */
+.hljs-regexp {
+  color: #fbbf24; /* 黄色 */
+}
+
+/* 特殊符号 */
+.hljs-subst {
+  color: #e5e7eb;
+}
+
+/* 强调 */
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+/* 语言特定样式 */
+.hljs-doctag,
+.hljs-formula {
+  color: #a78bfa; /* 紫色 */
+}
+
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #4ade80; /* 绿色 */
 }

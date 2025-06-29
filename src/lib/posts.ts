@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import Showdown from 'showdown';
-import showdownHighlight from 'showdown-highlight';
+import hljs from 'highlight.js';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
@@ -71,9 +71,39 @@ export function getPostData(slug: string): PostData | null {
 
     // 使用 Showdown 将 markdown 转换为 HTML
     const converter = new Showdown.Converter({
-      extensions: [showdownHighlight({ pre: true })],
+      tables: true,
+      strikethrough: true,
+      tasklists: true,
+      ghCodeBlocks: true,
+      ghMentions: false,
+      ghMentionsLink: false,
+      extensions: [],
     });
-    const contentHtml = converter.makeHtml(matterResult.content);
+
+    let contentHtml = converter.makeHtml(matterResult.content);
+
+    // 使用 highlight.js 进行语法高亮
+    contentHtml = contentHtml.replace(/<pre><code class="([^"]*)">([\s\S]*?)<\/code><\/pre>/g, (match, lang, code) => {
+      try {
+        const decodedCode = code
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&amp;/g, '&')
+          .replace(/&quot;/g, '"')
+          .replace(/&#39;/g, "'");
+
+        if (lang && hljs.getLanguage(lang)) {
+          const highlighted = hljs.highlight(decodedCode, { language: lang });
+          return `<pre><code class="hljs language-${lang}">${highlighted.value}</code></pre>`;
+        } else {
+          const highlighted = hljs.highlightAuto(decodedCode);
+          return `<pre><code class="hljs">${highlighted.value}</code></pre>`;
+        }
+      } catch (error) {
+        console.error('Highlight error:', error);
+        return match;
+      }
+    });
 
     return {
       id: 1, // 对于单个文章，ID 不太重要
