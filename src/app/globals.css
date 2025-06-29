@@ -347,9 +347,41 @@ pre code {
   color: #e6edf3;
 }
 
-/* 特殊：JSON 键 */
+/* JSON 特殊样式 - GitHub 风格 */
 .language-json .hljs-attr {
-  color: #79c0ff;
+  color: #79c0ff !important; /* JSON 键名 - 蓝色 */
+}
+
+.language-json .hljs-string {
+  color: #a5d6ff !important; /* JSON 字符串值 - 浅蓝色 */
+}
+
+.language-json .hljs-number {
+  color: #79c0ff !important; /* JSON 数字 - 蓝色 */
+}
+
+.language-json .hljs-literal {
+  color: #ff7b72 !important; /* JSON 布尔值和null - 粉色 */
+}
+
+.language-json .hljs-punctuation {
+  color: #e6edf3 !important; /* JSON 标点符号 - 白色 */
+}
+
+/* JSON 特殊关键字 */
+.language-json .hljs-keyword {
+  color: #ff7b72 !important; /* true, false, null */
+}
+
+/* JSON 大括号和方括号 */
+.language-json .hljs-meta {
+  color: #e6edf3 !important;
+}
+
+/* 确保 JSON 中的冒号和逗号有正确的颜色 */
+.language-json .hljs-punctuation,
+.language-json .token.punctuation {
+  color: #e6edf3 !important;
 }
 
 /* 特殊：Shell 变量 */

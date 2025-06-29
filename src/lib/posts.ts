@@ -99,8 +99,22 @@ export function getPostData(slug: string): PostData | null {
           const highlighted = hljs.highlight(decodedCode, { language: cleanLang });
           return `<pre data-lang="${cleanLang}"><code class="hljs language-${cleanLang}">${highlighted.value}</code></pre>`;
         } else {
+          // 尝试自动检测语言，特别处理 JSON
           const highlighted = hljs.highlightAuto(decodedCode);
-          const detectedLang = highlighted.language || 'text';
+          let detectedLang = highlighted.language || 'text';
+
+          // 如果自动检测失败，尝试检测是否为 JSON
+          if (detectedLang === 'text' || !detectedLang) {
+            try {
+              JSON.parse(decodedCode.trim());
+              detectedLang = 'json';
+              const jsonHighlighted = hljs.highlight(decodedCode, { language: 'json' });
+              return `<pre data-lang="json"><code class="hljs language-json">${jsonHighlighted.value}</code></pre>`;
+            } catch (e) {
+              // 不是有效的 JSON，继续使用自动检测的结果
+            }
+          }
+
           return `<pre data-lang="${detectedLang}"><code class="hljs language-${detectedLang}">${highlighted.value}</code></pre>`;
         }
       } catch (error) {
@@ -119,8 +133,22 @@ export function getPostData(slug: string): PostData | null {
           .replace(/&quot;/g, '"')
           .replace(/&#39;/g, "'");
 
+        // 尝试自动检测语言
         const highlighted = hljs.highlightAuto(decodedCode);
-        const detectedLang = highlighted.language || 'text';
+        let detectedLang = highlighted.language || 'text';
+
+        // 如果自动检测失败，尝试检测是否为 JSON
+        if (detectedLang === 'text' || !detectedLang) {
+          try {
+            JSON.parse(decodedCode.trim());
+            detectedLang = 'json';
+            const jsonHighlighted = hljs.highlight(decodedCode, { language: 'json' });
+            return `<pre data-lang="json"><code class="hljs language-json">${jsonHighlighted.value}</code></pre>`;
+          } catch (e) {
+            // 不是有效的 JSON，继续使用自动检测的结果
+          }
+        }
+
         return `<pre data-lang="${detectedLang}"><code class="hljs language-${detectedLang}">${highlighted.value}</code></pre>`;
       } catch (error) {
         console.error('Highlight error:', error);
