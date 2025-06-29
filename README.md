@@ -1,37 +1,66 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tech Blog
 
-## Getting Started
+一个基于 Next.js 的静态技术博客，部署在 Cloudflare Pages 上。
 
-First, run the development server:
+## 特性
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- 📝 Markdown 文章支持
+- 🎨 响应式设计
+- 🔍 文章搜索功能
+- ⚡ 静态生成，快速加载
+- 🌐 部署在 Cloudflare Pages
+
+## 项目结构
+
+```
+├── src/
+│   ├── app/          # Next.js App Router 页面
+│   └── lib/          # 工具函数
+├── posts/            # Markdown 文章
+├── public/           # 静态资源
+├── next.config.ts    # Next.js 配置
+├── wrangler.toml     # Cloudflare Pages 配置
+└── package.json      # 项目依赖
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 本地开发
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# 安装依赖
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# 启动开发服务器
+npm run dev
 
-## Learn More
+# 构建静态文件
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 部署
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+项目配置为自动部署到 Cloudflare Pages：
+- 推送到 `main` 分支自动触发部署
+- 构建命令：`npm run build`
+- 输出目录：`out`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 添加文章
 
-## Deploy on Vercel
+在 `posts/` 目录下创建 `.md` 文件，文件头部需要包含 frontmatter：
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```markdown
+---
+title: "文章标题"
+date: "2024-01-01"
+excerpt: "文章摘要"
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# tech-blog
+文章内容...
+```
+
+## 技术栈
+
+- Next.js 15 - React 框架
+- TypeScript - 类型安全
+- Tailwind CSS - 样式框架
+- Gray Matter - Frontmatter 解析
+- Showdown - Markdown 转 HTML
