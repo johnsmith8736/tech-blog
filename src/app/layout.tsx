@@ -29,15 +29,15 @@ export default function RootLayout({
         <header className="container mx-auto px-4 pt-8 pb-4 max-w-4xl flex justify-between items-center">
           <div className="flex items-center">
             <Image src="/avatar.jpg" alt="Avatar" width={40} height={40} className="rounded-full mr-3" />
-            <h1 className="text-2xl font-bold text-blue-600 dark:text-blue-400 font-playfair-display">
+            <h1 className="text-2xl font-bold text-blue-400 font-playfair-display">
               <Link href="/">Tech Blog</Link>
             </h1>
           </div>
           <nav className="space-x-4 flex items-center">
-            <a href="https://github.com/johnsmith8736" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">GitHub</a>
-            <a href="https://instagram.com/izumi.misaki87" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">Instagram</a>
-            <a href="mailto:johnsmith874436@gmail.com" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">Email</a>
-            <a href="https://www.youtube.com/@stanleychan87" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">YouTube</a>
+            <a href="https://github.com/johnsmith8736" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-blue-400">GitHub</a>
+            <a href="https://instagram.com/izumi.misaki87" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-blue-400">Instagram</a>
+            <a href="mailto:johnsmith874436@gmail.com" className="text-gray-300 hover:text-blue-400">Email</a>
+            <a href="https://www.youtube.com/@stanleychan87" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-blue-400">YouTube</a>
             <HeaderSearch />
           </nav>
         </header>

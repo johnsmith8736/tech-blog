@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #3b82f6;
-  --primary: #2563eb;
-  --secondary: #1d4ed8;
-  --accent: #1e40af;
+  --background: #1e1e1e;
+  --foreground: #d4d4d4;
+  --primary: #569cd6;
+  --secondary: #4ec9b0;
+  --accent: #dcdcaa;
 }
 
 @theme inline {
@@ -18,10 +18,10 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
-    --background: #121212;
-    --foreground: #60a5fa;
+    --background: #ffffff;
+    --foreground: #333333;
   }
 }
 
@@ -36,158 +36,185 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #2563eb !important;
+  color: #569cd6 !important;
 }
 
 p, span, div, li, td, th {
-  color: #3b82f6 !important;
+  color: #d4d4d4 !important;
 }
 
 a {
-  color: #1e40af !important;
+  color: #4ec9b0 !important;
 }
 
 a:hover {
-  color: #1d4ed8 !important;
+  color: #9cdcfe !important;
 }
 
-/* 文章内容样式 */
+/* VS Code 风格文章内容样式 */
 .prose {
-  color: #3b82f6 !important;
+  color: #d4d4d4 !important;
 }
 
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-  color: #2563eb !important;
+  color: #569cd6 !important;
 }
 
 .prose p, .prose li {
-  color: #3b82f6 !important;
+  color: #d4d4d4 !important;
 }
 
 .prose strong {
-  color: #1d4ed8 !important;
+  color: #dcdcaa !important;
   font-weight: bold;
 }
 
 .prose a {
-  color: #1e40af !important;
+  color: #4ec9b0 !important;
 }
 
 .prose a:hover {
-  color: #1d4ed8 !important;
+  color: #9cdcfe !important;
 }
 
-/* 代码块样式 */
+/* VS Code 风格代码块样式 */
 .prose pre {
-  background-color: #1a1a1a !important;
-  border-radius: 8px;
+  background-color: #1e1e1e !important;
+  border-radius: 6px;
   padding: 1rem;
   overflow-x: auto;
   margin: 1rem 0;
+  border: 1px solid #333;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
 .prose code {
-  background-color: #f0f0f0;
+  background-color: #f3f4f6;
+  color: #d73a49;
   padding: 0.2rem 0.4rem;
-  border-radius: 4px;
+  border-radius: 3px;
   font-size: 0.9em;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
 }
 
 .prose pre code {
   background-color: transparent;
+  color: #d4d4d4;
   padding: 0;
   border-radius: 0;
   font-size: inherit;
 }
 
 pre code {
-  line-height: 1.4em;
+  line-height: 1.5em;
 }
 
-/* Highlight.js 彩色主题样式 */
+/* VS Code Dark+ 主题语法高亮 */
 .hljs {
   display: block;
   overflow-x: auto;
   padding: 0;
   background: transparent;
-  color: #e6e6e6;
+  color: #d4d4d4; /* VS Code 默认文字颜色 */
 }
 
-/* 关键字 */
+/* 关键字 - VS Code 蓝色 */
 .hljs-keyword,
-.hljs-selector-tag,
 .hljs-built_in,
-.hljs-name,
-.hljs-tag {
-  color: #ff6b6b; /* 红色 */
-  font-weight: bold;
+.hljs-selector-tag {
+  color: #569cd6;
+  font-weight: normal;
 }
 
-/* 字符串 */
+/* 字符串 - VS Code 橙色 */
 .hljs-string,
-.hljs-title,
-.hljs-section,
-.hljs-attribute,
-.hljs-literal,
+.hljs-template-string,
 .hljs-template-tag,
-.hljs-template-variable,
-.hljs-type,
-.hljs-addition {
-  color: #4ecdc4; /* 青色 */
+.hljs-template-variable {
+  color: #ce9178;
 }
 
-/* 数字 */
+/* 数字 - VS Code 浅绿色 */
 .hljs-number,
-.hljs-symbol,
-.hljs-bullet,
-.hljs-variable,
-.hljs-link {
-  color: #ffe66d; /* 黄色 */
+.hljs-literal {
+  color: #b5cea8;
 }
 
-/* 注释 */
+/* 注释 - VS Code 绿色 */
 .hljs-comment,
-.hljs-quote,
-.hljs-deletion,
-.hljs-meta {
-  color: #95a5a6; /* 灰色 */
+.hljs-quote {
+  color: #6a9955;
   font-style: italic;
 }
 
-/* 函数名 */
+/* 函数名 - VS Code 黄色 */
 .hljs-function,
 .hljs-title.function_,
-.hljs-params {
-  color: #74b9ff; /* 蓝色 */
+.hljs-title {
+  color: #dcdcaa;
 }
 
-/* 类名 */
+/* 类名和类型 - VS Code 青色 */
 .hljs-class,
 .hljs-title.class_,
-.hljs-title.class_.inherited__ {
-  color: #fd79a8; /* 粉色 */
+.hljs-title.class_.inherited__,
+.hljs-type {
+  color: #4ec9b0;
 }
 
-/* 操作符 */
+/* 变量和参数 - VS Code 浅蓝色 */
+.hljs-variable,
+.hljs-params,
+.hljs-attr {
+  color: #9cdcfe;
+}
+
+/* 属性 - VS Code 白色 */
+.hljs-property {
+  color: #d4d4d4;
+}
+
+/* 操作符和标点 - VS Code 白色 */
 .hljs-operator,
 .hljs-punctuation {
-  color: #ddd; /* 浅灰色 */
+  color: #d4d4d4;
 }
 
-/* 属性 */
-.hljs-property,
-.hljs-attr {
-  color: #55a3ff; /* 亮蓝色 */
+/* 标签 - VS Code 蓝色 */
+.hljs-tag,
+.hljs-name {
+  color: #569cd6;
 }
 
-/* 正则表达式 */
+/* 属性名 - VS Code 浅蓝色 */
+.hljs-attribute {
+  color: #9cdcfe;
+}
+
+/* 符号和链接 - VS Code 白色 */
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link {
+  color: #d4d4d4;
+}
+
+/* 正则表达式 - VS Code 橙红色 */
 .hljs-regexp {
-  color: #ff9ff3; /* 紫粉色 */
+  color: #d16969;
 }
 
-/* 特殊符号 */
-.hljs-subst {
-  color: #e5e7eb;
+/* 删除和添加 */
+.hljs-deletion {
+  color: #f44747;
+}
+
+.hljs-addition {
+  color: #6a9955;
+}
+
+/* Meta 信息 - VS Code 灰色 */
+.hljs-meta {
+  color: #808080;
 }
 
 /* 强调 */
@@ -199,45 +226,52 @@ pre code {
   font-weight: bold;
 }
 
-/* 语言特定样式 */
-.hljs-doctag,
-.hljs-formula {
-  color: #a29bfe; /* 紫色 */
+/* CSS 选择器 */
+.hljs-selector-class {
+  color: #d7ba7d;
 }
 
-.hljs-selector-id,
-.hljs-selector-class,
+.hljs-selector-id {
+  color: #d7ba7d;
+}
+
 .hljs-selector-attr,
 .hljs-selector-pseudo {
-  color: #00b894; /* 绿色 */
+  color: #d7ba7d;
 }
 
-/* Python 特定 */
-.hljs-decorator {
-  color: #fd79a8; /* 粉色 */
-}
-
-/* JavaScript 特定 */
+/* JavaScript/TypeScript 特定 */
 .hljs-built_in {
-  color: #6c5ce7; /* 紫色 */
+  color: #4ec9b0;
 }
 
-/* CSS 特定 */
-.hljs-selector-tag {
-  color: #ff6b6b; /* 红色 */
+/* Python 装饰器 */
+.hljs-decorator {
+  color: #dcdcaa;
 }
 
-.hljs-selector-class,
-.hljs-selector-id {
-  color: #fdcb6e; /* 橙色 */
+/* 文档标签 */
+.hljs-doctag {
+  color: #569cd6;
 }
 
-/* JSON 特定 */
-.hljs-attr {
-  color: #74b9ff; /* 蓝色 */
+/* 公式 */
+.hljs-formula {
+  color: #ce9178;
 }
 
-/* Bash/Shell 特定 */
-.hljs-variable {
-  color: #00cec9; /* 青绿色 */
+/* 子字符串替换 */
+.hljs-subst {
+  color: #d4d4d4;
+}
+
+/* 特殊：JSON 键 */
+.language-json .hljs-attr {
+  color: #9cdcfe;
+}
+
+/* 特殊：Shell 变量 */
+.language-bash .hljs-variable,
+.language-sh .hljs-variable {
+  color: #4fc1ff;
 }
