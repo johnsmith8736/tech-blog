@@ -82,7 +82,7 @@ export function getPostData(slug: string): PostData | null {
 
     let contentHtml = converter.makeHtml(matterResult.content);
 
-    // 使用 highlight.js 进行语法高亮
+    // 使用 highlight.js 进行语法高亮，GitHub 风格
     contentHtml = contentHtml.replace(/<pre><code class="([^"]*)">([\s\S]*?)<\/code><\/pre>/g, (match, lang, code) => {
       try {
         const decodedCode = code
@@ -92,13 +92,36 @@ export function getPostData(slug: string): PostData | null {
           .replace(/&quot;/g, '"')
           .replace(/&#39;/g, "'");
 
-        if (lang && hljs.getLanguage(lang)) {
-          const highlighted = hljs.highlight(decodedCode, { language: lang });
-          return `<pre><code class="hljs language-${lang}">${highlighted.value}</code></pre>`;
+        // 清理语言名称
+        const cleanLang = lang ? lang.replace(/^language-/, '') : '';
+
+        if (cleanLang && hljs.getLanguage(cleanLang)) {
+          const highlighted = hljs.highlight(decodedCode, { language: cleanLang });
+          return `<pre data-lang="${cleanLang}"><code class="hljs language-${cleanLang}">${highlighted.value}</code></pre>`;
         } else {
           const highlighted = hljs.highlightAuto(decodedCode);
-          return `<pre><code class="hljs">${highlighted.value}</code></pre>`;
+          const detectedLang = highlighted.language || 'text';
+          return `<pre data-lang="${detectedLang}"><code class="hljs language-${detectedLang}">${highlighted.value}</code></pre>`;
         }
+      } catch (error) {
+        console.error('Highlight error:', error);
+        return match;
+      }
+    });
+
+    // 处理没有语言标识的代码块
+    contentHtml = contentHtml.replace(/<pre><code>([\s\S]*?)<\/code><\/pre>/g, (match, code) => {
+      try {
+        const decodedCode = code
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&amp;/g, '&')
+          .replace(/&quot;/g, '"')
+          .replace(/&#39;/g, "'");
+
+        const highlighted = hljs.highlightAuto(decodedCode);
+        const detectedLang = highlighted.language || 'text';
+        return `<pre data-lang="${detectedLang}"><code class="hljs language-${detectedLang}">${highlighted.value}</code></pre>`;
       } catch (error) {
         console.error('Highlight error:', error);
         return match;

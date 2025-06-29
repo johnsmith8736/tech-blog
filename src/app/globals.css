@@ -77,144 +77,226 @@ a:hover {
   color: #9cdcfe !important;
 }
 
-/* VS Code 风格代码块样式 */
+/* GitHub 风格代码块样式 */
 .prose pre {
-  background-color: #1e1e1e !important;
+  background-color: #0d1117 !important;
+  border: 1px solid #30363d;
   border-radius: 6px;
-  padding: 1rem;
+  padding: 16px;
   overflow-x: auto;
-  margin: 1rem 0;
-  border: 1px solid #333;
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  margin: 16px 0;
+  font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', 'Courier', monospace;
+  font-size: 14px;
+  line-height: 1.45;
+  position: relative;
 }
 
 .prose code {
-  background-color: #f3f4f6;
-  color: #d73a49;
-  padding: 0.2rem 0.4rem;
-  border-radius: 3px;
-  font-size: 0.9em;
-  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  background-color: rgba(110, 118, 129, 0.4);
+  color: #e6edf3;
+  padding: 0.2em 0.4em;
+  border-radius: 6px;
+  font-size: 85%;
+  font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', 'Courier', monospace;
 }
 
 .prose pre code {
   background-color: transparent;
-  color: #d4d4d4;
+  color: #e6edf3;
   padding: 0;
   border-radius: 0;
   font-size: inherit;
 }
 
 pre code {
-  line-height: 1.5em;
+  line-height: 1.45;
 }
 
-/* VS Code Dark+ 主题语法高亮 */
+/* GitHub 代码块语言标签 */
+.prose pre::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  font-size: 12px;
+  color: #7d8590;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  z-index: 1;
+}
+
+/* GitHub 风格的代码块容器 */
+.prose pre {
+  position: relative;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+/* GitHub 风格的滚动条 */
+.prose pre::-webkit-scrollbar {
+  height: 8px;
+}
+
+.prose pre::-webkit-scrollbar-track {
+  background: #21262d;
+  border-radius: 4px;
+}
+
+.prose pre::-webkit-scrollbar-thumb {
+  background: #484f58;
+  border-radius: 4px;
+}
+
+.prose pre::-webkit-scrollbar-thumb:hover {
+  background: #6e7681;
+}
+
+/* 改善行内代码的样式 */
+.prose :not(pre) > code {
+  background-color: rgba(110, 118, 129, 0.4);
+  color: #e6edf3;
+  padding: 0.2em 0.4em;
+  border-radius: 6px;
+  font-size: 85%;
+  font-family: 'SFMono-Regular', 'Consolas', 'Liberation Mono', 'Menlo', 'Courier', monospace;
+  border: 1px solid rgba(110, 118, 129, 0.2);
+}
+
+/* 改善引用块的样式 */
+.prose blockquote {
+  border-left: 4px solid #30363d;
+  background-color: rgba(110, 118, 129, 0.1);
+  padding: 16px;
+  margin: 16px 0;
+  border-radius: 0 6px 6px 0;
+}
+
+/* 改善表格样式 */
+.prose table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.prose th,
+.prose td {
+  border: 1px solid #30363d;
+  padding: 8px 12px;
+}
+
+.prose th {
+  background-color: #21262d;
+  font-weight: 600;
+}
+
+/* GitHub Dark 主题语法高亮 */
 .hljs {
   display: block;
   overflow-x: auto;
   padding: 0;
   background: transparent;
-  color: #d4d4d4; /* VS Code 默认文字颜色 */
+  color: #e6edf3; /* GitHub 默认文字颜色 */
 }
 
-/* 关键字 - VS Code 蓝色 */
+/* 关键字 - GitHub 粉色 */
 .hljs-keyword,
 .hljs-built_in,
 .hljs-selector-tag {
-  color: #569cd6;
+  color: #ff7b72;
   font-weight: normal;
 }
 
-/* 字符串 - VS Code 橙色 */
+/* 字符串 - GitHub 蓝色 */
 .hljs-string,
 .hljs-template-string,
 .hljs-template-tag,
 .hljs-template-variable {
-  color: #ce9178;
+  color: #a5d6ff;
 }
 
-/* 数字 - VS Code 浅绿色 */
+/* 数字 - GitHub 蓝色 */
 .hljs-number,
 .hljs-literal {
-  color: #b5cea8;
+  color: #79c0ff;
 }
 
-/* 注释 - VS Code 绿色 */
+/* 注释 - GitHub 灰色 */
 .hljs-comment,
 .hljs-quote {
-  color: #6a9955;
+  color: #8b949e;
   font-style: italic;
 }
 
-/* 函数名 - VS Code 黄色 */
+/* 函数名 - GitHub 紫色 */
 .hljs-function,
 .hljs-title.function_,
 .hljs-title {
-  color: #dcdcaa;
+  color: #d2a8ff;
 }
 
-/* 类名和类型 - VS Code 青色 */
+/* 类名和类型 - GitHub 橙色 */
 .hljs-class,
 .hljs-title.class_,
 .hljs-title.class_.inherited__,
 .hljs-type {
-  color: #4ec9b0;
+  color: #ffa657;
 }
 
-/* 变量和参数 - VS Code 浅蓝色 */
+/* 变量和参数 - GitHub 白色 */
 .hljs-variable,
 .hljs-params,
 .hljs-attr {
-  color: #9cdcfe;
+  color: #e6edf3;
 }
 
-/* 属性 - VS Code 白色 */
+/* 属性 - GitHub 白色 */
 .hljs-property {
-  color: #d4d4d4;
+  color: #e6edf3;
 }
 
-/* 操作符和标点 - VS Code 白色 */
+/* 操作符和标点 - GitHub 白色 */
 .hljs-operator,
 .hljs-punctuation {
-  color: #d4d4d4;
+  color: #e6edf3;
 }
 
-/* 标签 - VS Code 蓝色 */
+/* 标签 - GitHub 绿色 */
 .hljs-tag,
 .hljs-name {
-  color: #569cd6;
+  color: #7ee787;
 }
 
-/* 属性名 - VS Code 浅蓝色 */
+/* 属性名 - GitHub 蓝色 */
 .hljs-attribute {
-  color: #9cdcfe;
+  color: #79c0ff;
 }
 
-/* 符号和链接 - VS Code 白色 */
+/* 符号和链接 - GitHub 白色 */
 .hljs-symbol,
 .hljs-bullet,
 .hljs-link {
-  color: #d4d4d4;
+  color: #e6edf3;
 }
 
-/* 正则表达式 - VS Code 橙红色 */
+/* 正则表达式 - GitHub 蓝色 */
 .hljs-regexp {
-  color: #d16969;
+  color: #a5d6ff;
 }
 
 /* 删除和添加 */
 .hljs-deletion {
-  color: #f44747;
+  color: #ffa198;
 }
 
 .hljs-addition {
-  color: #6a9955;
+  color: #56d364;
 }
 
-/* Meta 信息 - VS Code 灰色 */
+/* Meta 信息 - GitHub 灰色 */
 .hljs-meta {
-  color: #808080;
+  color: #8b949e;
 }
 
 /* 强调 */
@@ -226,52 +308,58 @@ pre code {
   font-weight: bold;
 }
 
-/* CSS 选择器 */
+/* CSS 选择器 - GitHub 绿色 */
 .hljs-selector-class {
-  color: #d7ba7d;
+  color: #7ee787;
 }
 
 .hljs-selector-id {
-  color: #d7ba7d;
+  color: #7ee787;
 }
 
 .hljs-selector-attr,
 .hljs-selector-pseudo {
-  color: #d7ba7d;
+  color: #79c0ff;
 }
 
 /* JavaScript/TypeScript 特定 */
 .hljs-built_in {
-  color: #4ec9b0;
+  color: #ffa657;
 }
 
 /* Python 装饰器 */
 .hljs-decorator {
-  color: #dcdcaa;
+  color: #d2a8ff;
 }
 
 /* 文档标签 */
 .hljs-doctag {
-  color: #569cd6;
+  color: #ff7b72;
 }
 
 /* 公式 */
 .hljs-formula {
-  color: #ce9178;
+  color: #a5d6ff;
 }
 
 /* 子字符串替换 */
 .hljs-subst {
-  color: #d4d4d4;
+  color: #e6edf3;
 }
 
 /* 特殊：JSON 键 */
 .language-json .hljs-attr {
-  color: #9cdcfe;
+  color: #79c0ff;
 }
 
 /* 特殊：Shell 变量 */
 .language-bash .hljs-variable,
 .language-sh .hljs-variable {
-  color: #4fc1ff;
+  color: #79c0ff;
+}
+
+/* Bash 命令 */
+.language-bash .hljs-built_in,
+.language-sh .hljs-built_in {
+  color: #ff7b72;
 }
