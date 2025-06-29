@@ -35,7 +35,7 @@ export default function SearchablePostList({ allPostsData }: SearchablePostListP
         {filteredPosts.map(({ id, date, title, excerpt, slug }) => (
           <article key={id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transition-all duration-300 hover:shadow-lg">
             <h2 className="text-3xl font-bold hover:text-blue-600 dark:hover:text-blue-400">
-              <Link href={`/post?slug=${slug}`}>{title}</Link>
+              <Link href={`/posts/${slug}`}>{title}</Link>
             </h2>
             <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
               <time dateTime={date}>{date}</time>
