@@ -39,7 +39,7 @@ export default function SearchablePostList({ allPostsData }: SearchablePostListP
       {/* 搜索结果提示 */}
       {searchTerm && (
         <div className="mb-6">
-          <p className="text-green-600 dark:text-green-400">
+          <p className="text-blue-600 dark:text-blue-400">
             搜索 "{searchTerm}" 的结果：{filteredPosts.length} 篇文章
           </p>
         </div>
@@ -49,13 +49,13 @@ export default function SearchablePostList({ allPostsData }: SearchablePostListP
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredPosts.map(({ id, date, title, excerpt, slug }) => (
           <article key={id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 transition-all duration-300 hover:shadow-lg">
-            <h2 className="text-3xl font-bold text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300">
+            <h2 className="text-3xl font-bold text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300">
               <Link href={`/posts/${slug}`}>{title}</Link>
             </h2>
-            <div className="text-sm text-green-500 dark:text-green-400 mt-2">
+            <div className="text-sm text-blue-500 dark:text-blue-400 mt-2">
               <time dateTime={date}>{date}</time>
             </div>
-            <p className="text-green-600 dark:text-green-300 leading-relaxed">{excerpt}</p>
+            <p className="text-blue-600 dark:text-blue-300 leading-relaxed">{excerpt}</p>
           </article>
         ))}
       </div>
@@ -63,8 +63,8 @@ export default function SearchablePostList({ allPostsData }: SearchablePostListP
       {/* 无结果提示 */}
       {filteredPosts.length === 0 && searchTerm && (
         <div className="text-center py-8">
-          <p className="text-green-600 dark:text-green-400">没有找到匹配 "{searchTerm}" 的文章</p>
-          <Link href="/" className="text-green-600 hover:underline dark:text-green-400 mt-2 inline-block">
+          <p className="text-blue-600 dark:text-blue-400">没有找到匹配 "{searchTerm}" 的文章</p>
+          <Link href="/" className="text-blue-600 hover:underline dark:text-blue-400 mt-2 inline-block">
             查看所有文章
           </Link>
         </div>

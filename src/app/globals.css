@@ -2,10 +2,10 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #22c55e;
-  --primary: #16a34a;
-  --secondary: #15803d;
-  --accent: #059669;
+  --foreground: #3b82f6;
+  --primary: #2563eb;
+  --secondary: #1d4ed8;
+  --accent: #1e40af;
 }
 
 @theme inline {
@@ -21,7 +21,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #121212;
-    --foreground: #4ade80;
+    --foreground: #60a5fa;
   }
 }
 
@@ -36,45 +36,45 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  color: #16a34a !important;
+  color: #2563eb !important;
 }
 
 p, span, div, li, td, th {
-  color: #22c55e !important;
+  color: #3b82f6 !important;
 }
 
 a {
-  color: #059669 !important;
+  color: #1e40af !important;
 }
 
 a:hover {
-  color: #047857 !important;
+  color: #1d4ed8 !important;
 }
 
 /* 文章内容样式 */
 .prose {
-  color: #22c55e !important;
+  color: #3b82f6 !important;
 }
 
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
-  color: #16a34a !important;
+  color: #2563eb !important;
 }
 
 .prose p, .prose li {
-  color: #22c55e !important;
+  color: #3b82f6 !important;
 }
 
 .prose strong {
-  color: #15803d !important;
+  color: #1d4ed8 !important;
   font-weight: bold;
 }
 
 .prose a {
-  color: #059669 !important;
+  color: #1e40af !important;
 }
 
 .prose a:hover {
-  color: #047857 !important;
+  color: #1d4ed8 !important;
 }
 
 /* 代码块样式 */
@@ -104,7 +104,7 @@ pre code {
   line-height: 1.4em;
 }
 
-/* Highlight.js 绿色主题样式 */
+/* Highlight.js 彩色主题样式 */
 .hljs {
   display: block;
   overflow-x: auto;
@@ -119,7 +119,7 @@ pre code {
 .hljs-built_in,
 .hljs-name,
 .hljs-tag {
-  color: #4ade80; /* 绿色 */
+  color: #ff6b6b; /* 红色 */
   font-weight: bold;
 }
 
@@ -133,7 +133,7 @@ pre code {
 .hljs-template-variable,
 .hljs-type,
 .hljs-addition {
-  color: #86efac; /* 浅绿色 */
+  color: #4ecdc4; /* 青色 */
 }
 
 /* 数字 */
@@ -142,7 +142,7 @@ pre code {
 .hljs-bullet,
 .hljs-variable,
 .hljs-link {
-  color: #fbbf24; /* 黄色 */
+  color: #ffe66d; /* 黄色 */
 }
 
 /* 注释 */
@@ -150,7 +150,7 @@ pre code {
 .hljs-quote,
 .hljs-deletion,
 .hljs-meta {
-  color: #9ca3af; /* 灰色 */
+  color: #95a5a6; /* 灰色 */
   font-style: italic;
 }
 
@@ -158,31 +158,31 @@ pre code {
 .hljs-function,
 .hljs-title.function_,
 .hljs-params {
-  color: #60a5fa; /* 蓝色 */
+  color: #74b9ff; /* 蓝色 */
 }
 
 /* 类名 */
 .hljs-class,
 .hljs-title.class_,
 .hljs-title.class_.inherited__ {
-  color: #f472b6; /* 粉色 */
+  color: #fd79a8; /* 粉色 */
 }
 
 /* 操作符 */
 .hljs-operator,
 .hljs-punctuation {
-  color: #e5e7eb; /* 浅灰色 */
+  color: #ddd; /* 浅灰色 */
 }
 
 /* 属性 */
 .hljs-property,
 .hljs-attr {
-  color: #34d399; /* 翠绿色 */
+  color: #55a3ff; /* 亮蓝色 */
 }
 
 /* 正则表达式 */
 .hljs-regexp {
-  color: #fbbf24; /* 黄色 */
+  color: #ff9ff3; /* 紫粉色 */
 }
 
 /* 特殊符号 */
@@ -202,12 +202,42 @@ pre code {
 /* 语言特定样式 */
 .hljs-doctag,
 .hljs-formula {
-  color: #a78bfa; /* 紫色 */
+  color: #a29bfe; /* 紫色 */
 }
 
 .hljs-selector-id,
 .hljs-selector-class,
 .hljs-selector-attr,
 .hljs-selector-pseudo {
-  color: #4ade80; /* 绿色 */
+  color: #00b894; /* 绿色 */
+}
+
+/* Python 特定 */
+.hljs-decorator {
+  color: #fd79a8; /* 粉色 */
+}
+
+/* JavaScript 特定 */
+.hljs-built_in {
+  color: #6c5ce7; /* 紫色 */
+}
+
+/* CSS 特定 */
+.hljs-selector-tag {
+  color: #ff6b6b; /* 红色 */
+}
+
+.hljs-selector-class,
+.hljs-selector-id {
+  color: #fdcb6e; /* 橙色 */
+}
+
+/* JSON 特定 */
+.hljs-attr {
+  color: #74b9ff; /* 蓝色 */
+}
+
+/* Bash/Shell 特定 */
+.hljs-variable {
+  color: #00cec9; /* 青绿色 */
 }
