@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #1e1e1e;
-  --foreground: #d4d4d4;
+  --background: #151b23;
+  --foreground: #f0f6fc;
   --primary: #569cd6;
   --secondary: #4ec9b0;
   --accent: #dcdcaa;
@@ -20,8 +20,8 @@
 
 @media (prefers-color-scheme: light) {
   :root {
-    --background: #ffffff;
-    --foreground: #333333;
+    --background: #151b23;
+    --foreground: #f0f6fc;
   }
 }
 
@@ -40,7 +40,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p, span, div, li, td, th {
-  color: #d4d4d4 !important;
+  color: #f0f6fc !important;
 }
 
 a {
@@ -51,9 +51,9 @@ a:hover {
   color: #9cdcfe !important;
 }
 
-/* VS Code 风格文章内容样式 */
+/* GitHub 风格文章内容样式 */
 .prose {
-  color: #d4d4d4 !important;
+  color: #f0f6fc !important;
 }
 
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
@@ -61,7 +61,7 @@ a:hover {
 }
 
 .prose p, .prose li {
-  color: #d4d4d4 !important;
+  color: #f0f6fc !important;
 }
 
 .prose strong {
@@ -79,7 +79,7 @@ a:hover {
 
 /* GitHub 风格代码块样式 */
 .prose pre {
-  background-color: #0d1117 !important;
+  background-color: #151b23 !important;
   border: 1px solid #30363d;
   border-radius: 6px;
   padding: 16px;
@@ -93,7 +93,7 @@ a:hover {
 
 .prose code {
   background-color: rgba(110, 118, 129, 0.4);
-  color: #e6edf3;
+  color: #f0f6fc;
   padding: 0.2em 0.4em;
   border-radius: 6px;
   font-size: 85%;
@@ -102,7 +102,7 @@ a:hover {
 
 .prose pre code {
   background-color: transparent;
-  color: #e6edf3;
+  color: #f0f6fc;
   padding: 0;
   border-radius: 0;
   font-size: inherit;
@@ -154,7 +154,7 @@ pre code {
 /* 改善行内代码的样式 */
 .prose :not(pre) > code {
   background-color: rgba(110, 118, 129, 0.4);
-  color: #e6edf3;
+  color: #f0f6fc;
   padding: 0.2em 0.4em;
   border-radius: 6px;
   font-size: 85%;
@@ -197,7 +197,7 @@ pre code {
   overflow-x: auto;
   padding: 0;
   background: transparent;
-  color: #e6edf3; /* GitHub 默认文字颜色 */
+  color: #f0f6fc; /* GitHub 默认文字颜色 */
 }
 
 /* 关键字 - GitHub 粉色 */
@@ -248,18 +248,18 @@ pre code {
 .hljs-variable,
 .hljs-params,
 .hljs-attr {
-  color: #e6edf3;
+  color: #f0f6fc;
 }
 
 /* 属性 - GitHub 白色 */
 .hljs-property {
-  color: #e6edf3;
+  color: #f0f6fc;
 }
 
 /* 操作符和标点 - GitHub 白色 */
 .hljs-operator,
 .hljs-punctuation {
-  color: #e6edf3;
+  color: #f0f6fc;
 }
 
 /* 标签 - GitHub 绿色 */
@@ -277,7 +277,7 @@ pre code {
 .hljs-symbol,
 .hljs-bullet,
 .hljs-link {
-  color: #e6edf3;
+  color: #f0f6fc;
 }
 
 /* 正则表达式 - GitHub 蓝色 */
@@ -344,7 +344,7 @@ pre code {
 
 /* 子字符串替换 */
 .hljs-subst {
-  color: #e6edf3;
+  color: #f0f6fc;
 }
 
 /* JSON 特殊样式 - GitHub 风格 */
@@ -375,13 +375,13 @@ pre code {
 
 /* JSON 大括号和方括号 */
 .language-json .hljs-meta {
-  color: #e6edf3 !important;
+  color: #f0f6fc !important;
 }
 
 /* 确保 JSON 中的冒号和逗号有正确的颜色 */
 .language-json .hljs-punctuation,
 .language-json .token.punctuation {
-  color: #e6edf3 !important;
+  color: #f0f6fc !important;
 }
 
 /* 特殊：Shell 变量 */
