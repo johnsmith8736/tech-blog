@@ -8,32 +8,67 @@ export default async function HomePage() {
   const allPostsData: PostData[] = getSortedPostsData();
 
   return (
-    <section>
-      <header className="bg-gray-800 text-gray-300 py-20 mb-16 rounded-lg shadow-lg border border-gray-700">
-        <div className="flex items-center mb-4">
-          <Image src="/avatar.jpg" alt="Avatar" width={96} height={96} className="rounded-full mr-6" />
-          <div>
-            <h1 className="text-6xl font-extrabold tracking-tight mb-2 text-blue-400">Tech Blog</h1>
-            <p className="text-xl text-cyan-400">分享Python爬虫和计算机技术</p>
+    <div className="space-y-16">
+      {/* Hero Section */}
+      <section className="py-16 text-center">
+        <div className="max-w-3xl mx-auto space-y-6">
+          <div className="flex justify-center mb-8">
+            <Image 
+              src="/avatar.jpg" 
+              alt="Stanley Chan" 
+              width={120} 
+              height={120} 
+              className="rounded-full ring-4 ring-border shadow-lg" 
+            />
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold tracking-tight">
+            分享技术，探索未来
+          </h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            欢迎来到我的技术博客。我在这里分享关于 Python 爬虫、网络安全和各种计算机技术的深度文章，
+            希望能帮助你在技术路上走得更远。
+          </p>
+          <div className="flex flex-wrap justify-center gap-3 pt-4">
+            <span className="px-3 py-1 bg-muted text-muted-foreground rounded-full text-sm font-medium">
+              Python 爬虫
+            </span>
+            <span className="px-3 py-1 bg-muted text-muted-foreground rounded-full text-sm font-medium">
+              网络安全
+            </span>
+            <span className="px-3 py-1 bg-muted text-muted-foreground rounded-full text-sm font-medium">
+              计算机技术
+            </span>
+            <span className="px-3 py-1 bg-muted text-muted-foreground rounded-full text-sm font-medium">
+              技术分享
+            </span>
           </div>
         </div>
-        <p className="text-lg text-gray-300">
-          欢迎来到我的技术博客！我在这里分享关于Python爬虫、网络安全和各种计算机技术的文章。
-          希望我的内容能帮助你学习和成长。
-        </p>
-      </header>
+      </section>
 
-      <Suspense fallback={
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 animate-pulse">
-            <div className="h-6 bg-gray-300 dark:bg-gray-600 rounded mb-2"></div>
-            <div className="h-4 bg-gray-300 dark:bg-gray-600 rounded mb-4"></div>
-            <div className="h-16 bg-gray-300 dark:bg-gray-600 rounded"></div>
-          </div>
+      {/* Posts Section */}
+      <section>
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-semibold tracking-tight">最新文章</h2>
+          <p className="text-muted-foreground">共 {allPostsData.length} 篇文章</p>
         </div>
-      }>
-        <SearchablePostList allPostsData={allPostsData} />
-      </Suspense>
-    </section>
+        
+        <Suspense fallback={
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="border border-border rounded-lg p-6 animate-pulse">
+                <div className="h-6 bg-muted rounded mb-3"></div>
+                <div className="h-4 bg-muted rounded mb-2 w-24"></div>
+                <div className="space-y-2">
+                  <div className="h-4 bg-muted rounded"></div>
+                  <div className="h-4 bg-muted rounded w-3/4"></div>
+                </div>
+              </div>
+            ))}
+          </div>
+        }>
+          <SearchablePostList allPostsData={allPostsData} />
+        </Suspense>
+      </section>
+    </div>
   );
 }
