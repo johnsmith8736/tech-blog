@@ -1,8 +1,13 @@
+---
+title: "轻松扩展 Gemini CLI：MCP 服务配置实战指南"
+date: "2025-07-17"
+---
+
 # 轻松扩展 Gemini CLI：MCP 服务配置实战指南
 
 ## 前言：为你的 Gemini CLI 插上翅膀
 
-[Google 的 Gemini CLI](https.gemini.google.com/cli) 是一个强大的命令行工具，它将 Gemini 模型的强大能力直接带入了我们的终端。自 2025 年 6 月发布以来，凭借其对 Gemini 2.5 Pro 的支持和高达 100 万 token 的上下文窗口，它已成为处理大型代码库、执行自动化任务和进行多模态内容生成的利器。
+[Google 的 Gemini CLI](https://gemini.google.com/cli) 是一个强大的命令行工具，它将 Gemini 模型的强大能力直接带入了我们的终端。自 2025 年 6 月发布以来，凭借其对 Gemini 2.5 Pro 的支持和高达 100 万 token 的上下文窗口，它已成为处理大型代码库、执行自动化任务和进行多模态内容生成的利器。
 
 然而，Gemini CLI 的真正潜力在于其可扩展性。通过 **MCP (Model Context Protocol)**，我们可以为其接入各种外部工具和服务，极大地增强其功能。MCP 协议定义了一套标准接口，允许 AI 与本地或远程工具（如代码编辑器、搜索引擎、项目管理工具等）无缝协作。
 
