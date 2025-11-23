@@ -7,26 +7,26 @@ export default function CyberStats() {
     const [trafficData, setTrafficData] = useState<number[]>([]);
 
     useEffect(() => {
-        // 初始化数据 - 使用正弦波加随机噪声作为初始状态，看起来更自然
+        // 初始化数据 - 使用正弦波加随机噪声作为初始状态，增大振幅
         const initialData = Array.from({ length: 20 }, (_, i) => {
-            return 50 + Math.sin(i * 0.5) * 30 + (Math.random() - 0.5) * 10;
+            return 50 + Math.sin(i * 0.5) * 35 + (Math.random() - 0.5) * 15;
         });
         setTrafficData(initialData);
 
         const interval = setInterval(() => {
             setTrafficData(prev => {
                 const lastValue = prev[prev.length - 1];
-                // Random walk: 基于上一个值进行小幅度变化，使波形连续
-                let change = (Math.random() - 0.5) * 30;
-                // 倾向于回归中心 (50)
-                change += (50 - lastValue) * 0.1;
+                // Random walk: 基于上一个值进行更大幅度变化，使波峰波谷距离更大
+                let change = (Math.random() - 0.5) * 40; // 增大变化幅度
+                // 倾向于回归中心 (50)，但减弱回归力度以保持大幅波动
+                change += (50 - lastValue) * 0.05;
 
                 let newValue = lastValue + change;
-                newValue = Math.max(10, Math.min(90, newValue)); // 限制范围，防止贴边
+                newValue = Math.max(15, Math.min(85, newValue)); // 扩大范围，允许更大波动
 
                 return [...prev.slice(1), newValue];
             });
-        }, 200); // 加快刷新频率，让动画更流畅
+        }, 200); // 保持刷新频率
 
         return () => clearInterval(interval);
     }, []);
