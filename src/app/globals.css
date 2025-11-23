@@ -1,33 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  /* Default Dark Mode - Deep Zinc Palette */
-  --background: #000000;
-  --foreground: #ededed;
-  --primary: #6366f1;
-  --primary-foreground: #ffffff;
-  --secondary: #18181b;
-  --secondary-foreground: #ededed;
-  --accent: #8b5cf6;
-  --accent-foreground: #ffffff;
-  --muted: #171717;
-  --muted-foreground: #a3a3a3;
-  --border: #262626;
-  --input: #262626;
-  --ring: #6366f1;
-  --radius: 0.5rem;
-}
-
-/* Optional: Light Mode overrides if needed, but user requested black background */
-@media (prefers-color-scheme: light) {
-  /* Keeping dark mode as default even in light preference for now as per user request */
-}
-
-/* Reduce dot opacity */
-@media (prefers-color-scheme: light) {
-  body {
-    background-image: radial-gradient(#e4e4e7 1px, transparent 1px);
-  }
+  /* Cyberpunk Theme - ATLASSC.NET Inspired */
+  --background: #0a0a0a;
+  --foreground: #e0e0e0;
+  --cyber-yellow: #f3f315;
+  --cyber-cyan: #00f0f0;
+  --primary: #f3f315;
+  --primary-foreground: #0a0a0a;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #e0e0e0;
+  --accent: #00f0f0;
+  --accent-foreground: #0a0a0a;
+  --muted: #1a1a1a;
+  --muted-foreground: #808080;
+  --border: #2a2a2a;
+  --input: #1a1a1a;
+  --ring: #f3f315;
+  --radius: 0.25rem;
 }
 
 @theme inline {
@@ -39,66 +29,106 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
-  --font-sans: var(--font-inter);
-  --font-mono: var(--font-jetbrains-mono);
+  --color-cyber-yellow: var(--cyber-yellow);
+  --color-cyber-cyan: var(--cyber-cyan);
+  --font-sans: var(--font-roboto-mono);
+  --font-mono: var(--font-roboto-mono);
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  font-family: var(--font-roboto-mono), 'Roboto Mono', 'Fira Code', 'Courier New', monospace;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  /* Dot Pattern Background */
-  background-image: radial-gradient(var(--muted-foreground) 1px, transparent 1px);
-  background-size: 24px 24px;
-  background-position: 0 0;
-  /* Make the dots very subtle */
-  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
 }
 
-/* Reduce dot opacity */
-@media (prefers-color-scheme: light) {
-  body {
-    background-image: radial-gradient(#262626 1px, transparent 1px);
+/* Cyberpunk Glitch Effect */
+@keyframes glitch {
+  0% {
+    text-shadow: 0.05em 0 0 var(--cyber-cyan), -0.05em -0.025em 0 var(--cyber-yellow);
+  }
+
+  14% {
+    text-shadow: 0.05em 0 0 var(--cyber-cyan), -0.05em -0.025em 0 var(--cyber-yellow);
+  }
+
+  15% {
+    text-shadow: -0.05em -0.025em 0 var(--cyber-cyan), 0.05em 0.025em 0 var(--cyber-yellow);
+  }
+
+  49% {
+    text-shadow: -0.05em -0.025em 0 var(--cyber-cyan), 0.05em 0.025em 0 var(--cyber-yellow);
+  }
+
+  50% {
+    text-shadow: 0.025em 0.05em 0 var(--cyber-cyan), 0.05em 0 0 var(--cyber-yellow);
+  }
+
+  99% {
+    text-shadow: 0.025em 0.05em 0 var(--cyber-cyan), 0.05em 0 0 var(--cyber-yellow);
+  }
+
+  100% {
+    text-shadow: -0.025em 0 0 var(--cyber-cyan), -0.025em -0.025em 0 var(--cyber-yellow);
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    /* Dark Mode - Deep Zinc Palette */
-    --background: #0a0a0a;
-    /* Slightly richer black */
-    --foreground: #ededed;
-    --primary: #6366f1;
-    --primary-foreground: #ffffff;
-    --secondary: #27272a;
-    --secondary-foreground: #ededed;
-    --accent: #8b5cf6;
-    --accent-foreground: #ffffff;
-    --muted: #262626;
-    --muted-foreground: #a3a3a3;
-    --border: #262626;
-    --input: #262626;
-    --ring: #6366f1;
-  }
-
-  body {
-    background-image: radial-gradient(#262626 1px, transparent 1px);
-  }
+.glitch {
+  animation: glitch 1s linear infinite;
 }
 
-/* Modern Grid Pattern */
-.bg-grid-pattern {
-  background-size: 40px 40px;
-  background-image: linear-gradient(to right, var(--border) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
-  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+/* Neon Glow Effect */
+.neon-glow {
+  text-shadow: 0 0 10px var(--cyber-yellow), 0 0 20px var(--cyber-yellow), 0 0 30px var(--cyber-yellow);
+}
+
+.neon-glow-cyan {
+  text-shadow: 0 0 10px var(--cyber-cyan), 0 0 20px var(--cyber-cyan), 0 0 30px var(--cyber-cyan);
+}
+
+/* Clip Corner Effect */
+.clip-corner {
+  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+}
+
+.clip-corner-both {
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+/* Terminal-style text */
+.terminal-text {
+  font-family: 'Roboto Mono', 'Fira Code', 'Courier New', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Cyberpunk Border */
+.cyber-border {
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.cyber-border::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: -1px;
+  right: -1px;
+  bottom: -1px;
+  background: linear-gradient(45deg, var(--cyber-yellow), var(--cyber-cyan), var(--cyber-yellow));
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: -1;
+}
+
+.cyber-border:hover::before {
+  opacity: 0.3;
 }
 
 /* 现代简洁的全局样式 */
+
 * {
   color: inherit;
 }

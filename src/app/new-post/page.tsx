@@ -47,7 +47,7 @@ export default function NewPostPage() {
         setTitle('');
         setExcerpt('');
         setContent('');
-        router.push(`/posts/${data.slug}`); // Redirect to the new post
+        router.push('/'); // Redirect to home page
       } else {
         setError(data.message || 'Failed to create post');
       }

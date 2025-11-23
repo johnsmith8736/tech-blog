@@ -34,12 +34,31 @@ export function getSortedPostsData(): PostData[] {
         // 使用 gray-matter 解析文章的 frontmatter
         const matterResult = matter(fileContents);
 
+        let excerpt = matterResult.data.excerpt;
+        if (!excerpt) {
+          // Generate excerpt from content if missing
+          const content = matterResult.content;
+          // Remove markdown syntax (basic)
+          const plainText = content
+            .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images
+            .replace(/\[(.*?)\]\(.*?\)/g, '$1') // Remove links but keep text
+            .replace(/#{1,6}\s/g, '') // Remove headers
+            .replace(/(\*\*|__)(.*?)\1/g, '$2') // Remove bold
+            .replace(/(\*|_)(.*?)\1/g, '$2') // Remove italic
+            .replace(/`{3}[\s\S]*?`{3}/g, '') // Remove code blocks
+            .replace(/`(.+?)`/g, '$1') // Remove inline code
+            .replace(/\n/g, ' ') // Replace newlines with spaces
+            .trim();
+
+          excerpt = plainText.slice(0, 200) + (plainText.length > 200 ? '...' : '');
+        }
+
         return {
           id: index + 1,
           slug,
           date: matterResult.data.date,
           title: matterResult.data.title,
-          excerpt: matterResult.data.excerpt,
+          excerpt: excerpt,
           content: matterResult.content,
         };
       });
@@ -185,4 +204,19 @@ export function getAllPostSlugs() {
     console.error("Failed to get post slugs:", error);
     return [];
   }
+}
+
+export function getAllPostPaths() {
+  const posts = getSortedPostsData();
+  return posts.map(post => {
+    const date = new Date(post.date);
+    return {
+      params: {
+        year: date.getFullYear().toString(),
+        month: (date.getMonth() + 1).toString().padStart(2, '0'),
+        day: date.getDate().toString().padStart(2, '0'),
+        slug: post.slug,
+      }
+    };
+  });
 }

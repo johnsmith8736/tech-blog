@@ -1,18 +1,19 @@
 import Link from 'next/link';
-import { getPostData, getAllPostSlugs } from '@/lib/posts';
+import { getPostData, getAllPostPaths } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 
 interface PostPageProps {
-  params: {
+  params: Promise<{
+    year: string;
+    month: string;
+    day: string;
     slug: string;
-  };
+  }>;
 }
 
 export async function generateStaticParams() {
-  const slugs = getAllPostSlugs();
-  return slugs.map((slug) => ({
-    slug: slug.params.id,
-  }));
+  const paths = getAllPostPaths();
+  return paths.map((path) => path.params);
 }
 
 export default async function PostPage({ params }: PostPageProps) {
