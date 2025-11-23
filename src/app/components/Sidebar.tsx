@@ -39,7 +39,7 @@ export default function Sidebar({ postCount = 0 }: SidebarProps) {
                         </a>
                     </div>
                     <p className="text-xs text-muted-foreground italic">
-                        &quot;Sorrow calls not time that&apos;s gone&quot;
+                        &quot;Sorrow calls no time that&apos;s gone&quot;
                     </p>
                 </div>
             </div>
