@@ -207,16 +207,49 @@ export function getAllPostSlugs() {
 }
 
 export function getAllPostPaths() {
-  const posts = getSortedPostsData();
-  return posts.map(post => {
-    const date = new Date(post.date);
-    return {
-      params: {
-        year: date.getFullYear().toString(),
-        month: (date.getMonth() + 1).toString().padStart(2, '0'),
-        day: date.getDate().toString().padStart(2, '0'),
-        slug: post.slug,
+  try {
+    const posts = getSortedPostsData();
+    return posts.map(post => {
+      try {
+        const date = new Date(post.date);
+        // 检查日期是否有效
+        if (isNaN(date.getTime())) {
+          console.error(`Invalid date for post ${post.slug}: ${post.date}`);
+          // 使用当前日期作为后备
+          const now = new Date();
+          return {
+            params: {
+              year: now.getFullYear().toString(),
+              month: (now.getMonth() + 1).toString().padStart(2, '0'),
+              day: now.getDate().toString().padStart(2, '0'),
+              slug: post.slug,
+            }
+          };
+        }
+        return {
+          params: {
+            year: date.getFullYear().toString(),
+            month: (date.getMonth() + 1).toString().padStart(2, '0'),
+            day: date.getDate().toString().padStart(2, '0'),
+            slug: post.slug,
+          }
+        };
+      } catch (error) {
+        console.error(`Error processing post ${post.slug}:`, error);
+        // 使用当前日期作为后备
+        const now = new Date();
+        return {
+          params: {
+            year: now.getFullYear().toString(),
+            month: (now.getMonth() + 1).toString().padStart(2, '0'),
+            day: now.getDate().toString().padStart(2, '0'),
+            slug: post.slug,
+          }
+        };
       }
-    };
-  });
+    });
+  } catch (error) {
+    console.error("Failed to get post paths:", error);
+    return [];
+  }
 }

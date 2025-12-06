@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { getPostData, getAllPostPaths, getSortedPostsData } from '@/lib/posts';
 import { notFound } from 'next/navigation';
-import Sidebar from '@/app/components/Sidebar';
 
 interface PostPageProps {
   params: Promise<{
@@ -18,72 +17,72 @@ export async function generateStaticParams() {
 }
 
 export default async function PostPage({ params }: PostPageProps) {
-  const { slug } = await params;
-  const postData = getPostData(slug);
+  try {
+    const { slug } = await params;
+    const postData = getPostData(slug);
 
-  if (!postData) {
-    notFound();
-  }
+    if (!postData) {
+      console.error(`Post not found: ${slug}`);
+      notFound();
+    }
 
-  // Get total post count for sidebar
-  const allPostsData = getSortedPostsData();
+    // 安全地解析日期
+    let formattedDate = postData.date;
+    try {
+      const date = new Date(postData.date);
+      if (!isNaN(date.getTime())) {
+        formattedDate = date.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+      }
+    } catch (e) {
+      console.error('Date parsing error:', e);
+    }
 
-  return (
-    <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-8">
-      {/* Left Sidebar */}
-      <Sidebar postCount={allPostsData.length} />
-
-      {/* Main Article Content */}
-      <article className="max-w-4xl">
+    return (
+      <article className="max-w-4xl mx-auto">
         {/* Article Header */}
-        <header className="mb-12 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-            <time dateTime={postData.date}>
-              {new Date(postData.date).toLocaleDateString('zh-CN', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-              })}
-            </time>
+        <header className="mb-8 space-y-4">
+          <div className="text-xs font-mono text-neon-cyan">
+            <time dateTime={postData.date}>{formattedDate}</time>
           </div>
-
-          <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground leading-tight">
+          <h1 className="text-2xl md:text-3xl font-mono font-bold text-foreground leading-tight">
             {postData.title}
           </h1>
-
-          <div className="h-1 w-20 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
         </header>
 
         {/* Article Content */}
         <div className="relative">
-          {/* Background Glow */}
-          <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10"></div>
-          <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-accent/5 rounded-full blur-3xl -z-10"></div>
-
           <div
-            className="prose prose-lg mx-auto dark:prose-invert bg-background/30 backdrop-blur-sm p-8 md:p-12 rounded-2xl border border-border/40 shadow-sm"
+            className="prose prose-lg mx-auto dark:prose-invert border border-neon-cyan/20 bg-background/30 p-6 md:p-8"
             dangerouslySetInnerHTML={{ __html: postData.contentHtml || '' }}
           />
         </div>
 
         {/* Footer / Navigation */}
-        <div className="mt-16 pt-8 border-t border-border/40 flex justify-center">
+        <div className="mt-12 pt-6 border-t border-neon-cyan/20 flex justify-center">
           <Link
             href="/"
-            className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-muted/50 hover:bg-primary hover:text-primary-foreground transition-all duration-300 font-medium"
+            className="inline-flex items-center gap-2 px-4 py-2 border border-neon-cyan/50 bg-background/50 text-neon-cyan font-mono text-xs hover:border-neon-cyan hover:bg-background/70 transition-all duration-300 uppercase tracking-wider"
           >
             <svg
-              className="w-4 h-4 transition-transform group-hover:-translate-x-1"
+              className="w-3 h-3 transition-transform group-hover:-translate-x-1"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
+              strokeWidth={2}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>
-            返回首页
+            BACK
           </Link>
         </div>
       </article>
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error('Error rendering post page:', error);
+    notFound();
+  }
 }

@@ -12,6 +12,16 @@ const config: Config = {
       colors: {
         background: 'var(--background)',
         foreground: 'var(--foreground)',
+        'cyber-yellow': '#f3f315',
+        'cyber-cyan': '#00f0ff',
+        'cyber-red': '#ff003c',
+        'cyber-gray': '#1a1a1a',
+        'neon-pink': 'var(--neon-pink)',
+        'neon-pink-bright': 'var(--neon-pink-bright)',
+        'neon-cyan': 'var(--neon-cyan)',
+        'neon-cyan-bright': 'var(--neon-cyan-bright)',
+        'neon-purple': 'var(--neon-purple)',
+        'neon-purple-bright': 'var(--neon-purple-bright)',
         primary: {
           DEFAULT: 'var(--primary)',
           foreground: 'var(--primary-foreground)',

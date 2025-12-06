@@ -1,23 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  /* Cyberpunk Theme - ATLASSC.NET Inspired */
-  --background: #0a0a0a;
-  --foreground: #e0e0e0;
-  --cyber-yellow: #f3f315;
-  --cyber-cyan: #00f0f0;
-  --primary: #f3f315;
-  --primary-foreground: #0a0a0a;
-  --secondary: #1a1a1a;
-  --secondary-foreground: #e0e0e0;
-  --accent: #00f0f0;
-  --accent-foreground: #0a0a0a;
-  --muted: #1a1a1a;
-  --muted-foreground: #808080;
-  --border: #2a2a2a;
-  --input: #1a1a1a;
-  --ring: #f3f315;
-  --radius: 0.25rem;
+  /* Cyberpunk Theme - Original Design */
+  /* 背景色 - 深紫黑 */
+  --background: #0a0015;
+  --background-secondary: #1a0033;
+  --background-tertiary: #0d1117;
+
+  /* 前景色 */
+  --foreground: #e0e0ff;
+
+  /* 霓虹色 - 主要强调色 */
+  --neon-pink: #ff006e;
+  --neon-pink-bright: #ff1b8d;
+  --neon-cyan: #00f0ff;
+  --neon-cyan-bright: #64ffda;
+  --neon-purple: #b026ff;
+  --neon-purple-bright: #d896ff;
+
+  /* 传统变量映射 */
+  --primary: var(--neon-pink);
+  --primary-foreground: #ffffff;
+
+  --secondary: var(--background-secondary);
+  --secondary-foreground: var(--foreground);
+
+  --accent: var(--neon-cyan);
+  --accent-foreground: #000000;
+
+  --muted: #1a1a2e;
+  --muted-foreground: #9d9dad;
+
+  --border: #2a2a4a;
+  --input: var(--background-secondary);
+  --ring: var(--neon-pink);
+  --radius: 8px;
 }
 
 @theme inline {
@@ -29,79 +46,443 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
-  --color-cyber-yellow: var(--cyber-yellow);
-  --color-cyber-cyan: var(--cyber-cyan);
-  --font-sans: var(--font-roboto-mono);
-  --font-mono: var(--font-roboto-mono);
+  --color-neon-pink: var(--neon-pink);
+  --color-neon-cyan: var(--neon-cyan);
+  --color-neon-purple: var(--neon-purple);
+  --font-sans: var(--font-exo2);
+  --font-display: var(--font-orbitron);
+  --font-mono: ui-monospace, 'JetBrains Mono', 'Fira Code', monospace;
 }
 
 body {
-  background-color: var(--background);
+  background: 
+    radial-gradient(ellipse at top, var(--background-secondary) 0%, var(--background) 100%),
+    linear-gradient(90deg, rgba(255, 0, 110, 0.03) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 50px 50px, 50px 50px;
+  background-attachment: fixed;
   color: var(--foreground);
-  font-family: var(--font-roboto-mono), 'Roboto Mono', 'Fira Code', 'Courier New', monospace;
+  font-family: var(--font-exo2), 'Exo 2', sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* Cyberpunk Glitch Effect */
-@keyframes glitch {
+/* 网格背景增强 */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255, 0, 110, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 240, 255, 0.1) 1px, transparent 1px);
+  background-size: 100px 100px;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
+  animation: grid-pulse 4s ease-in-out infinite;
+}
+
+@keyframes grid-pulse {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.4; }
+}
+
+/* 数据流效果 */
+@keyframes data-stream {
   0% {
-    text-shadow: 0.05em 0 0 var(--cyber-cyan), -0.05em -0.025em 0 var(--cyber-yellow);
+    transform: translateY(-100%);
+    opacity: 0;
   }
-
-  14% {
-    text-shadow: 0.05em 0 0 var(--cyber-cyan), -0.05em -0.025em 0 var(--cyber-yellow);
+  10% {
+    opacity: 1;
   }
-
-  15% {
-    text-shadow: -0.05em -0.025em 0 var(--cyber-cyan), 0.05em 0.025em 0 var(--cyber-yellow);
+  90% {
+    opacity: 1;
   }
-
-  49% {
-    text-shadow: -0.05em -0.025em 0 var(--cyber-cyan), 0.05em 0.025em 0 var(--cyber-yellow);
-  }
-
-  50% {
-    text-shadow: 0.025em 0.05em 0 var(--cyber-cyan), 0.05em 0 0 var(--cyber-yellow);
-  }
-
-  99% {
-    text-shadow: 0.025em 0.05em 0 var(--cyber-cyan), 0.05em 0 0 var(--cyber-yellow);
-  }
-
   100% {
-    text-shadow: -0.025em 0 0 var(--cyber-cyan), -0.025em -0.025em 0 var(--cyber-yellow);
+    transform: translateY(100vh);
+    opacity: 0;
   }
 }
 
-.glitch {
-  animation: glitch 1s linear infinite;
+.data-stream {
+  position: fixed;
+  width: 2px;
+  height: 100px;
+  background: linear-gradient(to bottom, 
+    transparent, 
+    var(--neon-cyan), 
+    var(--neon-pink), 
+    transparent);
+  opacity: 0.3;
+  animation: data-stream 8s linear infinite;
+  pointer-events: none;
+  z-index: 1;
 }
 
-/* Neon Glow Effect */
+/* ===== CYBERPUNK EFFECTS ===== */
+
+/* 霓虹发光效果 */
 .neon-glow {
-  text-shadow: 0 0 10px var(--cyber-yellow), 0 0 20px var(--cyber-yellow), 0 0 30px var(--cyber-yellow);
+  text-shadow:
+    0 0 5px var(--neon-pink),
+    0 0 10px var(--neon-pink),
+    0 0 20px var(--neon-pink),
+    0 0 40px var(--neon-pink);
+  animation: neon-flicker 3s infinite alternate;
 }
 
 .neon-glow-cyan {
-  text-shadow: 0 0 10px var(--cyber-cyan), 0 0 20px var(--cyber-cyan), 0 0 30px var(--cyber-cyan);
+  text-shadow:
+    0 0 5px var(--neon-cyan),
+    0 0 10px var(--neon-cyan),
+    0 0 20px var(--neon-cyan),
+    0 0 40px var(--neon-cyan);
 }
 
-/* Clip Corner Effect */
-.clip-corner {
-  clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+.neon-glow-purple {
+  text-shadow:
+    0 0 5px var(--neon-purple),
+    0 0 10px var(--neon-purple),
+    0 0 20px var(--neon-purple);
 }
 
-.clip-corner-both {
-  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+@keyframes neon-flicker {
+
+  0%,
+  19.999%,
+  22%,
+  62.999%,
+  64%,
+  64.999%,
+  70%,
+  100% {
+    opacity: 1;
+  }
+
+  20%,
+  21.999%,
+  63%,
+  63.999%,
+  65%,
+  69.999% {
+    opacity: 0.8;
+  }
 }
 
-/* Terminal-style text */
+/* 霓虹边框 */
+.neon-border {
+  border: 2px solid var(--neon-pink);
+  box-shadow:
+    0 0 5px var(--neon-pink),
+    inset 0 0 5px var(--neon-pink);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.neon-border::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan), var(--neon-purple), var(--neon-pink));
+  background-size: 400% 400%;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: border-glow 3s ease infinite;
+}
+
+.neon-border:hover::before {
+  opacity: 0.5;
+}
+
+.neon-border:hover {
+  box-shadow:
+    0 0 15px var(--neon-pink),
+    0 0 30px var(--neon-pink),
+    0 0 45px var(--neon-pink),
+    inset 0 0 15px var(--neon-pink);
+}
+
+@keyframes border-glow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* CRT 扫描线效果 */
+.crt-scanlines {
+  position: relative;
+  overflow: hidden;
+}
+
+.crt-scanlines::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(0deg,
+      rgba(0, 0, 0, 0.15),
+      rgba(0, 0, 0, 0.15) 1px,
+      transparent 1px,
+      transparent 2px);
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* 全息投影效果 */
+.holographic {
+  position: relative;
+  background: linear-gradient(135deg,
+      rgba(255, 0, 110, 0.1) 0%,
+      rgba(0, 240, 255, 0.1) 100%);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 0, 110, 0.3);
+}
+
+.holographic::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent);
+  animation: holographic-shine 3s infinite;
+}
+
+@keyframes holographic-shine {
+  0% {
+    left: -100%;
+  }
+
+  100% {
+    left: 200%;
+  }
+}
+
+/* RGB 色散效果 */
+.rgb-split {
+  position: relative;
+}
+
+.rgb-split::before,
+.rgb-split::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0.8;
+}
+
+.rgb-split::before {
+  color: var(--neon-cyan);
+  z-index: -1;
+  animation: glitch-1 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+}
+
+.rgb-split::after {
+  color: var(--neon-pink);
+  z-index: -2;
+  animation: glitch-2 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+
+@keyframes glitch-1 {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, 2px);
+  }
+
+  40% {
+    transform: translate(-2px, -2px);
+  }
+
+  60% {
+    transform: translate(2px, 2px);
+  }
+
+  80% {
+    transform: translate(2px, -2px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes glitch-2 {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(2px, -2px);
+  }
+
+  40% {
+    transform: translate(2px, 2px);
+  }
+
+  60% {
+    transform: translate(-2px, -2px);
+  }
+
+  80% {
+    transform: translate(-2px, 2px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+/* 毛玻璃效果 */
+.glass-morphism {
+  background: rgba(26, 0, 51, 0.7);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 0, 110, 0.2);
+  box-shadow: 
+    0 8px 32px 0 rgba(31, 38, 135, 0.37),
+    0 0 20px rgba(255, 0, 110, 0.1),
+    inset 0 0 20px rgba(0, 240, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-morphism::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent, 
+    rgba(255, 255, 255, 0.1), 
+    transparent);
+  animation: glass-shine 3s infinite;
+}
+
+@keyframes glass-shine {
+  0% { left: -100%; }
+  100% { left: 200%; }
+}
+
+/* 终端文字样式 */
 .terminal-text {
-  font-family: 'Roboto Mono', 'Fira Code', 'Courier New', monospace;
+  font-family: var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.1em;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px var(--neon-cyan);
+}
+
+/* 赛博朋克输入框 */
+.cyber-input {
+  background: rgba(10, 0, 21, 0.8);
+  border: 2px solid var(--neon-purple);
+  color: var(--foreground);
+  padding: 0.75rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.cyber-input::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--neon-pink), var(--neon-cyan), var(--neon-purple));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cyber-input:focus {
+  outline: none;
+  border-color: var(--neon-pink);
+  box-shadow: 
+    0 0 10px var(--neon-pink),
+    0 0 20px var(--neon-pink),
+    inset 0 0 10px rgba(255, 0, 110, 0.1);
+}
+
+.cyber-input:focus::before {
+  opacity: 0.3;
+}
+
+.cyber-input::placeholder {
+  color: var(--neon-purple);
+  opacity: 0.6;
+}
+
+/* 赛博朋克按钮 */
+.cyber-button {
+  background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+  border: 2px solid var(--neon-pink);
+  color: var(--foreground);
+  padding: 0.75rem 1.5rem;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(255, 0, 110, 0.3);
+}
+
+.cyber-button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.cyber-button:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.cyber-button:hover {
+  box-shadow: 
+    0 0 30px var(--neon-pink),
+    0 0 60px var(--neon-pink),
+    inset 0 0 20px rgba(255, 0, 110, 0.2);
+  transform: translateY(-2px);
+}
+
+.cyber-button:active {
+  transform: translateY(0);
 }
 
 /* Cyberpunk Border */
@@ -226,6 +607,7 @@ a:hover {
 .prose pre {
   background-color: var(--muted);
   border: 1px solid var(--border);
+  border-left: 3px solid var(--neon-cyan);
   border-radius: 8px;
   padding: 1.5rem;
   overflow-x: auto;
@@ -234,6 +616,17 @@ a:hover {
   font-size: 14px;
   line-height: 1.5;
   position: relative;
+  box-shadow: 
+    0 0 20px rgba(0, 240, 255, 0.1),
+    inset 0 0 20px rgba(0, 240, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+.prose pre:hover {
+  border-left-color: var(--neon-pink);
+  box-shadow: 
+    0 0 30px rgba(255, 0, 110, 0.2),
+    inset 0 0 30px rgba(255, 0, 110, 0.1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -245,12 +638,14 @@ a:hover {
 
 .prose code {
   background-color: var(--muted);
-  color: var(--foreground);
+  color: var(--neon-cyan);
   padding: 0.2em 0.4em;
   border-radius: 4px;
   font-size: 0.875em;
   font-family: 'JetBrains Mono', 'Fira Code', 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-  border: 1px solid var(--border);
+  border: 1px solid var(--neon-cyan);
+  box-shadow: 0 0 5px rgba(0, 240, 255, 0.3);
+  text-shadow: 0 0 3px rgba(0, 240, 255, 0.5);
 }
 
 .prose pre code {
@@ -575,4 +970,193 @@ a:hover {
 
 .animate-fade-in-up {
   animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* 赛博朋克卡片效果 */
+.cyber-card {
+  position: relative;
+  background: rgba(26, 0, 51, 0.6);
+  border: 1px solid rgba(255, 0, 110, 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.cyber-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    var(--neon-pink), 
+    var(--neon-cyan), 
+    var(--neon-purple), 
+    transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.cyber-card:hover::before {
+  transform: translateX(100%);
+}
+
+.cyber-card::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, 
+    rgba(255, 0, 110, 0.1) 0%, 
+    transparent 70%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.cyber-card:hover {
+  border-color: var(--neon-pink);
+  box-shadow: 
+    0 0 20px rgba(255, 0, 110, 0.3),
+    0 0 40px rgba(255, 0, 110, 0.2),
+    inset 0 0 20px rgba(0, 240, 255, 0.1);
+  transform: translateY(-4px) scale(1.02);
+}
+
+.cyber-card:hover::after {
+  opacity: 1;
+}
+
+/* 扫描线增强 */
+.crt-scanlines::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    var(--neon-cyan), 
+    transparent);
+  animation: scanline 8s linear infinite;
+  pointer-events: none;
+  z-index: 1001;
+}
+
+@keyframes scanline {
+  0% { top: 0; opacity: 1; }
+  50% { opacity: 0.8; }
+  100% { top: 100%; opacity: 0; }
+}
+
+/* 浮动动画 */
+@keyframes float-0 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, -30px) scale(1.2); }
+}
+
+@keyframes float-1 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-15px, 25px) scale(1.1); }
+}
+
+@keyframes float-2 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(25px, 20px) scale(1.15); }
+}
+
+@keyframes float-3 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-20px, -25px) scale(1.1); }
+}
+
+@keyframes float-4 {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(15px, 30px) scale(1.2); }
+}
+
+/* Shimmer animation */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Neural Activity Wave Animations */
+@keyframes neural-wave-1 {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateX(5px);
+    opacity: 1;
+  }
+}
+
+@keyframes neural-wave-2 {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateX(-3px);
+    opacity: 0.8;
+  }
+}
+
+@keyframes neural-wave-3 {
+  0%, 100% {
+    transform: translateX(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateX(2px);
+    opacity: 0.6;
+  }
+}
+
+@keyframes neural-dash {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: 400;
+  }
+}
+
+.neural-wave-1 {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 0;
+  animation: neural-wave-1 2s ease-in-out infinite, neural-dash 3s linear infinite;
+}
+
+.neural-wave-2 {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 50;
+  animation: neural-wave-2 2.5s ease-in-out infinite, neural-dash 3.5s linear infinite;
+}
+
+.neural-wave-3 {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 100;
+  animation: neural-wave-3 3s ease-in-out infinite, neural-dash 4s linear infinite;
+}
+
+/* 数据矩阵效果 */
+.matrix-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.1;
+  background-image: 
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 240, 255, 0.03) 2px, rgba(0, 240, 255, 0.03) 4px),
+    repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255, 0, 110, 0.03) 2px, rgba(255, 0, 110, 0.03) 4px);
 }

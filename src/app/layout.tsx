@@ -8,13 +8,25 @@ if (typeof window === "undefined") {
 }
 
 import type { Metadata } from "next";
-import { Roboto_Mono } from "next/font/google";
+import { Orbitron, Exo_2 } from "next/font/google";
+import { getSortedPostsData } from '@/lib/posts';
 
-const robotoMono = Roboto_Mono({ subsets: ["latin"], variable: "--font-roboto-mono" });
+const orbitron = Orbitron({
+  subsets: ["latin"],
+  weight: ["400", "700", "900"],
+  variable: "--font-orbitron"
+});
+
+const exo2 = Exo_2({
+  subsets: ["latin"],
+  weight: ["300", "400", "600", "700"],
+  variable: "--font-exo2"
+});
 import "./globals.css";
 import Link from 'next/link';
 import Image from 'next/image';
 import HeaderSearch from '@/app/components/HeaderSearch';
+import Sidebar from '@/app/components/Sidebar';
 
 
 
@@ -28,59 +40,49 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const allPostsData = getSortedPostsData();
+
   return (
-    <html lang="zh-CN" className={`${robotoMono.variable}`}>
-      <body className={`${robotoMono.className} antialiased`}>
-        <div className="min-h-screen bg-background text-foreground">
-          <header className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-sm">
-            <div className="container mx-auto px-6 h-16 max-w-6xl flex items-center justify-between">
-              <div className="flex items-center gap-6">
-                <Link href="/" className="flex items-center gap-3 group">
-                  <span className="text-xl font-bold tracking-wider glitch terminal-text" style={{ color: 'var(--cyber-yellow)' }}>
-                    TECH.BLOG
-                  </span>
-                </Link>
+    <html lang="zh-CN" className={`${orbitron.variable} ${exo2.variable}`}>
+      <body className={`${exo2.className} antialiased bg-background text-foreground overflow-x-hidden`}>
+        {/* Mobile Header (Visible only on small screens) */}
+        <header className="lg:hidden border-b border-neon-cyan/30 bg-background/98 backdrop-blur-xl sticky top-0 z-50 p-4 flex justify-between items-center">
+          <span className="text-xl font-mono font-bold tracking-tight">
+            <span className="text-neon-cyan">ATLASSC</span><span className="text-neon-pink">.NET</span>
+          </span>
+          <HeaderSearch />
+        </header>
+
+        {/* Desktop Search - Fixed Top Right */}
+        <div className="hidden lg:block fixed top-4 right-4 z-50">
+          <HeaderSearch />
+        </div>
+
+        {/* Main Container - Centered */}
+        <div className="min-h-screen flex justify-center">
+          <div className="w-full max-w-[1400px] flex flex-col lg:flex-row">
+            <Sidebar postCount={allPostsData.length} />
+            
+            <main className="flex-1 min-h-screen relative crt-scanlines">
+              {/* Enhanced Scanline Overlay */}
+              <div className="fixed inset-0 pointer-events-none z-50 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.15)_50%),linear-gradient(90deg,rgba(0,240,255,0.03),rgba(255,0,110,0.02),rgba(0,240,255,0.03))] bg-[length:100%_4px,3px_100%] pointer-events-none" style={{ backgroundSize: '100% 4px, 6px 100%' }}></div>
+
+              <div className="relative z-20 max-w-5xl mx-auto px-8 sm:px-12 lg:px-16 py-12 lg:py-16">
+                {children}
               </div>
 
-              <nav className="flex items-center gap-6">
-                <div className="hidden md:flex items-center gap-6">
-                  {[
-                    { name: 'FEED', href: '/' },
-                    { name: 'GITHUB', href: 'https://github.com/johnsmith8736' },
-                    { name: 'YOUTUBE', href: 'https://www.youtube.com/@stanleychan87' },
-                  ].map((item) => (
-                    <a
-                      key={item.name}
-                      href={item.href}
-                      target={item.href.startsWith('http') ? '_blank' : undefined}
-                      rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className="text-xs font-bold terminal-text text-muted-foreground hover:text-cyber-cyan transition-colors clip-corner px-3 py-1.5 hover:bg-cyber-cyan/10"
-                    >
-                      {item.name}
-                    </a>
-                  ))}
+              <footer className="border-t border-neon-cyan/20 mt-12 py-6 px-8">
+                <div className="text-center">
+                  <p className="text-neon-cyan/70 font-mono text-xs uppercase tracking-wider">
+                    © 2077 ATLASSC.NET // NO RIGHTS RESERVED // POWERED BY GEMINI
+                  </p>
+                  <div className="mt-2 text-[10px] text-muted-foreground uppercase tracking-[0.2em] font-mono">
+                    Netwatch Protocol v.2.55 // Secure Connection
+                  </div>
                 </div>
-                <div className="pl-2 border-l border-border/50">
-                  <HeaderSearch />
-                </div>
-              </nav>
-            </div>
-          </header>
-          <main className="container mx-auto px-6 py-12 max-w-5xl">
-            {children}
-          </main>
-          <footer className="border-t border-border mt-20 bg-background">
-            <div className="container mx-auto px-6 py-8 max-w-6xl">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-                <div className="terminal-text text-xs" style={{ color: 'var(--muted-foreground)' }}>
-                  ENCRYPTED // PUBLIC KEY DETECTED
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  © {new Date().getFullYear()} TECH.BLOG // NO RIGHTS RESERVED // POWERED BY NEXT.JS
-                </div>
-              </div>
-            </div>
-          </footer>
+              </footer>
+            </main>
+          </div>
         </div>
       </body>
     </html>
