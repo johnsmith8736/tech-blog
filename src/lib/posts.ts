@@ -15,6 +15,8 @@ export interface PostData {
   excerpt: string;
   content?: string;
   contentHtml?: string;
+  tags?: string[];
+  category?: string;
 }
 
 export function getSortedPostsData(): PostData[] {
@@ -60,6 +62,8 @@ export function getSortedPostsData(): PostData[] {
           title: matterResult.data.title,
           excerpt: excerpt,
           content: matterResult.content,
+          tags: matterResult.data.tags || [],
+          category: matterResult.data.category || 'Uncategorized',
         };
       });
 
@@ -197,7 +201,7 @@ export function getAllPostSlugs() {
       .filter(fileName => fileName.endsWith('.md'))
       .map(fileName => ({
         params: {
-          id: fileName.replace(/\.md$/, ''),
+          slug: fileName.replace(/\.md$/, ''),
         },
       }));
   } catch (error) {

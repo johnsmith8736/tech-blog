@@ -55,10 +55,10 @@ bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release
         "security": "reality",
         "realitySettings": {
           "show": true,
-          "dest": "www.microsoft.com:443",
+          "dest": "www.nhk.or.jp:443",
           "xver": 0,
           "serverNames": [
-            "www.microsoft.com"
+            "www.nhk.or.jp"
           ],
           "privateKey": "M4cZLR81ErNfxnG1fAnNUIATs_UXqe6HR78wINhH7RA", // xray x25519
           "minClientVer": "",
