@@ -296,7 +296,7 @@ Tunnel ID: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 ### 6.5 绑定域名到 Tunnel（DNS 自动创建）
 
 ```bash
-cloudflared tunnel route dns xray-stream stream.yourdomain.com
+cloudflared tunnel route dns xray-stream stream.xxxxx.xxx.xx
 ```
 
 说明：
@@ -316,7 +316,7 @@ tunnel: xray-stream
 credentials-file: /etc/cloudflared/7fa0080c-acb9-46af-9185-c46ad7aa69c4.json
 
 ingress:
-  - hostname: stream.stanleychan87.nyc.mn
+  - hostname: stream.xxxxx.xxx.xx
     service: http://127.0.0.1:10000
   - service: http_status:404
 ```
@@ -405,13 +405,13 @@ journalctl -u cloudflared -f
 | 项目 | 值 |
 |---|---|
 | 协议 | VLESS |
-| 地址 | stream.stanleychan87.nyc.mn |
+| 地址 | stream.xxxxx.xxx.xx |
 | 端口 | 443 |
 | UUID | 1960de2f-7078-46df-b1d3-39f98f15683c |
 | 传输 | WS |
 | WS Path | /ws |
 | TLS | 开启 |
-| SNI | stream.stanleychan87.nyc.mn |
+| SNI | stream.xxxxx.xxx.xx |
 | 加密 | none |
 
 > 客户端 **不要写分流规则**，全部由服务端处理。
