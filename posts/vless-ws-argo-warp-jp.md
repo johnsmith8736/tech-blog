@@ -122,7 +122,7 @@ curl --socks5 127.0.0.1:40000 https://ipinfo.io
       "settings": {
         "clients": [
           {
-            "id": "e7e570fc-5fa2-4d8c-a0ab-bc699e3a8167"
+            "id": "1960de2f-7078-46df-b1d3-39f98f15683c"
           }
         ],
         "decryption": "none"
@@ -407,7 +407,7 @@ journalctl -u cloudflared -f
 | 协议 | VLESS |
 | 地址 | stream.stanleychan87.nyc.mn |
 | 端口 | 443 |
-| UUID | e7e570fc-5fa2-4d8c-a0ab-bc699e3a8167 |
+| UUID | 1960de2f-7078-46df-b1d3-39f98f15683c |
 | 传输 | WS |
 | WS Path | /ws |
 | TLS | 开启 |
