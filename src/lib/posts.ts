@@ -4,6 +4,8 @@ import path from 'path';
 import matter from 'gray-matter';
 import Showdown from 'showdown';
 import hljs from 'highlight.js';
+import DOMPurify from 'dompurify';
+import { JSDOM } from 'jsdom';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 
@@ -99,11 +101,15 @@ export function getPostData(slug: string): PostData | null {
       tasklists: true,
       ghCodeBlocks: true,
       ghMentions: false,
-      ghMentionsLink: false,
       extensions: [],
     });
 
     let contentHtml = converter.makeHtml(matterResult.content);
+
+    // Sanitize HTML to prevent XSS
+    const window = new JSDOM('').window;
+    const DOMPurifyServer = DOMPurify(window);
+    contentHtml = DOMPurifyServer.sanitize(contentHtml);
 
     // 使用 highlight.js 进行语法高亮，GitHub 风格
     contentHtml = contentHtml.replace(/<pre><code class="([^"]*)">([\s\S]*?)<\/code><\/pre>/g, (match, lang, code) => {

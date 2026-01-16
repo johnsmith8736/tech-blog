@@ -31,17 +31,17 @@ export default function Sidebar({ postCount = 0 }: SidebarProps) {
                         <div className="w-12 h-12 rounded border-2 border-neon-cyan/50 bg-neon-cyan/10 flex items-center justify-center overflow-hidden relative">
                             <div className="absolute inset-0 bg-neon-cyan/20"></div>
                             <Image
-                                src="/avatar.jpg"
+                                src="/kali-logo.png"
                                 alt="Avatar"
                                 width={48}
                                 height={48}
-                                className="object-cover relative z-10"
+                                className="object-contain relative z-10 p-1"
                                 onError={(e) => {
                                     const target = e.target as HTMLImageElement;
                                     target.style.display = 'none';
                                     const parent = target.parentElement;
                                     if (parent) {
-                                        parent.innerHTML = '<div class="w-full h-full flex items-center justify-center text-neon-cyan text-xs font-mono">AVATAR</div>';
+                                        parent.innerHTML = '<div class="w-full h-full flex items-center justify-center text-neon-cyan text-xs font-mono">KALI</div>';
                                     }
                                 }}
                             />
@@ -56,7 +56,7 @@ export default function Sidebar({ postCount = 0 }: SidebarProps) {
                         <div className="text-neon-pink">NETRUNNER</div>
                     </div>
                     <p className="text-xs font-mono text-foreground/70 italic leading-relaxed">
-                        "Sorrow calls no time that's gone!"
+                        &ldquo;Sorrow calls no time that&apos;s gone!&rdquo;
                     </p>
                     <div className="flex gap-3 mt-2">
                         <a

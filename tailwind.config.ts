@@ -33,6 +33,9 @@ const config: Config = {
         'cyber-glow': '0 0 100px -20px rgba(0, 102, 255, 0.4)',
         'text-glow': '0 0 10px rgba(0, 240, 255, 0.5)',
       },
+      ringColor: {
+        'cyber-cyan': '#00f0ff',
+      },
     },
   },
   plugins: [

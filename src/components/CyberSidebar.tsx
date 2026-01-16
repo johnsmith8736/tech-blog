@@ -13,7 +13,13 @@ export default function CyberSidebar() {
                     {/* Header Section */}
                     <div className="flex gap-4">
                         <div className="w-16 h-16 border-2 border-cyber-yellow bg-white relative overflow-hidden shrink-0 group flex items-center justify-center">
-                            <Image src="/dragon-avatar.png" alt="Stanley Chan" width={64} height={64} className="object-contain p-2" />
+                            <Image
+                                src="/kali-logo.png"
+                                alt="Kali Linux Avatar"
+                                width={64}
+                                height={64}
+                                className="object-contain p-1"
+                            />
                         </div>
 
                         <div className="space-y-1">

@@ -22,7 +22,7 @@ export default function PostCard({ post }: PostCardProps) {
                         </h2>
 
                         <div className="flex flex-wrap gap-2 md:gap-4 items-center text-xs font-mono text-gray-500 uppercase tracking-wide">
-                            <span>// {post.category || 'TRANSMISSION'}</span>
+                            <span>{/**/}{post.category || 'TRANSMISSION'}</span>
 
                             {post.tags && post.tags.length > 0 && (
                                 <>

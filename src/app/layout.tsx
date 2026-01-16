@@ -1,11 +1,4 @@
-// Polyfill for localStorage in server environment
-if (typeof window === "undefined") {
-  (global as any).localStorage = {
-    getItem: (key: string) => null,
-    setItem: (key: string, value: string) => { },
-    removeItem: (key: string) => { }
-  };
-}
+
 
 import type { Metadata } from "next";
 import { Rajdhani, Share_Tech_Mono } from "next/font/google";
@@ -18,17 +11,34 @@ const rajdhani = Rajdhani({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-rajdhani",
+  display: "swap",
+  preload: true,
 });
 
 const shareTechMono = Share_Tech_Mono({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-share-tech-mono",
+  display: "swap",
+  preload: true,
 });
 
 export const metadata: Metadata = {
-  title: "Tech.blog",
-  description: "Tech Blog System",
+  title: "Tech Blog | Cyberpunk Tech Insights",
+  description: "Explore cutting-edge technology, programming tutorials, and cyberpunk-inspired insights. Stay ahead with in-depth articles on software development, AI, cybersecurity, and more.",
+  keywords: ["tech blog", "programming", "cyberpunk", "technology", "software development", "tutorials"],
+  authors: [{ name: "Tech Blogger" }],
+  openGraph: {
+    title: "Tech Blog | Cyberpunk Tech Insights",
+    description: "Explore cutting-edge technology, programming tutorials, and cyberpunk-inspired insights.",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Tech Blog | Cyberpunk Tech Insights",
+    description: "Explore cutting-edge technology, programming tutorials, and cyberpunk-inspired insights.",
+  },
 };
 
 export default function RootLayout({
@@ -38,6 +48,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${rajdhani.variable} ${shareTechMono.variable}`}>
+      <head>
+        <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#00f0ff" />
+      </head>
       <body className="font-mono bg-background text-foreground antialiased selection:bg-cyber-cyan selection:text-black">
         <Header />
 

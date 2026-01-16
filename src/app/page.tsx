@@ -1,5 +1,5 @@
 import { getSortedPostsData, PostData } from '@/lib/posts';
-import PostCard from '@/components/PostCard';
+import PostList from '@/components/PostList';
 
 export default async function HomePage() {
   const allPostsData: PostData[] = getSortedPostsData();
@@ -13,15 +13,11 @@ export default async function HomePage() {
 
       </div>
 
-      <div className="space-y-0">
-        {allPostsData.map((post) => (
-          <PostCard key={post.id} post={post} />
-        ))}
-      </div>
+      <PostList initialPosts={allPostsData} />
 
       {allPostsData.length === 0 && (
         <div className="py-12 text-center font-mono text-gray-500">
-          // NO TRANSMISSIONS FOUND. SYSTEM STANDBY.
+          {/**/}NO TRANSMISSIONS FOUND. SYSTEM STANDBY.
         </div>
       )}
     </div>

@@ -14,6 +14,39 @@ export async function generateStaticParams() {
     return paths.map((path) => path.params);
 }
 
+export async function generateMetadata({ params }: PostPageProps) {
+    const { slug } = await params;
+    const postData = getPostData(slug);
+
+    if (!postData) {
+        return {
+            title: 'Post Not Found',
+        };
+    }
+
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-blog.com';
+
+    return {
+        title: postData.title,
+        description: postData.excerpt,
+        alternates: {
+            canonical: `${baseUrl}/posts/${slug}`,
+        },
+        openGraph: {
+            title: postData.title,
+            description: postData.excerpt,
+            type: 'article',
+            publishedTime: postData.date,
+            tags: postData.tags,
+        },
+        twitter: {
+            card: 'summary_large_image',
+            title: postData.title,
+            description: postData.excerpt,
+        },
+    };
+}
+
 export default async function PostPage({ params }: PostPageProps) {
     const { slug } = await params;
     const postData = getPostData(slug);
@@ -22,15 +55,35 @@ export default async function PostPage({ params }: PostPageProps) {
         notFound();
     }
 
-    return (
-        <article className="max-w-4xl mx-auto py-12">
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-blog.com'; // Replace with your actual domain
+    const jsonLd = {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": postData.title,
+        "description": postData.excerpt,
+        "datePublished": postData.date,
+        "author": {
+            "@type": "Person",
+            "name": "Tech Blogger" // Replace with actual author
+        },
+        "url": `${baseUrl}/posts/${postData.slug}`,
+        "image": postData.tags ? postData.tags.map(tag => `${baseUrl}/tags/${tag}`) : [], // Optional
+    };
 
-            {/* Header */}
+    return (
+        <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+            />
+            <article className="max-w-4xl mx-auto py-12">
+
+            {/**/}
             <header className="mb-12 space-y-4 border-b border-white/10 pb-8">
                 <div className="flex items-center gap-4 text-xs font-mono text-cyber-cyan uppercase tracking-wider">
                     <time dateTime={postData.date}>{postData.date}</time>
-                    <span>// {postData.category || 'TRANSMISSION'}</span>
-                    <span>// ID: {slug.toUpperCase()}</span>
+                    <span>{/**/}{postData.category || 'TRANSMISSION'}</span>
+                    <span>{/**/}ID: {slug.toUpperCase()}</span>
                 </div>
 
                 <h1 className="text-3xl md:text-5xl font-display font-bold text-white leading-tight">
@@ -70,7 +123,8 @@ export default async function PostPage({ params }: PostPageProps) {
                 >
                     <span>←</span> RETURN_TO_ROOT
                 </Link>
-            </div>
-        </article>
-    );
-}
+             </div>
+         </article>
+        </>
+     );
+ }
