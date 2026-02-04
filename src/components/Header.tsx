@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import CyberSidebar from './CyberSidebar';
 import HeaderSearch from './HeaderSearch';
 
@@ -19,7 +19,9 @@ export default function Header() {
 
                 <div className="flex items-center gap-4">
                     <div className="hidden sm:block">
-                        <HeaderSearch />
+                        <Suspense fallback={<div className="w-36 sm:w-44 lg:w-52" aria-hidden="true" />}>
+                            <HeaderSearch />
+                        </Suspense>
                     </div>
                     {/* Mobile menu button */}
                     <button

@@ -1,5 +1,6 @@
 import { getSortedPostsData, PostData } from '@/lib/posts';
 import FilteredPostList from '@/components/FilteredPostList';
+import { Suspense } from 'react';
 
 export default async function HomePage() {
   const allPostsData: PostData[] = getSortedPostsData();
@@ -13,7 +14,9 @@ export default async function HomePage() {
 
       </div>
 
-      <FilteredPostList allPostsData={allPostsData} />
+      <Suspense fallback={<div className="py-8 text-center font-mono text-gray-500">LOADING TRANSMISSIONS...</div>}>
+        <FilteredPostList allPostsData={allPostsData} />
+      </Suspense>
 
       {allPostsData.length === 0 && (
         <div className="py-12 text-center font-mono text-gray-500">
