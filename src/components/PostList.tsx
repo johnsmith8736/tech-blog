@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import PostCard from '@/components/PostCard';
 import { PostData } from '@/lib/posts';
 
@@ -11,6 +11,11 @@ interface PostListProps {
 export default function PostList({ initialPosts }: PostListProps) {
   const [displayedPosts, setDisplayedPosts] = useState(initialPosts.slice(0, 10));
   const [hasMore, setHasMore] = useState(initialPosts.length > 10);
+
+  useEffect(() => {
+    setDisplayedPosts(initialPosts.slice(0, 10));
+    setHasMore(initialPosts.length > 10);
+  }, [initialPosts]);
 
   const loadMore = () => {
     const nextPosts = initialPosts.slice(displayedPosts.length, displayedPosts.length + 10);

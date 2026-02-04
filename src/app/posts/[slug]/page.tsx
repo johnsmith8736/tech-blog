@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { getPostData, getAllPostSlugs } from '@/lib/posts';
 import { notFound } from 'next/navigation';
+import CodeCopyEnhancer from '@/components/CodeCopyEnhancer';
 
 interface PostPageProps {
     params: Promise<{
@@ -67,7 +68,6 @@ export default async function PostPage({ params }: PostPageProps) {
             "name": "Tech Blogger" // Replace with actual author
         },
         "url": `${baseUrl}/posts/${postData.slug}`,
-        "image": postData.tags ? postData.tags.map(tag => `${baseUrl}/tags/${tag}`) : [], // Optional
     };
 
     return (
@@ -76,6 +76,7 @@ export default async function PostPage({ params }: PostPageProps) {
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
+            <CodeCopyEnhancer />
             <article className="max-w-4xl mx-auto py-12">
 
             {/**/}

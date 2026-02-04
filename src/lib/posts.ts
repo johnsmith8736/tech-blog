@@ -6,8 +6,73 @@ import Showdown from 'showdown';
 import hljs from 'highlight.js';
 import DOMPurify from 'dompurify';
 import { JSDOM } from 'jsdom';
+import { cache } from 'react';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
+const excerptMaxLength = 200;
+
+const converter = new Showdown.Converter({
+  tables: true,
+  strikethrough: true,
+  tasklists: true,
+  ghCodeBlocks: true,
+  ghMentions: false,
+  extensions: [],
+});
+
+const dompurify = DOMPurify(new JSDOM('').window);
+const codeBlockWithLangRegex = /<pre><code class="([^"]*)">([\s\S]*?)<\/code><\/pre>/g;
+const codeBlockNoLangRegex = /<pre><code>([\s\S]*?)<\/code><\/pre>/g;
+
+function decodeHtmlEntities(value: string) {
+  return value
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
+function generateExcerpt(markdown: string) {
+  const plainText = markdown
+    .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images
+    .replace(/\[(.*?)\]\(.*?\)/g, '$1') // Remove links but keep text
+    .replace(/#{1,6}\s/g, '') // Remove headers
+    .replace(/(\*\*|__)(.*?)\1/g, '$2') // Remove bold
+    .replace(/(\*|_)(.*?)\1/g, '$2') // Remove italic
+    .replace(/`{3}[\s\S]*?`{3}/g, '') // Remove code blocks
+    .replace(/`(.+?)`/g, '$1') // Remove inline code
+    .replace(/\n/g, ' ') // Replace newlines with spaces
+    .trim();
+
+  return plainText.slice(0, excerptMaxLength) + (plainText.length > excerptMaxLength ? '...' : '');
+}
+
+function highlightBlock(code: string, lang?: string) {
+  const decodedCode = decodeHtmlEntities(code);
+  const cleanLang = lang ? lang.replace(/^language-/, '') : '';
+
+  if (cleanLang && hljs.getLanguage(cleanLang)) {
+    const highlighted = hljs.highlight(decodedCode, { language: cleanLang });
+    return `<pre data-lang="${cleanLang}"><code class="hljs language-${cleanLang}">${highlighted.value}</code></pre>`;
+  }
+
+  const highlighted = hljs.highlightAuto(decodedCode);
+  let detectedLang = highlighted.language || 'text';
+
+  if (detectedLang === 'text' || !detectedLang) {
+    try {
+      JSON.parse(decodedCode.trim());
+      detectedLang = 'json';
+      const jsonHighlighted = hljs.highlight(decodedCode, { language: 'json' });
+      return `<pre data-lang="json"><code class="hljs language-json">${jsonHighlighted.value}</code></pre>`;
+    } catch (error) {
+      // Keep auto-detected result.
+    }
+  }
+
+  return `<pre data-lang="${detectedLang}"><code class="hljs language-${detectedLang}">${highlighted.value}</code></pre>`;
+}
 
 export interface PostData {
   id: number;
@@ -21,13 +86,13 @@ export interface PostData {
   category?: string;
 }
 
-export function getSortedPostsData(): PostData[] {
+export const getSortedPostsData = cache(function getSortedPostsData(): PostData[] {
   try {
     // 获取 posts 目录下的所有文件名
     const fileNames = fs.readdirSync(postsDirectory);
     const allPostsData = fileNames
       .filter(fileName => fileName.endsWith('.md'))
-      .map((fileName, index) => {
+      .map((fileName) => {
         // 移除文件扩展名作为 slug
         const slug = fileName.replace(/\.md$/, '');
 
@@ -38,31 +103,14 @@ export function getSortedPostsData(): PostData[] {
         // 使用 gray-matter 解析文章的 frontmatter
         const matterResult = matter(fileContents);
 
-        let excerpt = matterResult.data.excerpt;
-        if (!excerpt) {
-          // Generate excerpt from content if missing
-          const content = matterResult.content;
-          // Remove markdown syntax (basic)
-          const plainText = content
-            .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images
-            .replace(/\[(.*?)\]\(.*?\)/g, '$1') // Remove links but keep text
-            .replace(/#{1,6}\s/g, '') // Remove headers
-            .replace(/(\*\*|__)(.*?)\1/g, '$2') // Remove bold
-            .replace(/(\*|_)(.*?)\1/g, '$2') // Remove italic
-            .replace(/`{3}[\s\S]*?`{3}/g, '') // Remove code blocks
-            .replace(/`(.+?)`/g, '$1') // Remove inline code
-            .replace(/\n/g, ' ') // Replace newlines with spaces
-            .trim();
-
-          excerpt = plainText.slice(0, 200) + (plainText.length > 200 ? '...' : '');
-        }
+        const excerpt = matterResult.data.excerpt || generateExcerpt(matterResult.content);
 
         return {
-          id: index + 1,
+          id: 0,
           slug,
           date: matterResult.data.date,
           title: matterResult.data.title,
-          excerpt: excerpt,
+          excerpt,
           content: matterResult.content,
           tags: matterResult.data.tags || [],
           category: matterResult.data.category || 'Uncategorized',
@@ -70,20 +118,25 @@ export function getSortedPostsData(): PostData[] {
       });
 
     // 按日期排序
-    return allPostsData.sort((a, b) => {
-      if (a.date < b.date) {
-        return 1;
-      } else {
-        return -1;
-      }
+    const sorted = allPostsData.sort((a, b) => {
+      const timeA = Date.parse(a.date);
+      const timeB = Date.parse(b.date);
+      const safeA = Number.isNaN(timeA) ? 0 : timeA;
+      const safeB = Number.isNaN(timeB) ? 0 : timeB;
+      return safeB - safeA;
     });
+
+    return sorted.map((post, index) => ({
+      ...post,
+      id: index + 1,
+    }));
   } catch (error) {
     console.error("Failed to read posts:", error);
     return [];
   }
-}
+});
 
-export function getPostData(slug: string): PostData | null {
+export const getPostData = cache(function getPostData(slug: string): PostData | null {
   try {
     const fullPath = path.join(postsDirectory, `${slug}.md`);
 
@@ -94,58 +147,15 @@ export function getPostData(slug: string): PostData | null {
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const matterResult = matter(fileContents);
 
-    // 使用 Showdown 将 markdown 转换为 HTML
-    const converter = new Showdown.Converter({
-      tables: true,
-      strikethrough: true,
-      tasklists: true,
-      ghCodeBlocks: true,
-      ghMentions: false,
-      extensions: [],
-    });
-
     let contentHtml = converter.makeHtml(matterResult.content);
 
     // Sanitize HTML to prevent XSS
-    const window = new JSDOM('').window;
-    const DOMPurifyServer = DOMPurify(window);
-    contentHtml = DOMPurifyServer.sanitize(contentHtml);
+    contentHtml = dompurify.sanitize(contentHtml);
 
     // 使用 highlight.js 进行语法高亮，GitHub 风格
-    contentHtml = contentHtml.replace(/<pre><code class="([^"]*)">([\s\S]*?)<\/code><\/pre>/g, (match, lang, code) => {
+    contentHtml = contentHtml.replace(codeBlockWithLangRegex, (match, lang, code) => {
       try {
-        const decodedCode = code
-          .replace(/&lt;/g, '<')
-          .replace(/&gt;/g, '>')
-          .replace(/&amp;/g, '&')
-          .replace(/&quot;/g, '"')
-          .replace(/&#39;/g, "'");
-
-        // 清理语言名称
-        const cleanLang = lang ? lang.replace(/^language-/, '') : '';
-
-        if (cleanLang && hljs.getLanguage(cleanLang)) {
-          const highlighted = hljs.highlight(decodedCode, { language: cleanLang });
-          return `<pre data-lang="${cleanLang}"><code class="hljs language-${cleanLang}">${highlighted.value}</code></pre>`;
-        } else {
-          // 尝试自动检测语言，特别处理 JSON
-          const highlighted = hljs.highlightAuto(decodedCode);
-          let detectedLang = highlighted.language || 'text';
-
-          // 如果自动检测失败，尝试检测是否为 JSON
-          if (detectedLang === 'text' || !detectedLang) {
-            try {
-              JSON.parse(decodedCode.trim());
-              detectedLang = 'json';
-              const jsonHighlighted = hljs.highlight(decodedCode, { language: 'json' });
-              return `<pre data-lang="json"><code class="hljs language-json">${jsonHighlighted.value}</code></pre>`;
-            } catch (e) {
-              // 不是有效的 JSON，继续使用自动检测的结果
-            }
-          }
-
-          return `<pre data-lang="${detectedLang}"><code class="hljs language-${detectedLang}">${highlighted.value}</code></pre>`;
-        }
+        return highlightBlock(code, lang);
       } catch (error) {
         console.error('Highlight error:', error);
         return match;
@@ -153,32 +163,9 @@ export function getPostData(slug: string): PostData | null {
     });
 
     // 处理没有语言标识的代码块
-    contentHtml = contentHtml.replace(/<pre><code>([\s\S]*?)<\/code><\/pre>/g, (match, code) => {
+    contentHtml = contentHtml.replace(codeBlockNoLangRegex, (match, code) => {
       try {
-        const decodedCode = code
-          .replace(/&lt;/g, '<')
-          .replace(/&gt;/g, '>')
-          .replace(/&amp;/g, '&')
-          .replace(/&quot;/g, '"')
-          .replace(/&#39;/g, "'");
-
-        // 尝试自动检测语言
-        const highlighted = hljs.highlightAuto(decodedCode);
-        let detectedLang = highlighted.language || 'text';
-
-        // 如果自动检测失败，尝试检测是否为 JSON
-        if (detectedLang === 'text' || !detectedLang) {
-          try {
-            JSON.parse(decodedCode.trim());
-            detectedLang = 'json';
-            const jsonHighlighted = hljs.highlight(decodedCode, { language: 'json' });
-            return `<pre data-lang="json"><code class="hljs language-json">${jsonHighlighted.value}</code></pre>`;
-          } catch (e) {
-            // 不是有效的 JSON，继续使用自动检测的结果
-          }
-        }
-
-        return `<pre data-lang="${detectedLang}"><code class="hljs language-${detectedLang}">${highlighted.value}</code></pre>`;
+        return highlightBlock(code);
       } catch (error) {
         console.error('Highlight error:', error);
         return match;
@@ -190,15 +177,17 @@ export function getPostData(slug: string): PostData | null {
       slug,
       date: matterResult.data.date,
       title: matterResult.data.title,
-      excerpt: matterResult.data.excerpt,
+      excerpt: matterResult.data.excerpt || generateExcerpt(matterResult.content),
       content: matterResult.content,
       contentHtml,
+      tags: matterResult.data.tags || [],
+      category: matterResult.data.category || 'Uncategorized',
     };
   } catch (error) {
     console.error(`Failed to read post ${slug}:`, error);
     return null;
   }
-}
+});
 
 export function getAllPostSlugs() {
   try {
@@ -212,54 +201,6 @@ export function getAllPostSlugs() {
       }));
   } catch (error) {
     console.error("Failed to get post slugs:", error);
-    return [];
-  }
-}
-
-export function getAllPostPaths() {
-  try {
-    const posts = getSortedPostsData();
-    return posts.map(post => {
-      try {
-        const date = new Date(post.date);
-        // 检查日期是否有效
-        if (isNaN(date.getTime())) {
-          console.error(`Invalid date for post ${post.slug}: ${post.date}`);
-          // 使用当前日期作为后备
-          const now = new Date();
-          return {
-            params: {
-              year: now.getFullYear().toString(),
-              month: (now.getMonth() + 1).toString().padStart(2, '0'),
-              day: now.getDate().toString().padStart(2, '0'),
-              slug: post.slug,
-            }
-          };
-        }
-        return {
-          params: {
-            year: date.getFullYear().toString(),
-            month: (date.getMonth() + 1).toString().padStart(2, '0'),
-            day: date.getDate().toString().padStart(2, '0'),
-            slug: post.slug,
-          }
-        };
-      } catch (error) {
-        console.error(`Error processing post ${post.slug}:`, error);
-        // 使用当前日期作为后备
-        const now = new Date();
-        return {
-          params: {
-            year: now.getFullYear().toString(),
-            month: (now.getMonth() + 1).toString().padStart(2, '0'),
-            day: now.getDate().toString().padStart(2, '0'),
-            slug: post.slug,
-          }
-        };
-      }
-    });
-  } catch (error) {
-    console.error("Failed to get post paths:", error);
     return [];
   }
 }

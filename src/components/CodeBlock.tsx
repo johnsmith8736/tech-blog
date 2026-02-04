@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 interface CodeBlockProps {
   children: React.ReactNode;
@@ -9,9 +9,10 @@ interface CodeBlockProps {
 
 export default function CodeBlock({ children, language }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
+  const codeRef = useRef<HTMLElement | null>(null);
 
   const handleCopy = async () => {
-    const codeElement = document.querySelector('pre code');
+    const codeElement = codeRef.current;
     if (codeElement) {
       const text = codeElement.textContent || '';
       try {
@@ -50,7 +51,13 @@ export default function CodeBlock({ children, language }: CodeBlockProps) {
           )}
         </button>
       </div>
-      {children}
+      <div
+        ref={(node) => {
+          codeRef.current = node?.querySelector('code') ?? null;
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 }

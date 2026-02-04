@@ -52,6 +52,51 @@ body::after {
   }
 }
 
+/* Code block copy button */
+pre {
+  position: relative;
+}
+
+.code-copy-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 5px 10px;
+  border: 1px solid rgba(0, 240, 255, 0.45);
+  border-radius: 0;
+  background:
+    linear-gradient(135deg, rgba(0, 240, 255, 0.12), rgba(255, 0, 92, 0.08)),
+    rgba(5, 5, 5, 0.9);
+  color: #a8f4ff;
+  font-size: 10px;
+  font-family: var(--font-share-tech-mono), monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  box-shadow:
+    0 0 0 1px rgba(0, 240, 255, 0.08),
+    0 0 12px rgba(0, 240, 255, 0.2);
+  transition: all 0.2s ease;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+
+.code-copy-button:hover {
+  border-color: rgba(255, 0, 92, 0.75);
+  color: #ff4d9d;
+  box-shadow:
+    0 0 0 1px rgba(255, 0, 92, 0.2),
+    0 0 16px rgba(255, 0, 92, 0.35);
+  transform: translateY(-1px);
+}
+
+.code-copy-button[data-copied="true"] {
+  border-color: rgba(0, 255, 200, 0.8);
+  color: #2dffd5;
+  box-shadow:
+    0 0 0 1px rgba(0, 255, 200, 0.25),
+    0 0 14px rgba(0, 255, 200, 0.35);
+}
+
 /* Focus indicators */
 .focus-visible {
   outline: 2px solid #00f0ff;

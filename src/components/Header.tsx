@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import CyberSidebar from './CyberSidebar';
+import HeaderSearch from './HeaderSearch';
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,7 +17,10 @@ export default function Header() {
                     </div>
                 </Link>
 
-                <div className="flex items-center gap-6">
+                <div className="flex items-center gap-4">
+                    <div className="hidden sm:block">
+                        <HeaderSearch />
+                    </div>
                     {/* Mobile menu button */}
                     <button
                         onClick={() => setIsMenuOpen(!isMenuOpen)}

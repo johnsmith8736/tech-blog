@@ -1,5 +1,5 @@
 import { getSortedPostsData, PostData } from '@/lib/posts';
-import PostList from '@/components/PostList';
+import FilteredPostList from '@/components/FilteredPostList';
 
 export default async function HomePage() {
   const allPostsData: PostData[] = getSortedPostsData();
@@ -13,7 +13,7 @@ export default async function HomePage() {
 
       </div>
 
-      <PostList initialPosts={allPostsData} />
+      <FilteredPostList allPostsData={allPostsData} />
 
       {allPostsData.length === 0 && (
         <div className="py-12 text-center font-mono text-gray-500">
