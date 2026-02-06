@@ -2,6 +2,7 @@
 title: 'VLESS-XTLS-Vision-uTLS-REALITY Setup Guide'
 date: '2025-07-17'
 excerpt: 'A guide on setting up a VLESS-XTLS-Vision-uTLS-REALITY node, which replaces traditional TLS with REALITY for enhanced security and privacy.'
+tags: ["VLESS", "XTLS", "Vision", "uTLS", "REALITY", "Xray"]
 ---
 
 本配置TLS 由 REALITY 取代，可消除服务端 TLS 指纹特征，仍有前向保密性等，且证书链攻击无效，安全性超越常规 TLS。可指向别人的网站，无需自己买域名、配置 TLS 服务端，更方便，实现向中间人呈现指定 SNI 的全程真实 TLS，可解决 SNI 名单阻断问题。

@@ -2,6 +2,7 @@
 title: 'VLESS + WS + ENC + 固定 Argo + Xray + WARP（JP）'
 date: '2025-12-15'
 excerpt: '稳定解锁 Abema + TVer 的完整方案，使用固定 Cloudflare Argo Tunnel、Xray 和 WARP 日本出口，实现高稳定性和抗封锁。'
+tags: ["VLESS", "WebSocket", "ArgoTunnel", "Xray", "WARP", "Japan"]
 ---
 
 # VLESS + WS + ENC + 固定 Argo + Xray + WARP（JP）

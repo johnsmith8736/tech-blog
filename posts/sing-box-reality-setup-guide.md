@@ -2,6 +2,7 @@
 title: 'Sing-Box Reality 节点搭建教程'
 date: '2025-07-17'
 excerpt: '本教程将指导您如何从零开始搭建和配置 sing-box Reality 节点，包括服务端和客户端的详细设置。'
+tags: ["sing-box", "REALITY", "VLESS", "proxy", "setup"]
 ---
 
 ## **1. 手动安装**

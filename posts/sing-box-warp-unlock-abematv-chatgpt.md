@@ -2,6 +2,7 @@
 title: "sing-box warp解锁abematv和chatgpt"
 date: "2025-06-27"
 excerpt: "sing-box warp解锁abematv和chatgpt"
+tags: ["sing-box", "WARP", "WireGuard", "AbemaTV", "ChatGPT"]
 ---
 **sing-box简介**
 
