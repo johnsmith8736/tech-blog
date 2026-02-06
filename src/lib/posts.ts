@@ -113,7 +113,7 @@ export const getSortedPostsData = cache(function getSortedPostsData(): PostData[
           excerpt,
           content: matterResult.content,
           tags: matterResult.data.tags || [],
-          category: matterResult.data.category || 'Uncategorized',
+          category: matterResult.data.category || '',
         };
       });
 
@@ -181,7 +181,7 @@ export const getPostData = cache(function getPostData(slug: string): PostData | 
       content: matterResult.content,
       contentHtml,
       tags: matterResult.data.tags || [],
-      category: matterResult.data.category || 'Uncategorized',
+      category: matterResult.data.category || '',
     };
   } catch (error) {
     console.error(`Failed to read post ${slug}:`, error);
