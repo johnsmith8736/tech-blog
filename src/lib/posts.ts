@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
 import Showdown from 'showdown';
-import hljs from 'highlight.js';
+import hljs from 'highlight.js/lib/common';
 import DOMPurify from 'dompurify';
 import { JSDOM } from 'jsdom';
 import { cache } from 'react';

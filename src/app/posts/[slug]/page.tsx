@@ -25,13 +25,11 @@ export async function generateMetadata({ params }: PostPageProps) {
         };
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-blog.com';
-
     return {
         title: postData.title,
         description: postData.excerpt,
         alternates: {
-            canonical: `${baseUrl}/posts/${slug}`,
+            canonical: `/posts/${slug}`,
         },
         openGraph: {
             title: postData.title,
@@ -56,7 +54,7 @@ export default async function PostPage({ params }: PostPageProps) {
         notFound();
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://your-blog.com'; // Replace with your actual domain
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://your-blog.com";
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",

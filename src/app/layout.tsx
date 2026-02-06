@@ -24,6 +24,7 @@ const shareTechMono = Share_Tech_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://your-blog.com"),
   title: "Tech Blog | Cyberpunk Tech Insights",
   description: "Explore cutting-edge technology, programming tutorials, and cyberpunk-inspired insights. Stay ahead with in-depth articles on software development, AI, cybersecurity, and more.",
   keywords: ["tech blog", "programming", "cyberpunk", "technology", "software development", "tutorials"],
@@ -65,7 +66,7 @@ export default function RootLayout({
               </div>
 
               {/* Sidebar Area */}
-              <div className="hidden lg:block">
+              <div className="w-full lg:w-auto mt-8 lg:mt-0">
                 <CyberSidebar />
               </div>
             </div>
