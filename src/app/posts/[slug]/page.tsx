@@ -75,24 +75,24 @@ export default async function PostPage({ params }: PostPageProps) {
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
             />
             <CodeCopyEnhancer />
-            <article className="max-w-4xl mx-auto py-12">
+            <article className="mx-auto max-w-4xl py-10 md:py-12">
 
             {/**/}
-            <header className="mb-12 space-y-4 border-b border-white/10 pb-8">
-                <div className="flex items-center gap-4 text-xs font-mono text-cyber-cyan uppercase tracking-wider">
+            <header className="glass-panel edge-frame mb-10 space-y-4 p-6 md:p-8">
+                <div className="flex items-center gap-4 text-xs font-mono uppercase tracking-[0.16em] text-cyan-200">
                     <time dateTime={postData.date}>{postData.date}</time>
                     <span>{/**/}{postData.category || 'TRANSMISSION'}</span>
                     <span>{/**/}ID: {slug.toUpperCase()}</span>
                 </div>
 
-                <h1 className="text-3xl md:text-5xl font-display font-bold text-white leading-tight">
+                <h1 className="font-display text-3xl font-bold leading-tight text-white md:text-5xl">
                     {postData.title}
                 </h1>
 
                 {postData.tags && (
                     <div className="flex flex-wrap gap-2 pt-2">
                         {postData.tags.map(tag => (
-                            <span key={tag} className="text-xs font-mono px-2 py-1 rounded bg-cyber-blue/10 text-cyber-blue">
+                            <span key={tag} className="rounded border border-cyan-300/35 bg-cyan-400/5 px-2 py-1 text-xs font-mono text-cyan-200">
                                 #{tag}
                             </span>
                         ))}
@@ -104,21 +104,21 @@ export default async function PostPage({ params }: PostPageProps) {
             <div
                 className="prose prose-invert prose-lg max-w-none 
         prose-headings:font-display prose-headings:text-white
-        prose-p:font-mono prose-p:text-gray-300 prose-p:leading-loose
+        prose-p:font-mono prose-p:text-slate-300 prose-p:leading-loose
         prose-li:leading-loose
-        prose-pre:bg-[#1a1b26] prose-pre:border prose-pre:border-white/10 prose-pre:p-4 prose-pre:my-12
+        prose-pre:bg-[#0f172a] prose-pre:border prose-pre:border-slate-600/40 prose-pre:p-4 prose-pre:my-12
         prose-code:font-mono prose-code:text-sm prose-code:leading-relaxed prose-code:tracking-wide
-        prose-a:text-cyber-yellow hover:prose-a:text-cyber-cyan
-        prose-blockquote:border-l-cyber-cyan prose-blockquote:text-gray-400
+        prose-a:text-amber-200 hover:prose-a:text-cyan-200
+        prose-blockquote:border-l-cyan-300 prose-blockquote:text-slate-400
         [&_pre_code]:!bg-transparent [&_pre_code]:!p-0 [&_pre_code]:!text-sm"
                 dangerouslySetInnerHTML={{ __html: postData.contentHtml || '' }}
             />
 
             {/* Footer */}
-            <div className="mt-16 pt-8 border-t border-white/10">
+            <div className="mt-16 border-t border-slate-600/30 pt-8">
                 <Link
                     href="/"
-                    className="inline-flex items-center gap-2 text-sm font-mono text-gray-500 hover:text-cyber-cyan transition-colors"
+                    className="inline-flex items-center gap-2 text-sm font-mono text-slate-400 transition-colors hover:text-cyan-200"
                 >
                     <span>←</span> RETURN_TO_ROOT
                 </Link>

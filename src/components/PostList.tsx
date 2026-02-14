@@ -35,7 +35,7 @@ export default function PostList({ initialPosts }: PostListProps) {
         <div className="text-center py-8">
           <button
             onClick={loadMore}
-            className="px-6 py-2 bg-cyber-blue text-black font-mono uppercase tracking-wide hover:bg-cyber-cyan transition-colors"
+            className="glass-panel edge-frame px-6 py-2 font-mono text-xs uppercase tracking-[0.18em] text-cyan-100 transition-all hover:border-cyan-200/60 hover:text-amber-200"
           >
             LOAD MORE TRANSMISSIONS
           </button>

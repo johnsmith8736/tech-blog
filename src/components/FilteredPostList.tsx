@@ -44,10 +44,10 @@ export default function FilteredPostList({ allPostsData }: FilteredPostListProps
   return (
     <div className="space-y-6">
       {query && (
-        <div className="p-3 border border-neon-cyan/20 bg-background/30">
-          <p className="text-xs font-mono text-muted-foreground">
-            SEARCH RESULTS FOR &quot;<span className="text-neon-cyan font-bold">{query}</span>&quot; ::
-            <span className="text-neon-cyan font-bold"> {filtered.length}</span> TRANSMISSIONS FOUND
+        <div className="glass-panel edge-frame p-4">
+          <p className="text-xs font-mono uppercase tracking-[0.16em] text-slate-300">
+            Search Results For &quot;<span className="font-bold text-cyan-200">{query}</span>&quot; ::
+            <span className="font-bold text-cyan-200"> {filtered.length}</span> Transmissions Found
           </p>
         </div>
       )}
@@ -55,13 +55,13 @@ export default function FilteredPostList({ allPostsData }: FilteredPostListProps
       <PostList initialPosts={filtered} />
 
       {filtered.length === 0 && query && (
-        <div className="text-center py-16 border border-neon-cyan/20 bg-background/30">
+        <div className="glass-panel edge-frame py-16 text-center">
           <div className="max-w-md mx-auto space-y-4">
-            <h3 className="text-lg font-mono font-bold text-neon-cyan">
+            <h3 className="text-lg font-mono font-bold text-cyan-200">
               NO TRANSMISSIONS FOUND
             </h3>
-            <p className="text-sm font-mono text-muted-foreground">
-              SEARCH FOR &quot;<span className="text-neon-cyan font-bold">{query}</span>&quot; RETURNED ZERO RESULTS
+            <p className="text-sm font-mono text-slate-400">
+              SEARCH FOR &quot;<span className="font-bold text-cyan-200">{query}</span>&quot; RETURNED ZERO RESULTS
             </p>
           </div>
         </div>

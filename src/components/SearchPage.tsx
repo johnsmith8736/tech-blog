@@ -13,16 +13,16 @@ interface SearchPageProps {
 export default function SearchPage({ query, posts, allPosts }: SearchPageProps) {
   return (
     <div className="space-y-0">
-      <div className="mb-12 border-b border-white/10 pb-4">
+      <div className="glass-panel edge-frame mb-10 p-6 md:p-8">
         <div className="flex items-center gap-4 mb-4">
-          <Link href="/" className="text-cyber-cyan hover:text-cyber-yellow transition-colors">
+          <Link href="/" className="text-cyan-200 transition-colors hover:text-amber-200">
             ← BACK TO TRANSMISSIONS
           </Link>
         </div>
-        <h1 className="text-4xl md:text-5xl font-display font-bold text-white mb-4">
+        <h1 className="mb-4 text-4xl font-display font-bold text-white md:text-5xl">
           SEARCH RESULTS
         </h1>
-        <p className="text-gray-400 font-mono">
+        <p className="font-mono text-slate-300">
           Found {posts.length} result{posts.length !== 1 ? 's' : ''} for &ldquo;{query}&rdquo;
         </p>
       </div>
@@ -35,10 +35,10 @@ export default function SearchPage({ query, posts, allPosts }: SearchPageProps) 
 
       {posts.length === 0 && (
         <div className="py-12 text-center space-y-4">
-          <div className="text-gray-500 font-mono">
+          <div className="font-mono text-slate-400">
             {/**/}NO MATCHING TRANSMISSIONS FOUND.
           </div>
-          <Link href="/" className="inline-block px-6 py-2 bg-cyber-blue text-black font-mono uppercase tracking-wide hover:bg-cyber-cyan transition-colors">
+          <Link href="/" className="glass-panel edge-frame inline-block px-6 py-2 font-mono uppercase tracking-[0.16em] text-cyan-100 transition-colors hover:text-amber-200">
             VIEW ALL TRANSMISSIONS
           </Link>
         </div>

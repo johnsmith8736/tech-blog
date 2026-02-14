@@ -1,12 +1,23 @@
 @import "tailwindcss";
 
 :root {
-  --background: #050505;
-  --foreground: #e0e0e0;
+  --background: #05070b;
+  --foreground: #ebeffa;
+  --surface: rgba(12, 16, 26, 0.72);
+  --surface-strong: rgba(10, 14, 22, 0.9);
+  --border: rgba(148, 163, 184, 0.18);
+  --accent: #5eead4;
+  --accent-strong: #0ea5e9;
+  --warm: #f59e0b;
 }
 
 body {
-  background-color: var(--background);
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(14, 165, 233, 0.2) 0%, transparent 35%),
+    radial-gradient(circle at 85% 0%, rgba(245, 158, 11, 0.15) 0%, transparent 30%),
+    radial-gradient(circle at 50% 100%, rgba(94, 234, 212, 0.12) 0%, transparent 40%),
+    var(--background);
   color: var(--foreground);
   font-family: var(--font-share-tech-mono), monospace;
   -webkit-font-smoothing: antialiased;
@@ -15,28 +26,23 @@ body {
   position: relative;
 }
 
-/* Base structural effects */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: linear-gradient(rgba(20, 20, 20, 0.8) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(20, 20, 20, 0.8) 1px, transparent 1px);
-  background-size: 20px 20px;
+  background-image: linear-gradient(rgba(88, 104, 134, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(88, 104, 134, 0.12) 1px, transparent 1px);
+  background-size: 26px 26px;
   z-index: -1;
   pointer-events: none;
+  opacity: 0.22;
 }
 
-/* Ambient Blue Glow */
 body::after {
   content: "";
   position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 100vw;
-  height: 100vh;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(circle at center, rgba(0, 102, 255, 0.03) 0%, transparent 70%);
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(5, 7, 11, 0.2), rgba(5, 7, 11, 0.8));
   pointer-events: none;
   z-index: -1;
 }
@@ -50,9 +56,44 @@ body::after {
     position: relative;
     display: inline-block;
   }
+
+  .glitch-text {
+    position: relative;
+    text-shadow:
+      0 0 12px rgba(94, 234, 212, 0.24),
+      0 0 26px rgba(14, 165, 233, 0.18);
+  }
+
+  .glass-panel {
+    background: linear-gradient(145deg, rgba(14, 18, 28, 0.82), rgba(6, 9, 15, 0.78));
+    border: 1px solid var(--border);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      0 18px 55px rgba(0, 0, 0, 0.42);
+    backdrop-filter: blur(8px);
+  }
+
+  .accent-gradient-text {
+    background: linear-gradient(90deg, #93c5fd, #5eead4 45%, #facc15);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .edge-frame {
+    position: relative;
+  }
+
+  .edge-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid rgba(148, 163, 184, 0.16);
+    clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+    pointer-events: none;
+  }
 }
 
-/* Code block copy button */
 pre {
   position: relative;
 }
@@ -76,7 +117,7 @@ pre {
   box-shadow:
     0 0 0 1px rgba(0, 240, 255, 0.08),
     0 0 12px rgba(0, 240, 255, 0.2);
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
 }
 
@@ -97,13 +138,11 @@ pre {
     0 0 14px rgba(0, 255, 200, 0.35);
 }
 
-/* Focus indicators */
 .focus-visible {
-  outline: 2px solid #00f0ff;
+  outline: 2px solid #5eead4;
   outline-offset: 2px;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -113,12 +152,12 @@ pre {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #333;
+  background: #334155;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #475569;
 }
 
 @keyframes wave-scroll {
@@ -136,4 +175,32 @@ pre {
   width: 200%;
   animation: wave-scroll 3s linear infinite;
   will-change: transform;
+}
+
+@keyframes float-pulse {
+  0%, 100% {
+    transform: translateY(0);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+.animate-float-pulse {
+  animation: float-pulse 3.5s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2.4s linear infinite;
 }

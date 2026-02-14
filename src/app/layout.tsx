@@ -54,28 +54,28 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#00f0ff" />
       </head>
-      <body className="font-mono bg-background text-foreground antialiased selection:bg-cyber-cyan selection:text-black">
+      <body className="font-mono bg-background text-foreground antialiased selection:bg-cyan-300/70 selection:text-slate-900">
         <Header />
 
-        <main className="min-h-screen pt-24 pb-12 relative z-10">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-            <div className="flex flex-col lg:flex-row gap-12">
+        <main className="relative z-10 min-h-screen pt-24 pb-16 md:pt-28">
+          <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-12">
               {/* Main Content Area */}
               <div className="flex-1 w-full min-w-0">
                 {children}
               </div>
 
               {/* Sidebar Area */}
-              <div className="w-full lg:w-auto mt-8 lg:mt-0">
+              <div className="w-full lg:sticky lg:top-28 lg:w-auto">
                 <CyberSidebar />
               </div>
             </div>
           </div>
         </main>
 
-        <div className="fixed bottom-4 right-4 z-50 pointer-events-none hidden md:block">
-          <div className="text-[10px] text-gray-700 font-mono tracking-widest uppercase writing-vertical-rl transform rotate-180">
-            System Ready // V.2.0.4
+        <div className="pointer-events-none fixed bottom-4 right-4 z-50 hidden md:block">
+          <div className="animate-float-pulse rounded border border-slate-500/30 bg-slate-900/70 px-2 py-1 text-[10px] font-mono uppercase tracking-[0.24em] text-slate-400">
+            System Ready // V.2.0.5
           </div>
         </div>
       </body>

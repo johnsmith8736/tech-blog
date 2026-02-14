@@ -34,12 +34,12 @@ export default function HeaderSearch() {
         placeholder="SEARCH..."
         value={searchTerm}
         onChange={(event) => setSearchTerm(event.target.value)}
-        className="w-36 sm:w-44 lg:w-52 focus:w-60 px-3 py-1.5 text-[10px] font-mono border border-neon-cyan/30 bg-background/80 backdrop-blur-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-neon-cyan focus:bg-background/95 transition-all duration-300 uppercase tracking-wider shadow-lg"
+        className="w-36 px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider text-slate-100 shadow-lg transition-all duration-300 sm:w-44 lg:w-52 focus:w-60 focus:outline-none border border-slate-500/35 bg-slate-900/70 backdrop-blur-sm placeholder:text-slate-500 focus:border-cyan-300/80 focus:bg-slate-900/95"
         style={{ letterSpacing: "0.1em" }}
       />
       <button
         type="submit"
-        className="absolute right-1 top-1/2 -translate-y-1/2 text-neon-cyan hover:text-neon-pink transition-colors p-1 hover:scale-110"
+        className="absolute right-1 top-1/2 -translate-y-1/2 p-1 text-cyan-300 transition-colors hover:scale-110 hover:text-amber-300"
         aria-label="Search"
       >
         <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
