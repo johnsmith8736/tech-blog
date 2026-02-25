@@ -104,8 +104,8 @@ export default async function PostPage({ params }: PostPageProps) {
             <div
                 className="prose prose-invert prose-lg max-w-none 
         prose-headings:font-display prose-headings:text-white
-        prose-p:font-mono prose-p:text-slate-300 prose-p:leading-loose
-        prose-li:leading-loose
+        prose-p:font-mono prose-p:text-slate-300 prose-p:leading-[2.05]
+        prose-li:leading-[2.05]
         prose-pre:bg-[#0f172a] prose-pre:border prose-pre:border-slate-600/40 prose-pre:p-4 prose-pre:my-12
         prose-code:font-mono prose-code:text-sm prose-code:leading-relaxed prose-code:tracking-wide
         prose-a:text-amber-200 hover:prose-a:text-cyan-200
