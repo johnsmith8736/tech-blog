@@ -104,10 +104,20 @@ export default async function PostPage({ params }: PostPageProps) {
             <div
                 className="prose prose-invert prose-lg max-w-none 
         prose-headings:font-display prose-headings:text-white
+        prose-headings:scroll-mt-28 prose-headings:tracking-tight
+        prose-h2:mt-14 prose-h2:mb-6 prose-h2:border-b prose-h2:border-slate-700/50 prose-h2:pb-2
+        prose-h3:mt-10 prose-h3:mb-4
         prose-p:font-mono prose-p:text-slate-300 prose-p:leading-[2.05]
-        prose-li:leading-[2.05]
+        prose-li:text-slate-300 prose-li:leading-[2.05]
+        prose-strong:text-white prose-hr:border-slate-700/60
+        prose-ul:list-disc prose-ol:list-decimal prose-li:marker:text-cyan-300
+        prose-table:block prose-table:w-full prose-table:overflow-x-auto
+        prose-th:border prose-th:border-slate-700 prose-th:bg-slate-900/70 prose-th:px-3 prose-th:py-2 prose-th:text-left
+        prose-td:border prose-td:border-slate-800 prose-td:px-3 prose-td:py-2
+        prose-img:rounded prose-img:border prose-img:border-slate-700/60
         prose-pre:bg-[#0f172a] prose-pre:border prose-pre:border-slate-600/40 prose-pre:p-4 prose-pre:my-12
         prose-code:font-mono prose-code:text-sm prose-code:leading-relaxed prose-code:tracking-wide
+        prose-code:before:content-none prose-code:after:content-none
         prose-a:text-amber-200 hover:prose-a:text-cyan-200
         prose-blockquote:border-l-cyan-300 prose-blockquote:text-slate-400
         [&_pre_code]:!bg-transparent [&_pre_code]:!p-0 [&_pre_code]:!text-sm"

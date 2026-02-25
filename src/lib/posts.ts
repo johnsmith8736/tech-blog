@@ -16,6 +16,10 @@ const converter = new Showdown.Converter({
   strikethrough: true,
   tasklists: true,
   ghCodeBlocks: true,
+  simpleLineBreaks: true,
+  ghCompatibleHeaderId: true,
+  requireSpaceBeforeHeadingText: true,
+  openLinksInNewWindow: true,
   ghMentions: false,
   extensions: [],
 });
