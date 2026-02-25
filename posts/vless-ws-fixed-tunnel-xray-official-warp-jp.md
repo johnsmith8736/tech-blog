@@ -1,10 +1,14 @@
-下面是根据你给出的原始博客内容 **完整改写后的 Markdown 版本**，将 **WARP 安装 & 使用部分改为官方最新方法**，并将 **Argo Tunnel 部分改为在 Cloudflare Dashboard 上创建固定 Tunnel** 的步骤，同时保持你原来方案的架构与细节。所有 `warp-cli` 命令均参考官方最新文档。([Cloudflare Docs][1])
-
+---
+title: 'VLESS + WS + 固定 Tunnel + Xray + 官方 WARP（JP）'
+date: '2026-02-25'
+excerpt: '使用 Cloudflare 固定 Tunnel + Xray + 官方 WARP（JP）的稳定方案，解锁 Abema 和 TVer，并按规则分流。'
+tags: ["VLESS", "WebSocket", "CloudflareTunnel", "Xray", "WARP", "Japan"]
+category: "Network"
 ---
 
-````markdown
-ID: VLESS-WS-ARGO-WARP-JP  
-VLESS + WS + ENC + 固定 Tunnel + Xray + 官方 WARP（JP）
+# VLESS + WS + 固定 Tunnel + Xray + 官方 WARP（JP）
+
+ID: VLESS-WS-ARGO-WARP-JP
 
 #VLESS  
 #WebSocket  
@@ -60,7 +64,7 @@ Abema / TVer（解锁）
 
 ```bash
 bash <(curl -Ls https://raw.githubusercontent.com/XTLS/Xray-install/main/install-release.sh)
-````
+```
 
 验证：
 
@@ -364,10 +368,6 @@ systemctl status cloudflared
 * Xray 提供代理分流
 * 官方 **WARP SOCKS5** 提供日本出口
 * 非流媒体自动 fallback
-
----
-
-如你需要，我还可以帮你把上述博客内容 **自动生成一键部署脚本**（Debian/Ubuntu 版）。
 
 [1]: https://developers.cloudflare.com/warp-client/get-started/linux/?utm_source=chatgpt.com "Linux desktop client · Cloudflare WARP client docs"
 [2]: https://anyun.org/a/xitongwendang/2023/1228/15568.html?utm_source=chatgpt.com "CloudFlare Argo Tunnel教程 | 安云网 – AnYun.ORG"
