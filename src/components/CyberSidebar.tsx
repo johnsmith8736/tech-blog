@@ -76,6 +76,17 @@ export default function CyberSidebar() {
                             YouTube
                         </a>
                         <a
+                            href="https://t.me/stanleychan87"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-2 border border-slate-500/30 bg-slate-900/55 px-3 py-2 text-sm font-mono transition-colors hover:border-cyan-300 hover:text-cyan-200"
+                        >
+                            <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M9.78 18.65c-.35 0-.29-.13-.41-.47l-1.04-3.41 8.6-5.44c.4-.24.69-.11.39.16l-6.96 6.28-.26 3.41c.38 0 .55-.17.76-.37l1.82-1.76 3.78 2.79c.7.39 1.19.19 1.37-.65l2.48-11.68c.26-1.03-.39-1.5-1.05-1.2L4.83 12.1c-1 .4-.99.96-.18 1.21l3.56 1.11 8.25-5.2c.39-.24.74-.11.44.16" />
+                            </svg>
+                            Telegram
+                        </a>
+                        <a
                             href="https://www.instagram.com/izumi.misaki87/"
                             target="_blank"
                             rel="noopener noreferrer"
