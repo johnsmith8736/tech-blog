@@ -204,3 +204,88 @@ pre {
 .animate-shimmer {
   animation: shimmer 2.4s linear infinite;
 }
+
+.post-content {
+  position: relative;
+  padding: 1.25rem;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  background:
+    linear-gradient(180deg, rgba(15, 23, 42, 0.5), rgba(2, 6, 23, 0.35)),
+    radial-gradient(circle at 100% 0, rgba(14, 165, 233, 0.08), transparent 42%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 18px 36px rgba(2, 6, 23, 0.3);
+}
+
+.post-content h2,
+.post-content h3 {
+  text-wrap: balance;
+}
+
+.post-content p code,
+.post-content li code {
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: rgba(14, 165, 233, 0.1);
+  color: #bae6fd;
+  padding: 0.1rem 0.36rem;
+  border-radius: 2px;
+}
+
+.post-content a {
+  text-decoration: none;
+  background-image: linear-gradient(rgba(245, 158, 11, 0.55), rgba(245, 158, 11, 0.55));
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  background-size: 100% 1px;
+  transition: background-size 0.25s ease, color 0.2s ease;
+}
+
+.post-content a:hover {
+  background-size: 100% 2px;
+}
+
+.post-content blockquote {
+  background: linear-gradient(90deg, rgba(8, 47, 73, 0.36), rgba(8, 47, 73, 0.05));
+  padding: 0.7rem 1rem;
+  border-radius: 2px;
+}
+
+.post-content pre[data-lang]::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 0.45rem;
+  left: 0.6rem;
+  font-size: 10px;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #7dd3fc;
+  background: rgba(2, 6, 23, 0.75);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  padding: 0.2rem 0.32rem;
+}
+
+.post-content pre[data-lang] {
+  padding-top: 2rem;
+}
+
+.post-content table {
+  border-collapse: collapse;
+  background: rgba(2, 6, 23, 0.35);
+}
+
+.post-content tbody tr:nth-child(odd) {
+  background: rgba(15, 23, 42, 0.5);
+}
+
+.post-content tbody tr:hover {
+  background: rgba(14, 165, 233, 0.09);
+}
+
+@media (max-width: 768px) {
+  .post-content {
+    padding: 1rem 0.85rem;
+  }
+
+  .post-content pre[data-lang]::before {
+    font-size: 9px;
+  }
+}

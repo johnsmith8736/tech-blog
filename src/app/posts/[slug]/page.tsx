@@ -102,7 +102,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
             {/* Content */}
             <div
-                className="prose prose-invert prose-lg max-w-none 
+                className="post-content prose prose-invert prose-lg max-w-none 
         prose-headings:font-display prose-headings:text-white
         prose-headings:scroll-mt-28 prose-headings:tracking-tight
         prose-h2:mt-14 prose-h2:mb-6 prose-h2:border-b prose-h2:border-slate-700/50 prose-h2:pb-2
