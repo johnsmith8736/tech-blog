@@ -84,12 +84,9 @@ xray version
 
 ```bash
 # 添加 Cloudflare WARP 官方包仓库
-curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg \
-  | sudo gpg --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
+curl -fsSL https://pkg.cloudflareclient.com/pubkey.gpg | sudo gpg --yes --dearmor --output /usr/share/keyrings/cloudflare-warp-archive-keyring.gpg
 
-echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] \
-  https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" \
-  | sudo tee /etc/apt/sources.list.d/cloudflare-warp.list
+echo "deb [signed-by=/usr/share/keyrings/cloudflare-warp-archive-keyring.gpg] https://pkg.cloudflareclient.com/ $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/cloudflare-client.list
 
 # 更新并安装
 sudo apt update
@@ -106,6 +103,8 @@ sudo apt install cloudflare-warp
 
 ```bash
 warp-cli registration new
+
+warp-cli registration show
 ```
 
 执行后它会输出一个链接，将其在浏览器中打开并完成 Cloudflare 登陆/授权（若是 headless 服务器，请复制链接到本地浏览器）。
@@ -117,7 +116,7 @@ warp-cli registration new
 我们要启用 **SOCKS5 代理模式** 让 Xray 使用：
 
 ```bash
-warp-cli set-mode proxy
+warp-cli mode proxy
 warp-cli connect
 ```
 
@@ -279,12 +278,26 @@ systemctl enable xray
 
 ---
 
+安装 cloudflared
+
+```bash
+wget https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64
+chmod +x cloudflared-linux-amd64
+mv cloudflared-linux-amd64 /usr/bin/cloudflared
+```
+
+验证：
+
+```bash
+cloudflared version
+```
+
 ### 6.3 运行 Tunnel（VPS）
 
 复制 Dashboard 生成的命令，如：
 
 ```bash
-cloudflared tunnel run --token <dashboard-provided-token>
+sudo cloudflared service install <dashboard-provided-token>
 ```
 
 这会让 VPS 连接到 Cloudflare 固定 Tunnel。
@@ -308,7 +321,7 @@ http://127.0.0.1:10000
 使用 cloudflared 提供的 systemd 脚本：
 
 ```bash
-cloudflared service install
+
 systemctl daemon-reload
 systemctl restart cloudflared
 systemctl enable cloudflared
