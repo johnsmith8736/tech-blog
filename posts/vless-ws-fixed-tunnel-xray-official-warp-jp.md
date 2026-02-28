@@ -48,12 +48,12 @@ Abema / TVer（解锁）
 ## 二、准备条件
 
 1. **VPS**  
-   任意地区（JP / SG / US 均可）  
-   系统：Debian 11 / 12
+   地区（JP）  
+   系统：Ubuntu 24.04
 
 2. **域名**  
    已托管到 Cloudflare  
-   Cloudflare Pro（必须，固定 Tunnel）
+   Cloudflare（必须，固定 Tunnel）
 
 3. **客户端**  
    v2rayN / v2rayNG / mihomo（任选）
