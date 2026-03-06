@@ -124,7 +124,7 @@ export default async function PostPage({ params }: PostPageProps) {
         prose-td:border prose-td:border-slate-800 prose-td:px-3 prose-td:py-2
         prose-img:rounded prose-img:border prose-img:border-slate-700/60
         prose-pre:my-8
-        prose-code:font-mono prose-code:text-sm prose-code:leading-relaxed prose-code:tracking-wide
+        prose-code:font-mono prose-code:text-sm
         prose-code:before:content-none prose-code:after:content-none
         prose-a:text-amber-200 hover:prose-a:text-cyan-200
         prose-blockquote:border-l-cyan-300 prose-blockquote:text-slate-400
