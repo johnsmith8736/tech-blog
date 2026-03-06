@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://johnsmith8736.github.io/tech-blog/sitemap.xml

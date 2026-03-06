@@ -1,3 +1,13 @@
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'About',
+  description: 'About Stanley Chan and the mission of this technical blog.',
+  alternates: {
+    canonical: '/about/',
+  },
+};
+
 export default function AboutPage() {
   return (
     <div className="space-y-6">

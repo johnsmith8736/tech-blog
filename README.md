@@ -10,6 +10,7 @@
 - 首页文章筛选与搜索
 - 静态导出（`next export` 模式，输出到 `out/`）
 - SEO 支持（Open Graph、Twitter Card、JSON-LD）
+- 构建前自动生成 `sitemap.xml`（包含首页、About、全部文章）
 
 ## 技术栈
 
@@ -43,7 +44,8 @@ npm run dev
 NEXT_PUBLIC_SITE_URL=https://your-domain.com
 ```
 
-用于生成站点 `metadataBase` 与文章页 JSON-LD URL。未配置时会使用默认值 `https://your-blog.com`。
+用于生成站点 canonical URL、`metadataBase`、`sitemap.xml` 与 JSON-LD。  
+未配置时会使用默认值 `https://johnsmith8736.github.io/tech-blog`。
 
 ## 文章编写
 
@@ -76,9 +78,10 @@ category: "Web"
 ```text
 .
 ├── posts/                  # Markdown 文章
-├── public/                 # 静态资源（manifest、sitemap、图片等）
+├── public/                 # 静态资源（manifest、robots、图片等）
+├── scripts/               # 构建脚本（如 sitemap 生成）
 ├── src/
-│   ├── app/                # 页面与路由（App Router）
+│   ├── app/                # 页面与路由（App Router，含 sitemap/robots）
 │   ├── components/         # UI 组件
 │   └── lib/posts.ts        # 文章读取、解析、排序与 HTML 转换
 ├── next.config.ts          # Next.js 配置（output: 'export'）

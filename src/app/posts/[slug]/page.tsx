@@ -4,6 +4,8 @@ import { getPostData, getAllPostSlugs } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 import CodeCopyEnhancer from '@/components/CodeCopyEnhancer';
 import { getSectionLabel, getSubsectionLabel } from '@/lib/site-structure';
+import type { Metadata } from 'next';
+import { SITE_AUTHOR, SITE_NAME, toAbsoluteUrl } from '@/lib/site';
 
 interface PostPageProps {
     params: Promise<{
@@ -16,27 +18,41 @@ export async function generateStaticParams() {
     return paths.map((path) => path.params);
 }
 
-export async function generateMetadata({ params }: PostPageProps) {
+export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
     const { slug } = await params;
     const postData = getPostData(slug);
 
     if (!postData) {
         return {
             title: 'Post Not Found',
+            robots: {
+                index: false,
+                follow: false,
+            },
         };
     }
+
+    const canonicalUrl = `/posts/${slug}/`;
 
     return {
         title: postData.title,
         description: postData.excerpt,
+        keywords: postData.tags,
+        authors: [{ name: SITE_AUTHOR }],
         alternates: {
-            canonical: `/posts/${slug}`,
+            canonical: canonicalUrl,
+        },
+        robots: {
+            index: true,
+            follow: true,
         },
         openGraph: {
             title: postData.title,
             description: postData.excerpt,
             type: 'article',
             publishedTime: postData.date,
+            url: toAbsoluteUrl(canonicalUrl),
+            siteName: SITE_NAME,
             tags: postData.tags,
         },
         twitter: {
@@ -55,7 +71,7 @@ export default async function PostPage({ params }: PostPageProps) {
         notFound();
     }
 
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://your-blog.com";
+    const canonicalPath = `/posts/${postData.slug}/`;
     const sectionLabel = postData.section ? getSectionLabel(postData.section) : '';
     const subsectionLabel = postData.section && postData.subsection
         ? getSubsectionLabel(postData.section, postData.subsection)
@@ -69,11 +85,20 @@ export default async function PostPage({ params }: PostPageProps) {
         "headline": postData.title,
         "description": postData.excerpt,
         "datePublished": postData.date,
+        "dateModified": postData.date,
+        "mainEntityOfPage": toAbsoluteUrl(canonicalPath),
+        "inLanguage": "en-US",
         "author": {
             "@type": "Person",
-            "name": "Tech Blogger" // Replace with actual author
+            "name": SITE_AUTHOR
         },
-        "url": `${baseUrl}/posts/${postData.slug}`,
+        "publisher": {
+            "@type": "Person",
+            "name": SITE_AUTHOR
+        },
+        "keywords": postData.tags?.join(", "),
+        "articleSection": postData.category || sectionLabel || "Tech",
+        "url": toAbsoluteUrl(canonicalPath),
     };
 
     return (

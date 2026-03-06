@@ -6,6 +6,7 @@ import "./globals.css";
 import "highlight.js/styles/github-dark.css";
 import Header from "@/components/Header";
 import CyberSidebar from "@/components/CyberSidebar";
+import { SITE_AUTHOR, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
 
 const rajdhani = Rajdhani({
   subsets: ["latin"],
@@ -24,22 +25,52 @@ const shareTechMono = Share_Tech_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://your-blog.com"),
-  title: "Tech Blog | Cyberpunk Tech Insights",
-  description: "Explore cutting-edge technology, programming tutorials, and cyberpunk-inspired insights. Stay ahead with in-depth articles on software development, AI, cybersecurity, and more.",
-  keywords: ["tech blog", "programming", "cyberpunk", "technology", "software development", "tutorials"],
-  authors: [{ name: "Tech Blogger" }],
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  keywords: [
+    "tech blog",
+    "linux tutorials",
+    "python tutorials",
+    "networking guides",
+    "systems engineering",
+    "self-hosting",
+  ],
+  authors: [{ name: SITE_AUTHOR }],
+  creator: SITE_AUTHOR,
+  publisher: SITE_AUTHOR,
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   openGraph: {
-    title: "Tech Blog | Cyberpunk Tech Insights",
-    description: "Explore cutting-edge technology, programming tutorials, and cyberpunk-inspired insights.",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
     type: "website",
     locale: "en_US",
+    url: SITE_URL,
+    siteName: SITE_NAME,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tech Blog | Cyberpunk Tech Insights",
-    description: "Explore cutting-edge technology, programming tutorials, and cyberpunk-inspired insights.",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
   },
+  category: "technology",
 };
 
 export default function RootLayout({
