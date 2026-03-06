@@ -45,7 +45,7 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.com
 ```
 
 用于生成站点 canonical URL、`metadataBase`、`sitemap.xml` 与 JSON-LD。  
-未配置时会使用默认值 `https://johnsmith8736.github.io/tech-blog`。
+未配置时会使用默认值 `https://tech.stanleychan87.nyc.mn`。
 
 ## 文章编写
 

@@ -1,97 +1,97 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/about/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/about/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/posts/best-linux-system-monitoring-tools/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/best-linux-system-monitoring-tools/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/posts/iperf3-network-speed-test-guide-linux/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/iperf3-network-speed-test-guide-linux/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/posts/nvidia-wayland-arch-linux-setup-guide/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/nvidia-wayland-arch-linux-setup-guide/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/posts/python-beautifulsoup-html-parsing-guide/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/python-beautifulsoup-html-parsing-guide/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/posts/python-requests-web-scraping-guide/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/python-requests-web-scraping-guide/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/posts/python-web-scraping-beginners-guide/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/python-web-scraping-beginners-guide/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/posts/python-web-scraping-environment-setup-guide/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/python-web-scraping-environment-setup-guide/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/posts/python-xpath-web-scraping-guide/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/python-xpath-web-scraping-guide/</loc>
     <lastmod>2026-03-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/posts/vless-ws-fixed-tunnel-xray-official-warp-jp/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/vless-ws-fixed-tunnel-xray-official-warp-jp/</loc>
     <lastmod>2026-02-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/posts/argo-tunnel-xray-ws-v2rayng-setup-guide/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/argo-tunnel-xray-ws-v2rayng-setup-guide/</loc>
     <lastmod>2026-02-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/posts/vless-ws-argo-warp-jp/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/vless-ws-argo-warp-jp/</loc>
     <lastmod>2025-12-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/posts/VLESS-XTLS-Vision-uTLS-REALITY-node-setup-guide/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/VLESS-XTLS-Vision-uTLS-REALITY-node-setup-guide/</loc>
     <lastmod>2025-07-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/posts/sing-box-reality-setup-guide/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/sing-box-reality-setup-guide/</loc>
     <lastmod>2025-07-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://johnsmith8736.github.io/tech-blog/posts/sing-box-warp-unlock-abematv-chatgpt/</loc>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/sing-box-warp-unlock-abematv-chatgpt/</loc>
     <lastmod>2025-06-27</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>

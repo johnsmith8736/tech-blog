@@ -1,4 +1,4 @@
-const defaultSiteUrl = "https://johnsmith8736.github.io/tech-blog";
+const defaultSiteUrl = "https://tech.stanleychan87.nyc.mn";
 
 export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || defaultSiteUrl).replace(/\/+$/, "");
 export const SITE_NAME = "Stanley Chan Tech Blog";

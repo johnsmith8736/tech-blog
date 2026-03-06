@@ -2,7 +2,7 @@ import fs from "node:fs";
 import path from "node:path";
 import matter from "gray-matter";
 
-const defaultSiteUrl = "https://johnsmith8736.github.io/tech-blog";
+const defaultSiteUrl = "https://tech.stanleychan87.nyc.mn";
 const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL || defaultSiteUrl).replace(/\/+$/, "");
 
 const rootDir = process.cwd();
