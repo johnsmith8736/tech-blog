@@ -100,42 +100,30 @@ pre {
 
 .code-copy-button {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  padding: 5px 10px;
-  border: 1px solid rgba(0, 240, 255, 0.45);
-  border-radius: 0;
-  background:
-    linear-gradient(135deg, rgba(0, 240, 255, 0.12), rgba(255, 0, 92, 0.08)),
-    rgba(5, 5, 5, 0.9);
-  color: #a8f4ff;
-  font-size: 10px;
+  top: 0.55rem;
+  right: 0.6rem;
+  padding: 0.2rem 0.55rem;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  border-radius: 6px;
+  background: rgba(17, 24, 39, 0.92);
+  color: #d1d5db;
+  font-size: 11px;
   font-family: var(--font-share-tech-mono), monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  box-shadow:
-    0 0 0 1px rgba(0, 240, 255, 0.08),
-    0 0 12px rgba(0, 240, 255, 0.2);
-  transition: all 0.25s ease;
-  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  transition: all 0.2s ease;
 }
 
 .code-copy-button:hover {
-  border-color: rgba(255, 0, 92, 0.75);
-  color: #ff4d9d;
-  box-shadow:
-    0 0 0 1px rgba(255, 0, 92, 0.2),
-    0 0 16px rgba(255, 0, 92, 0.35);
-  transform: translateY(-1px);
+  border-color: rgba(94, 234, 212, 0.85);
+  color: #ffffff;
+  background: rgba(30, 41, 59, 0.95);
 }
 
 .code-copy-button[data-copied="true"] {
-  border-color: rgba(0, 255, 200, 0.8);
-  color: #2dffd5;
-  box-shadow:
-    0 0 0 1px rgba(0, 255, 200, 0.25),
-    0 0 14px rgba(0, 255, 200, 0.35);
+  border-color: rgba(52, 211, 153, 0.75);
+  color: #a7f3d0;
+  background: rgba(6, 78, 59, 0.55);
 }
 
 .focus-visible {
@@ -222,11 +210,12 @@ pre {
 
 .post-content p code,
 .post-content li code {
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  background: rgba(14, 165, 233, 0.1);
-  color: #bae6fd;
-  padding: 0.1rem 0.36rem;
-  border-radius: 2px;
+  border: 1px solid rgba(148, 163, 184, 0.38);
+  background: rgba(15, 23, 42, 0.85);
+  color: #e2e8f0;
+  padding: 0.14rem 0.38rem;
+  border-radius: 6px;
+  font-size: 0.86em;
 }
 
 .post-content a {
@@ -251,20 +240,38 @@ pre {
 .post-content pre[data-lang]::before {
   content: attr(data-lang);
   position: absolute;
-  top: 0.45rem;
-  left: 0.6rem;
-  font-size: 10px;
+  top: 0.55rem;
+  left: 0.7rem;
+  font-size: 11px;
   line-height: 1;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: #7dd3fc;
-  background: rgba(2, 6, 23, 0.75);
-  border: 1px solid rgba(56, 189, 248, 0.35);
-  padding: 0.2rem 0.32rem;
+  letter-spacing: 0.08em;
+  color: #cbd5e1;
+  background: rgba(17, 24, 39, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 6px;
+  padding: 0.22rem 0.42rem;
 }
 
 .post-content pre[data-lang] {
-  padding-top: 2rem;
+  margin: 1.6rem 0;
+  padding-top: 2.1rem;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 10px;
+  background: #0d1117;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.03),
+    0 10px 24px rgba(2, 6, 23, 0.32);
+  overflow-x: auto;
+}
+
+.post-content pre code.hljs {
+  display: block;
+  padding: 0.95rem 1rem 1rem;
+  background: transparent;
+  color: #c9d1d9;
+  font-size: 0.875rem;
+  line-height: 1.65;
 }
 
 .post-content table {

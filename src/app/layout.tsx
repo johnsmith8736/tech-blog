@@ -3,7 +3,7 @@
 import type { Metadata } from "next";
 import { Rajdhani, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
-import "highlight.js/styles/atom-one-dark.css";
+import "highlight.js/styles/github-dark.css";
 import Header from "@/components/Header";
 import CyberSidebar from "@/components/CyberSidebar";
 

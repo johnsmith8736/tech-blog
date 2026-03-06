@@ -123,7 +123,7 @@ export default async function PostPage({ params }: PostPageProps) {
         prose-th:border prose-th:border-slate-700 prose-th:bg-slate-900/70 prose-th:px-3 prose-th:py-2 prose-th:text-left
         prose-td:border prose-td:border-slate-800 prose-td:px-3 prose-td:py-2
         prose-img:rounded prose-img:border prose-img:border-slate-700/60
-        prose-pre:bg-[#0f172a] prose-pre:border prose-pre:border-slate-600/40 prose-pre:p-4 prose-pre:my-12
+        prose-pre:my-8
         prose-code:font-mono prose-code:text-sm prose-code:leading-relaxed prose-code:tracking-wide
         prose-code:before:content-none prose-code:after:content-none
         prose-a:text-amber-200 hover:prose-a:text-cyan-200
