@@ -40,15 +40,6 @@ export const SITE_SECTIONS: SiteSection[] = [
       { slug: 'home-network', label: 'Home Network' },
     ],
   },
-  {
-    slug: 'tutorials',
-    label: 'Tutorials',
-    children: [
-      { slug: 'step-by-step-guides', label: 'Step-by-step Guides' },
-      { slug: 'beginner-tutorials', label: 'Beginner Tutorials' },
-      { slug: 'advanced-tutorials', label: 'Advanced Tutorials' },
-    ],
-  },
 ];
 
 export function getSectionLabel(sectionSlug: string): string | undefined {
