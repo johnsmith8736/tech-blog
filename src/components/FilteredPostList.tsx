@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import PostList from "@/components/PostList";
 import { PostData } from "@/lib/posts";
+import { getSectionLabel, getSubsectionLabel } from "@/lib/site-structure";
 
 interface FilteredPostListProps {
   allPostsData: PostData[];
@@ -12,9 +13,13 @@ interface FilteredPostListProps {
 export default function FilteredPostList({ allPostsData }: FilteredPostListProps) {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
+  const section = searchParams.get("section") || "";
+  const subsection = searchParams.get("sub") || "";
 
   const filtered = useMemo(() => {
-    if (!query) {
+    const hasSectionFilter = Boolean(section);
+
+    if (!query && !hasSectionFilter) {
       return allPostsData;
     }
 
@@ -22,10 +27,6 @@ export default function FilteredPostList({ allPostsData }: FilteredPostListProps
       .toLowerCase()
       .split(/\s+/)
       .filter(Boolean);
-
-    if (tokens.length === 0) {
-      return allPostsData;
-    }
 
     const matchesAllTokens = (text: string) => {
       const lowered = text.toLowerCase();
@@ -36,13 +37,33 @@ export default function FilteredPostList({ allPostsData }: FilteredPostListProps
       });
     };
 
-    return allPostsData.filter((post) =>
-      matchesAllTokens(post.title) || matchesAllTokens(post.excerpt)
-    );
-  }, [allPostsData, query]);
+    return allPostsData.filter((post) => {
+      const matchesSearch = tokens.length === 0
+        ? true
+        : (matchesAllTokens(post.title) || matchesAllTokens(post.excerpt));
+
+      const matchesSection = !hasSectionFilter
+        ? true
+        : (post.section === section && (!subsection || post.subsection === subsection));
+
+      return matchesSearch && matchesSection;
+    });
+  }, [allPostsData, query, section, subsection]);
+
+  const sectionLabel = section ? getSectionLabel(section) : "";
+  const subsectionLabel = section && subsection ? getSubsectionLabel(section, subsection) : "";
 
   return (
     <div className="space-y-6">
+      {(sectionLabel || subsectionLabel) && (
+        <div className="glass-panel edge-frame p-4">
+          <p className="text-xs font-mono uppercase tracking-[0.16em] text-slate-300">
+            Directory :: <span className="font-bold text-cyan-200">{sectionLabel}</span>
+            {subsectionLabel && <> / <span className="font-bold text-amber-200">{subsectionLabel}</span></>}
+          </p>
+        </div>
+      )}
+
       {query && (
         <div className="glass-panel edge-frame p-4">
           <p className="text-xs font-mono uppercase tracking-[0.16em] text-slate-300">

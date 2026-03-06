@@ -1,11 +1,20 @@
 import Link from 'next/link';
 import { PostData } from '@/lib/posts';
+import { getSectionLabel, getSubsectionLabel } from '@/lib/site-structure';
 
 interface PostCardProps {
     post: PostData;
 }
 
 export default function PostCard({ post }: PostCardProps) {
+    const sectionLabel = post.section ? getSectionLabel(post.section) : '';
+    const subsectionLabel = post.section && post.subsection
+        ? getSubsectionLabel(post.section, post.subsection)
+        : '';
+    const displayCategory = sectionLabel
+        ? `${sectionLabel}${subsectionLabel ? ` / ${subsectionLabel}` : ''}`
+        : (post.category || 'TRANSMISSION');
+
     return (
         <article className="group relative mb-4 w-full overflow-hidden rounded-sm border border-slate-600/20 bg-slate-900/35 transition-all duration-300 hover:-translate-y-0.5 hover:border-cyan-200/35 hover:bg-slate-900/70">
             <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(94,234,212,0.08),transparent_45%,rgba(245,158,11,0.08))] opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
@@ -23,7 +32,7 @@ export default function PostCard({ post }: PostCardProps) {
                         </h2>
 
                         <div className="flex flex-wrap items-center gap-2 text-xs font-mono uppercase tracking-wide text-slate-400 md:gap-4">
-                            <span>{/**/}{post.category || 'TRANSMISSION'}</span>
+                            <span>{displayCategory}</span>
 
                             {post.tags && post.tags.length > 0 && (
                                 <>

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { getPostData, getAllPostSlugs } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 import CodeCopyEnhancer from '@/components/CodeCopyEnhancer';
+import { getSectionLabel, getSubsectionLabel } from '@/lib/site-structure';
 
 interface PostPageProps {
     params: Promise<{
@@ -55,6 +56,13 @@ export default async function PostPage({ params }: PostPageProps) {
     }
 
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://your-blog.com";
+    const sectionLabel = postData.section ? getSectionLabel(postData.section) : '';
+    const subsectionLabel = postData.section && postData.subsection
+        ? getSubsectionLabel(postData.section, postData.subsection)
+        : '';
+    const displayCategory = sectionLabel
+        ? `${sectionLabel}${subsectionLabel ? ` / ${subsectionLabel}` : ''}`
+        : (postData.category || 'TRANSMISSION');
     const jsonLd = {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
@@ -81,7 +89,7 @@ export default async function PostPage({ params }: PostPageProps) {
             <header className="glass-panel edge-frame mb-10 space-y-4 p-6 md:p-8">
                 <div className="flex items-center gap-4 text-xs font-mono uppercase tracking-[0.16em] text-cyan-200">
                     <time dateTime={postData.date}>{postData.date}</time>
-                    <span>{/**/}{postData.category || 'TRANSMISSION'}</span>
+                    <span>{displayCategory}</span>
                     <span>{/**/}ID: {slug.toUpperCase()}</span>
                 </div>
 

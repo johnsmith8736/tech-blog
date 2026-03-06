@@ -1,5 +1,7 @@
 
 import Image from 'next/image';
+import Link from 'next/link';
+import { SITE_SECTIONS } from '@/lib/site-structure';
 
 export default function CyberSidebar() {
     return (
@@ -146,6 +148,54 @@ export default function CyberSidebar() {
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            {/* Site Map Panel */}
+            <div className="glass-panel edge-frame relative space-y-4 p-5">
+                <div className="absolute right-0 top-0 h-2 w-2 border-r border-t border-amber-300" />
+                <div className="absolute bottom-0 left-0 h-2 w-2 border-b border-l border-amber-300" />
+
+                <div className="text-xs font-mono font-bold uppercase tracking-[0.18em] text-amber-200">
+                    Site Map
+                </div>
+
+                <div className="space-y-3 font-mono text-xs">
+                    <Link
+                        href="/"
+                        className="block border border-slate-500/20 bg-slate-900/45 px-3 py-2 uppercase tracking-[0.16em] text-cyan-200 transition-colors hover:border-cyan-300 hover:text-white"
+                    >
+                        Home
+                    </Link>
+
+                    {SITE_SECTIONS.map((section) => (
+                        <div key={section.slug} className="space-y-2">
+                            <Link
+                                href={`/?section=${section.slug}`}
+                                className="block border border-slate-500/20 px-3 py-1.5 uppercase tracking-[0.16em] text-slate-200 transition-colors hover:border-amber-300 hover:text-amber-200"
+                            >
+                                {section.label}
+                            </Link>
+                            <div className="space-y-1 pl-4">
+                                {section.children.map((child) => (
+                                    <Link
+                                        key={child.slug}
+                                        href={`/?section=${section.slug}&sub=${child.slug}`}
+                                        className="block text-[11px] uppercase tracking-[0.12em] text-slate-400 transition-colors hover:text-cyan-200"
+                                    >
+                                        {child.label}
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+
+                    <Link
+                        href="/about"
+                        className="block border border-slate-500/20 bg-slate-900/45 px-3 py-2 uppercase tracking-[0.16em] text-cyan-200 transition-colors hover:border-cyan-300 hover:text-white"
+                    >
+                        About
+                    </Link>
                 </div>
             </div>
 

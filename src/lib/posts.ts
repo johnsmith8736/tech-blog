@@ -7,6 +7,7 @@ import hljs from 'highlight.js/lib/common';
 import DOMPurify from 'dompurify';
 import { JSDOM } from 'jsdom';
 import { cache } from 'react';
+import { SITE_SECTIONS } from '@/lib/site-structure';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 const excerptMaxLength = 200;
@@ -88,6 +89,84 @@ export interface PostData {
   contentHtml?: string;
   tags?: string[];
   category?: string;
+  section?: string;
+  subsection?: string;
+}
+
+function normalizeToSlug(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+function findValidSection(sectionValue?: string, subsectionValue?: string) {
+  const sectionSlug = sectionValue ? normalizeToSlug(sectionValue) : '';
+  const subsectionSlug = subsectionValue ? normalizeToSlug(subsectionValue) : '';
+  const section = SITE_SECTIONS.find((item) => item.slug === sectionSlug);
+
+  if (!section) {
+    return null;
+  }
+
+  if (!subsectionSlug) {
+    return {
+      section: section.slug,
+      subsection: section.children[0]?.slug,
+    };
+  }
+
+  const subsection = section.children.find((child) => child.slug === subsectionSlug);
+  return {
+    section: section.slug,
+    subsection: subsection?.slug || section.children[0]?.slug,
+  };
+}
+
+function inferSectionAndSubsection(title: string, tags: string[], category: string) {
+  const joined = `${title} ${tags.join(' ')} ${category}`.toLowerCase();
+
+  if (/\b(python|django|flask|scrapy|beautifulsoup|pandas|selenium)\b/.test(joined)) {
+    if (/\b(scrap|crawler|crawl|beautifulsoup|scrapy)\b/.test(joined)) {
+      return { section: 'python', subsection: 'web-scraping' };
+    }
+    if (/\b(automate|automation|bot|workflow)\b/.test(joined)) {
+      return { section: 'python', subsection: 'automation' };
+    }
+    if (/\b(script|cli|tool)\b/.test(joined)) {
+      return { section: 'python', subsection: 'python-scripts' };
+    }
+    return { section: 'python', subsection: 'python-tutorials' };
+  }
+
+  if (/\b(arch|linux|pacman|systemd|bash|zsh|wayland|steam|proton)\b/.test(joined)) {
+    if (/\b(arch|pacman|aur)\b/.test(joined)) {
+      return { section: 'linux', subsection: 'arch-linux' };
+    }
+    if (/\b(game|gaming|steam|proton|lutris)\b/.test(joined)) {
+      return { section: 'linux', subsection: 'linux-gaming' };
+    }
+    if (/\b(server|nginx|apache|systemd|docker)\b/.test(joined)) {
+      return { section: 'linux', subsection: 'linux-server' };
+    }
+    return { section: 'linux', subsection: 'linux-tools' };
+  }
+
+  if (/\b(network|proxy|vless|xray|warp|wireguard|tunnel|vpn|vps|cloudflare|self-host|router|openwrt|dns|home network)\b/.test(joined)) {
+    if (/\b(vps|aws|gcp|linode|digitalocean)\b/.test(joined)) {
+      return { section: 'networking', subsection: 'vps' };
+    }
+    if (/\b(self-host|selfhost|docker|homelab|nas)\b/.test(joined)) {
+      return { section: 'networking', subsection: 'self-hosted' };
+    }
+    if (/\b(home network|router|openwrt|lan|wifi)\b/.test(joined)) {
+      return { section: 'networking', subsection: 'home-network' };
+    }
+    return { section: 'networking', subsection: 'proxy' };
+  }
+
+  return { section: 'tutorials', subsection: 'step-by-step-guides' };
 }
 
 export const getSortedPostsData = cache(function getSortedPostsData(): PostData[] {
@@ -108,6 +187,10 @@ export const getSortedPostsData = cache(function getSortedPostsData(): PostData[
         const matterResult = matter(fileContents);
 
         const excerpt = matterResult.data.excerpt || generateExcerpt(matterResult.content);
+        const tags = matterResult.data.tags || [];
+        const category = matterResult.data.category || '';
+        const assigned = findValidSection(matterResult.data.section, matterResult.data.subsection)
+          || inferSectionAndSubsection(matterResult.data.title, tags, category);
 
         return {
           id: 0,
@@ -116,8 +199,10 @@ export const getSortedPostsData = cache(function getSortedPostsData(): PostData[
           title: matterResult.data.title,
           excerpt,
           content: matterResult.content,
-          tags: matterResult.data.tags || [],
-          category: matterResult.data.category || '',
+          tags,
+          category,
+          section: assigned.section,
+          subsection: assigned.subsection,
         };
       });
 
@@ -152,6 +237,10 @@ export const getPostData = cache(function getPostData(slug: string): PostData | 
     const matterResult = matter(fileContents);
 
     let contentHtml = converter.makeHtml(matterResult.content);
+    const tags = matterResult.data.tags || [];
+    const category = matterResult.data.category || '';
+    const assigned = findValidSection(matterResult.data.section, matterResult.data.subsection)
+      || inferSectionAndSubsection(matterResult.data.title, tags, category);
 
     // Sanitize HTML to prevent XSS
     contentHtml = dompurify.sanitize(contentHtml);
@@ -184,8 +273,10 @@ export const getPostData = cache(function getPostData(slug: string): PostData | 
       excerpt: matterResult.data.excerpt || generateExcerpt(matterResult.content),
       content: matterResult.content,
       contentHtml,
-      tags: matterResult.data.tags || [],
-      category: matterResult.data.category || '',
+      tags,
+      category,
+      section: assigned.section,
+      subsection: assigned.subsection,
     };
   } catch (error) {
     console.error(`Failed to read post ${slug}:`, error);
