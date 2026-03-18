@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useSearchParams } from "next/navigation";
 import PostList from "@/components/PostList";
 import { PostData } from "@/lib/posts";
+import { filterPosts } from "@/lib/post-search";
 import { getSectionLabel, getSubsectionLabel } from "@/lib/site-structure";
 
 interface FilteredPostListProps {
@@ -16,39 +17,10 @@ export default function FilteredPostList({ allPostsData }: FilteredPostListProps
   const section = searchParams.get("section") || "";
   const subsection = searchParams.get("sub") || "";
 
-  const filtered = useMemo(() => {
-    const hasSectionFilter = Boolean(section);
-
-    if (!query && !hasSectionFilter) {
-      return allPostsData;
-    }
-
-    const tokens = query
-      .toLowerCase()
-      .split(/\s+/)
-      .filter(Boolean);
-
-    const matchesAllTokens = (text: string) => {
-      const lowered = text.toLowerCase();
-      return tokens.every((token) => {
-        const escaped = token.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-        const regex = new RegExp(`\\b${escaped}\\b`, "i");
-        return regex.test(lowered);
-      });
-    };
-
-    return allPostsData.filter((post) => {
-      const matchesSearch = tokens.length === 0
-        ? true
-        : (matchesAllTokens(post.title) || matchesAllTokens(post.excerpt));
-
-      const matchesSection = !hasSectionFilter
-        ? true
-        : (post.section === section && (!subsection || post.subsection === subsection));
-
-      return matchesSearch && matchesSection;
-    });
-  }, [allPostsData, query, section, subsection]);
+  const filtered = useMemo(
+    () => filterPosts(allPostsData, { query, section, subsection }),
+    [allPostsData, query, section, subsection],
+  );
 
   const sectionLabel = section ? getSectionLabel(section) : "";
   const subsectionLabel = section && subsection ? getSubsectionLabel(section, subsection) : "";

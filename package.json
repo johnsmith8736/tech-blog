@@ -8,6 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint .",
+    "test": "node --test --experimental-strip-types --experimental-specifier-resolution=node tests/**/*.test.ts",
     "analyze": "ANALYZE=true next build"
   },
   "dependencies": {

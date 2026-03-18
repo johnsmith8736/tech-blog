@@ -7,7 +7,7 @@ import hljs from 'highlight.js/lib/common';
 import DOMPurify from 'dompurify';
 import { JSDOM } from 'jsdom';
 import { cache } from 'react';
-import { SITE_SECTIONS } from '@/lib/site-structure';
+import { SITE_SECTIONS } from './site-structure.ts';
 
 const postsDirectory = path.join(process.cwd(), 'posts');
 const excerptMaxLength = 200;
@@ -38,7 +38,7 @@ function decodeHtmlEntities(value: string) {
     .replace(/&#39;/g, "'");
 }
 
-function generateExcerpt(markdown: string) {
+export function generateExcerpt(markdown: string) {
   const plainText = markdown
     .replace(/!\[.*?\]\(.*?\)/g, '') // Remove images
     .replace(/\[(.*?)\]\(.*?\)/g, '$1') // Remove links but keep text
@@ -47,13 +47,13 @@ function generateExcerpt(markdown: string) {
     .replace(/(\*|_)(.*?)\1/g, '$2') // Remove italic
     .replace(/`{3}[\s\S]*?`{3}/g, '') // Remove code blocks
     .replace(/`(.+?)`/g, '$1') // Remove inline code
-    .replace(/\n/g, ' ') // Replace newlines with spaces
+    .replace(/\s+/g, ' ') // Collapse whitespace from markdown formatting
     .trim();
 
   return plainText.slice(0, excerptMaxLength) + (plainText.length > excerptMaxLength ? '...' : '');
 }
 
-function highlightBlock(code: string, lang?: string) {
+export function highlightBlock(code: string, lang?: string) {
   const decodedCode = decodeHtmlEntities(code);
   const cleanLang = lang ? lang.replace(/^language-/, '') : '';
 
@@ -93,7 +93,7 @@ export interface PostData {
   subsection?: string;
 }
 
-function normalizeToSlug(value: string) {
+export function normalizeToSlug(value: string) {
   return value
     .trim()
     .toLowerCase()
@@ -101,7 +101,7 @@ function normalizeToSlug(value: string) {
     .replace(/^-+|-+$/g, '');
 }
 
-function findValidSection(sectionValue?: string, subsectionValue?: string) {
+export function findValidSection(sectionValue?: string, subsectionValue?: string) {
   const sectionSlug = sectionValue ? normalizeToSlug(sectionValue) : '';
   const subsectionSlug = subsectionValue ? normalizeToSlug(subsectionValue) : '';
   const section = SITE_SECTIONS.find((item) => item.slug === sectionSlug);
@@ -124,11 +124,11 @@ function findValidSection(sectionValue?: string, subsectionValue?: string) {
   };
 }
 
-function inferSectionAndSubsection(title: string, tags: string[], category: string) {
+export function inferSectionAndSubsection(title: string, tags: string[], category: string) {
   const joined = `${title} ${tags.join(' ')} ${category}`.toLowerCase();
 
   if (/\b(python|django|flask|scrapy|beautifulsoup|pandas|selenium)\b/.test(joined)) {
-    if (/\b(scrap|crawler|crawl|beautifulsoup|scrapy)\b/.test(joined)) {
+    if (/\b(scrap|scraping|crawler|crawl|beautifulsoup|scrapy)\b/.test(joined)) {
       return { section: 'python', subsection: 'web-scraping' };
     }
     if (/\b(automate|automation|bot|workflow)\b/.test(joined)) {
@@ -169,6 +169,37 @@ function inferSectionAndSubsection(title: string, tags: string[], category: stri
   return { section: 'tutorials', subsection: 'step-by-step-guides' };
 }
 
+function resolvePostAssignment(title: string, tags: string[], category: string, section?: string, subsection?: string) {
+  return findValidSection(section, subsection) || inferSectionAndSubsection(title, tags, category);
+}
+
+export function renderPostContent(markdown: string) {
+  let contentHtml = converter.makeHtml(markdown);
+
+  // Sanitize HTML to prevent XSS
+  contentHtml = dompurify.sanitize(contentHtml);
+
+  // 使用 highlight.js 进行语法高亮，GitHub 风格
+  contentHtml = contentHtml.replace(codeBlockWithLangRegex, (match, lang, code) => {
+    try {
+      return highlightBlock(code, lang);
+    } catch (error) {
+      console.error('Highlight error:', error);
+      return match;
+    }
+  });
+
+  // 处理没有语言标识的代码块
+  return contentHtml.replace(codeBlockNoLangRegex, (match, code) => {
+    try {
+      return highlightBlock(code);
+    } catch (error) {
+      console.error('Highlight error:', error);
+      return match;
+    }
+  });
+}
+
 export const getSortedPostsData = cache(function getSortedPostsData(): PostData[] {
   try {
     // 获取 posts 目录下的所有文件名
@@ -189,8 +220,13 @@ export const getSortedPostsData = cache(function getSortedPostsData(): PostData[
         const excerpt = matterResult.data.excerpt || generateExcerpt(matterResult.content);
         const tags = matterResult.data.tags || [];
         const category = matterResult.data.category || '';
-        const assigned = findValidSection(matterResult.data.section, matterResult.data.subsection)
-          || inferSectionAndSubsection(matterResult.data.title, tags, category);
+        const assigned = resolvePostAssignment(
+          matterResult.data.title,
+          tags,
+          category,
+          matterResult.data.section,
+          matterResult.data.subsection,
+        );
 
         return {
           id: 0,
@@ -236,34 +272,16 @@ export const getPostData = cache(function getPostData(slug: string): PostData | 
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const matterResult = matter(fileContents);
 
-    let contentHtml = converter.makeHtml(matterResult.content);
     const tags = matterResult.data.tags || [];
     const category = matterResult.data.category || '';
-    const assigned = findValidSection(matterResult.data.section, matterResult.data.subsection)
-      || inferSectionAndSubsection(matterResult.data.title, tags, category);
-
-    // Sanitize HTML to prevent XSS
-    contentHtml = dompurify.sanitize(contentHtml);
-
-    // 使用 highlight.js 进行语法高亮，GitHub 风格
-    contentHtml = contentHtml.replace(codeBlockWithLangRegex, (match, lang, code) => {
-      try {
-        return highlightBlock(code, lang);
-      } catch (error) {
-        console.error('Highlight error:', error);
-        return match;
-      }
-    });
-
-    // 处理没有语言标识的代码块
-    contentHtml = contentHtml.replace(codeBlockNoLangRegex, (match, code) => {
-      try {
-        return highlightBlock(code);
-      } catch (error) {
-        console.error('Highlight error:', error);
-        return match;
-      }
-    });
+    const assigned = resolvePostAssignment(
+      matterResult.data.title,
+      tags,
+      category,
+      matterResult.data.section,
+      matterResult.data.subsection,
+    );
+    const contentHtml = renderPostContent(matterResult.content);
 
     return {
       id: 1, // 对于单个文章，ID 不太重要
