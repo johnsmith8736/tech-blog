@@ -2,15 +2,45 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://tech.stanleychan87.nyc.mn/</loc>
-    <lastmod>2026-03-06</lastmod>
+    <lastmod>2026-03-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://tech.stanleychan87.nyc.mn/about/</loc>
-    <lastmod>2026-03-06</lastmod>
+    <lastmod>2026-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/openclaw-linux-macos-install-guide/</loc>
+    <lastmod>2026-03-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/openclaw-windows-install-guide/</loc>
+    <lastmod>2026-03-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/sing-box-vless-reality-basic-guide/</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/sing-box-vless-reality-server-warp-abematv-chatgpt-guide/</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://tech.stanleychan87.nyc.mn/posts/sing-box-vless-reality-warp-abematv-chatgpt-guide/</loc>
+    <lastmod>2026-03-08</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://tech.stanleychan87.nyc.mn/posts/best-linux-system-monitoring-tools/</loc>
