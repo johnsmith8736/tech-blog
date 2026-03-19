@@ -85,18 +85,22 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#00f0ff" />
       </head>
-      <body className="font-mono bg-background text-foreground antialiased selection:bg-cyan-300/70 selection:text-slate-900">
+      <body className="font-sans bg-background text-foreground antialiased selection:bg-cyan-300/70 selection:text-slate-900">
         <Header />
 
         <main className="relative z-10 min-h-screen pt-24 pb-16 md:pt-28">
+          <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+            <div className="absolute left-[-12%] top-[-8%] h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl" />
+            <div className="absolute right-[-8%] top-[12%] h-80 w-80 rounded-full bg-amber-400/8 blur-3xl" />
+            <div className="absolute bottom-[-10%] left-[25%] h-72 w-72 rounded-full bg-blue-500/10 blur-3xl" />
+          </div>
+
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-12">
-              {/* Main Content Area */}
-              <div className="flex-1 w-full min-w-0">
+            <div className="relative flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-12">
+              <div className="flex-1 min-w-0 w-full">
                 {children}
               </div>
 
-              {/* Sidebar Area */}
               <div className="w-full lg:sticky lg:top-28 lg:w-auto">
                 <CyberSidebar />
               </div>
