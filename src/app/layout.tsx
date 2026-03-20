@@ -1,12 +1,19 @@
 
 
 import type { Metadata } from "next";
-import { Rajdhani, Share_Tech_Mono } from "next/font/google";
+import { Inter, Rajdhani, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
 import "highlight.js/styles/github-dark.css";
 import Header from "@/components/Header";
 import CyberSidebar from "@/components/CyberSidebar";
 import { SITE_AUTHOR, SITE_DESCRIPTION, SITE_NAME, SITE_URL } from "@/lib/site";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+  preload: true,
+});
 
 const rajdhani = Rajdhani({
   subsets: ["latin"],
@@ -79,20 +86,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${rajdhani.variable} ${shareTechMono.variable}`}>
+    <html lang="en" className={`${inter.variable} ${rajdhani.variable} ${shareTechMono.variable}`}>
       <head>
         <meta httpEquiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none';" />
         <link rel="manifest" href="/manifest.json" />
-        <meta name="theme-color" content="#00f0ff" />
+        <meta name="theme-color" content="#0b1220" />
       </head>
-      <body className="font-sans bg-background text-foreground antialiased selection:bg-cyan-300/70 selection:text-slate-900">
+      <body className="bg-background text-foreground antialiased selection:bg-cyan-200/60 selection:text-slate-950">
         <Header />
 
         <main className="relative z-10 min-h-screen pt-24 pb-16 md:pt-28">
           <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
-            <div className="absolute left-[-12%] top-[-8%] h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl" />
-            <div className="absolute right-[-8%] top-[12%] h-80 w-80 rounded-full bg-amber-400/8 blur-3xl" />
-            <div className="absolute bottom-[-10%] left-[25%] h-72 w-72 rounded-full bg-blue-500/10 blur-3xl" />
+            <div className="absolute left-[-12%] top-[-8%] h-72 w-72 rounded-full bg-cyan-300/10 blur-3xl" />
+            <div className="absolute right-[-8%] top-[12%] h-80 w-80 rounded-full bg-sky-300/8 blur-3xl" />
+            <div className="absolute bottom-[-10%] left-[25%] h-72 w-72 rounded-full bg-amber-200/8 blur-3xl" />
           </div>
 
           <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -109,8 +116,8 @@ export default function RootLayout({
         </main>
 
         <div className="pointer-events-none fixed bottom-4 right-4 z-50 hidden md:block">
-          <div className="animate-float-pulse rounded border border-slate-500/30 bg-slate-900/70 px-2 py-1 text-[10px] font-mono uppercase tracking-[0.24em] text-slate-400">
-            System Ready // V.2.0.5
+          <div className="animate-float-pulse rounded-full border border-white/10 bg-slate-950/70 px-3 py-1 text-[10px] font-mono uppercase tracking-[0.24em] text-slate-300 shadow-[0_12px_40px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+            system ready // v.2.0.5
           </div>
         </div>
       </body>

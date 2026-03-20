@@ -109,64 +109,67 @@ export default async function PostPage({ params }: PostPageProps) {
             />
             <CodeCopyEnhancer />
             <article className="mx-auto max-w-4xl py-10 md:py-12">
-
-            {/**/}
-            <header className="glass-panel edge-frame mb-10 space-y-4 p-6 md:p-8">
-                <div className="flex items-center gap-4 text-xs font-mono uppercase tracking-[0.16em] text-cyan-200">
-                    <time dateTime={postData.date}>{postData.date}</time>
-                    <span>{displayCategory}</span>
-                    <span>{/**/}ID: {slug.toUpperCase()}</span>
-                </div>
-
-                <h1 className="font-display text-3xl font-bold leading-tight text-white md:text-5xl">
-                    {postData.title}
-                </h1>
-
-                {postData.tags && (
-                    <div className="flex flex-wrap gap-2 pt-2">
-                        {postData.tags.map(tag => (
-                            <span key={tag} className="rounded border border-cyan-300/35 bg-cyan-400/5 px-2 py-1 text-xs font-mono text-cyan-200">
-                                #{tag}
-                            </span>
-                        ))}
+                <header className="glass-panel edge-frame panel-sheen mb-10 space-y-5 p-6 md:p-8">
+                    <div className="flex flex-wrap items-center gap-3 text-[10px] font-mono uppercase tracking-[0.18em] text-slate-400">
+                        <time dateTime={postData.date} className="text-cyan-100">{postData.date}</time>
+                        <span className="text-slate-500">/</span>
+                        <span className="text-slate-200">{displayCategory}</span>
+                        <span className="text-slate-500">/</span>
+                        <span>ID: {slug.toUpperCase()}</span>
                     </div>
-                )}
-            </header>
 
-            {/* Content */}
-            <div
-                className="post-content prose prose-invert prose-lg max-w-none 
-        prose-headings:font-display prose-headings:text-white
-        prose-headings:scroll-mt-28 prose-headings:tracking-tight
-        prose-h2:mt-14 prose-h2:mb-6 prose-h2:border-b prose-h2:border-slate-700/50 prose-h2:pb-2
+                    <h1 className="max-w-3xl font-display text-3xl font-semibold leading-tight text-white md:text-5xl">
+                        {postData.title}
+                    </h1>
+
+                    {postData.excerpt && (
+                        <p className="max-w-3xl text-sm leading-7 text-slate-300 md:text-base">
+                            {postData.excerpt}
+                        </p>
+                    )}
+
+                    {postData.tags && (
+                        <div className="flex flex-wrap gap-2 pt-2">
+                            {postData.tags.map((tag) => (
+                                <span key={tag} className="rounded-full border border-white/10 bg-white/[0.04] px-2.5 py-1 text-xs font-mono text-slate-200">
+                                    #{tag}
+                                </span>
+                            ))}
+                        </div>
+                    )}
+                </header>
+
+                <div
+                    className="post-content prose prose-invert prose-lg max-w-none
+        prose-headings:font-display prose-headings:text-white prose-headings:tracking-tight
+        prose-headings:scroll-mt-28 prose-h2:mt-14 prose-h2:mb-6 prose-h2:border-b prose-h2:border-white/10 prose-h2:pb-2
         prose-h3:mt-10 prose-h3:mb-4
-        prose-p:font-mono prose-p:text-slate-300 prose-p:leading-[2.05]
-        prose-li:text-slate-300 prose-li:leading-[2.05]
-        prose-strong:text-white prose-hr:border-slate-700/60
-        prose-ul:list-disc prose-ol:list-decimal prose-li:marker:text-cyan-300
+        prose-p:text-[15px] prose-p:leading-8 prose-p:text-slate-300
+        prose-li:text-[15px] prose-li:leading-8 prose-li:text-slate-300
+        prose-strong:text-white prose-hr:border-white/10
+        prose-ul:list-disc prose-ol:list-decimal prose-li:marker:text-cyan-100
         prose-table:block prose-table:w-full prose-table:overflow-x-auto
-        prose-th:border prose-th:border-slate-700 prose-th:bg-slate-900/70 prose-th:px-3 prose-th:py-2 prose-th:text-left
-        prose-td:border prose-td:border-slate-800 prose-td:px-3 prose-td:py-2
-        prose-img:rounded prose-img:border prose-img:border-slate-700/60
-        prose-pre:my-8
-        prose-code:font-mono prose-code:text-sm
+        prose-th:border prose-th:border-white/10 prose-th:bg-white/[0.05] prose-th:px-3 prose-th:py-2 prose-th:text-left
+        prose-td:border prose-td:border-white/8 prose-td:px-3 prose-td:py-2
+        prose-img:rounded-2xl prose-img:border prose-img:border-white/10
+        prose-pre:my-8 prose-pre:rounded-2xl prose-pre:border prose-pre:border-white/10
+        prose-code:font-mono prose-code:text-sm prose-code:text-cyan-100
         prose-code:before:content-none prose-code:after:content-none
-        prose-a:text-amber-200 hover:prose-a:text-cyan-200
-        prose-blockquote:border-l-cyan-300 prose-blockquote:text-slate-400
+        prose-a:text-cyan-100 hover:prose-a:text-white
+        prose-blockquote:border-l-cyan-200 prose-blockquote:text-slate-300
         [&_pre_code]:!bg-transparent [&_pre_code]:!p-0 [&_pre_code]:!text-sm"
-                dangerouslySetInnerHTML={{ __html: postData.contentHtml || '' }}
-            />
+                    dangerouslySetInnerHTML={{ __html: postData.contentHtml || '' }}
+                />
 
-            {/* Footer */}
-            <div className="mt-16 border-t border-slate-600/30 pt-8">
-                <Link
-                    href="/"
-                    className="inline-flex items-center gap-2 text-sm font-mono text-slate-400 transition-colors hover:text-cyan-200"
-                >
-                    <span>←</span> RETURN_TO_ROOT
-                </Link>
-             </div>
-         </article>
+                <div className="mt-16 border-t border-white/10 pt-8">
+                    <Link
+                        href="/"
+                        className="inline-flex items-center gap-2 text-sm font-mono text-slate-400 transition-colors hover:text-cyan-100"
+                    >
+                        <span>←</span> Return to root
+                    </Link>
+                </div>
+            </article>
         </>
      );
  }

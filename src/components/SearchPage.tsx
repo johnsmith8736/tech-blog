@@ -7,22 +7,21 @@ import { PostData } from '@/lib/posts';
 interface SearchPageProps {
   query: string;
   posts: PostData[];
-  allPosts: PostData[];
 }
 
-export default function SearchPage({ query, posts, allPosts }: SearchPageProps) {
+export default function SearchPage({ query, posts }: SearchPageProps) {
   return (
     <div className="space-y-0">
       <div className="glass-panel edge-frame mb-10 p-6 md:p-8">
-        <div className="flex items-center gap-4 mb-4">
-          <Link href="/" className="text-cyan-200 transition-colors hover:text-amber-200">
-            ← BACK TO TRANSMISSIONS
+        <div className="mb-4 flex items-center gap-4">
+          <Link href="/" className="text-sm font-mono uppercase tracking-[0.18em] text-cyan-100 transition-colors hover:text-white">
+            ← Back to archive
           </Link>
         </div>
-        <h1 className="mb-4 text-4xl font-display font-bold text-white md:text-5xl">
-          SEARCH RESULTS
+        <h1 className="mb-4 font-display text-4xl font-semibold text-white md:text-5xl">
+          Search results
         </h1>
-        <p className="font-mono text-slate-300">
+        <p className="max-w-2xl text-sm leading-7 text-slate-300 md:text-base">
           Found {posts.length} result{posts.length !== 1 ? 's' : ''} for &ldquo;{query}&rdquo;
         </p>
       </div>
@@ -34,12 +33,12 @@ export default function SearchPage({ query, posts, allPosts }: SearchPageProps) 
       </div>
 
       {posts.length === 0 && (
-        <div className="py-12 text-center space-y-4">
+        <div className="space-y-4 py-12 text-center">
           <div className="font-mono text-slate-400">
-            {/**/}NO MATCHING TRANSMISSIONS FOUND.
+            No matching posts found.
           </div>
-          <Link href="/" className="glass-panel edge-frame inline-block px-6 py-2 font-mono uppercase tracking-[0.16em] text-cyan-100 transition-colors hover:text-amber-200">
-            VIEW ALL TRANSMISSIONS
+          <Link href="/" className="glass-panel edge-frame inline-block px-6 py-2 font-mono uppercase tracking-[0.16em] text-cyan-100 transition-colors hover:text-white">
+            View all posts
           </Link>
         </div>
       )}
