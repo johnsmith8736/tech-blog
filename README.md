@@ -2,6 +2,8 @@
 
 基于 Next.js 15（App Router）的静态技术博客，支持 Markdown 写作、代码高亮、搜索过滤与 SEO 元数据。
 
+博客地址：https://tech.stanleychan87.nyc.mn/
+
 ## 功能
 
 - Markdown 文章渲染（`gray-matter` + `showdown`）
