@@ -20,15 +20,6 @@ export default function AboutPage() {
           This blog is a small editorial workspace for Linux, Python, networking, and practical systems work.
           The goal is to keep the interface calm, the reading experience clear, and the technical signal high.
         </p>
-        <p className="mt-4 text-sm text-cyan-100 md:text-base">
-          Homepage:{' '}
-          <a
-            href="https://tech.stanleychan87.nyc.mn/"
-            className="font-mono text-cyan-200 underline decoration-cyan-400/60 underline-offset-4 transition hover:text-white"
-          >
-            https://tech.stanleychan87.nyc.mn/
-          </a>
-        </p>
       </div>
 
       <div className="glass-panel edge-frame p-6 text-sm leading-7 text-slate-300">
