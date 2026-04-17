@@ -7,22 +7,45 @@ export interface PostSearchFilters {
 }
 
 function tokenizeQuery(query: string) {
-  return query
-    .toLowerCase()
+  return normalizeSearchValue(query)
     .split(/\s+/)
     .filter(Boolean);
 }
 
-function matchesAllTokens(text: string, tokens: string[]) {
-  const lowered = text.toLowerCase();
+function normalizeSearchValue(value: string) {
+  return value
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9+#./_-]+/g, ' ')
+    .trim();
+}
+
+function buildSearchCorpus(post: PostData) {
+  return post.searchText || [
+    post.title,
+    post.excerpt,
+    post.category,
+    post.section,
+    post.subsection,
+    ...(post.tags ?? []),
+  ]
+    .filter(Boolean)
+    .join(' ');
+}
+
+function matchesAllTokens(post: PostData, tokens: string[]) {
+  const searchCorpus = buildSearchCorpus(post);
+  const normalizedCorpus = normalizeSearchValue(searchCorpus);
+  const words = normalizedCorpus.split(/\s+/).filter(Boolean);
+  const rawCorpus = searchCorpus.toLowerCase();
 
   return tokens.every((token) => {
-    const escaped = token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const pattern = /^[a-z0-9_]+$/i.test(token)
-      ? `\\b${escaped}\\b`
-      : escaped;
-    const regex = new RegExp(pattern, 'i');
-    return regex.test(lowered);
+    if (/[+#./_-]/.test(token)) {
+      return rawCorpus.includes(token);
+    }
+
+    return words.some((word) => word === token || word.startsWith(token));
   });
 }
 
@@ -40,7 +63,7 @@ export function filterPosts(posts: PostData[], filters: PostSearchFilters) {
   return posts.filter((post) => {
     const matchesSearch = tokens.length === 0
       ? true
-      : (matchesAllTokens(post.title, tokens) || matchesAllTokens(post.excerpt, tokens));
+      : matchesAllTokens(post, tokens);
 
     const matchesSection = !hasSectionFilter
       ? true

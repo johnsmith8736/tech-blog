@@ -91,6 +91,18 @@ export interface PostData {
   category?: string;
   section?: string;
   subsection?: string;
+  readingTimeMinutes?: number;
+  searchText?: string;
+}
+
+interface PostFrontmatter {
+  title?: unknown;
+  date?: unknown;
+  excerpt?: unknown;
+  tags?: unknown;
+  category?: unknown;
+  section?: unknown;
+  subsection?: unknown;
 }
 
 export function normalizeToSlug(value: string) {
@@ -173,6 +185,110 @@ function resolvePostAssignment(title: string, tags: string[], category: string, 
   return findValidSection(section, subsection) || inferSectionAndSubsection(title, tags, category);
 }
 
+function toCleanString(value: unknown) {
+  return typeof value === 'string' ? value.trim() : '';
+}
+
+function toTagList(value: unknown) {
+  if (!Array.isArray(value)) {
+    return [];
+  }
+
+  return Array.from(
+    new Set(
+      value
+        .filter((item): item is string => typeof item === 'string')
+        .map((item) => item.trim())
+        .filter(Boolean),
+    ),
+  );
+}
+
+function normalizePostDate(value: unknown) {
+  const rawValue = toCleanString(value);
+
+  if (!rawValue) {
+    return '';
+  }
+
+  const parsed = new Date(rawValue);
+
+  if (Number.isNaN(parsed.getTime())) {
+    return rawValue;
+  }
+
+  return parsed.toISOString().slice(0, 10);
+}
+
+function estimateReadingTimeMinutes(content: string) {
+  const wordCount = content
+    .replace(/`{3}[\s\S]*?`{3}/g, ' ')
+    .replace(/`(.+?)`/g, '$1')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean).length;
+
+  return Math.max(1, Math.ceil(wordCount / 200));
+}
+
+function createSearchText({
+  title,
+  excerpt,
+  tags,
+  category,
+  section,
+  subsection,
+}: Pick<PostData, 'title' | 'excerpt' | 'tags' | 'category' | 'section' | 'subsection'>) {
+  return [
+    title,
+    excerpt,
+    category,
+    section,
+    subsection,
+    ...(tags ?? []),
+  ]
+    .filter(Boolean)
+    .join(' ');
+}
+
+function parsePostFile(slug: string, fileContents: string): PostData {
+  const matterResult = matter(fileContents);
+  const metadata = matterResult.data as PostFrontmatter;
+  const title = toCleanString(metadata.title) || slug.replace(/-/g, ' ');
+  const tags = toTagList(metadata.tags);
+  const category = toCleanString(metadata.category);
+  const excerpt = toCleanString(metadata.excerpt) || generateExcerpt(matterResult.content);
+  const assigned = resolvePostAssignment(
+    title,
+    tags,
+    category,
+    toCleanString(metadata.section),
+    toCleanString(metadata.subsection),
+  );
+
+  return {
+    id: 0,
+    slug,
+    date: normalizePostDate(metadata.date),
+    title,
+    excerpt,
+    content: matterResult.content,
+    tags,
+    category,
+    section: assigned.section,
+    subsection: assigned.subsection,
+    readingTimeMinutes: estimateReadingTimeMinutes(matterResult.content),
+    searchText: createSearchText({
+      title,
+      excerpt,
+      tags,
+      category,
+      section: assigned.section,
+      subsection: assigned.subsection,
+    }),
+  };
+}
+
 export function renderPostContent(markdown: string) {
   let contentHtml = converter.makeHtml(markdown);
 
@@ -207,39 +323,10 @@ export const getSortedPostsData = cache(function getSortedPostsData(): PostData[
     const allPostsData = fileNames
       .filter(fileName => fileName.endsWith('.md'))
       .map((fileName) => {
-        // 移除文件扩展名作为 slug
         const slug = fileName.replace(/\.md$/, '');
-
-        // 读取 markdown 文件内容
         const fullPath = path.join(postsDirectory, fileName);
         const fileContents = fs.readFileSync(fullPath, 'utf8');
-
-        // 使用 gray-matter 解析文章的 frontmatter
-        const matterResult = matter(fileContents);
-
-        const excerpt = matterResult.data.excerpt || generateExcerpt(matterResult.content);
-        const tags = matterResult.data.tags || [];
-        const category = matterResult.data.category || '';
-        const assigned = resolvePostAssignment(
-          matterResult.data.title,
-          tags,
-          category,
-          matterResult.data.section,
-          matterResult.data.subsection,
-        );
-
-        return {
-          id: 0,
-          slug,
-          date: matterResult.data.date,
-          title: matterResult.data.title,
-          excerpt,
-          content: matterResult.content,
-          tags,
-          category,
-          section: assigned.section,
-          subsection: assigned.subsection,
-        };
+        return parsePostFile(slug, fileContents);
       });
 
     // 按日期排序
@@ -270,31 +357,13 @@ export const getPostData = cache(function getPostData(slug: string): PostData | 
     }
 
     const fileContents = fs.readFileSync(fullPath, 'utf8');
-    const matterResult = matter(fileContents);
-
-    const tags = matterResult.data.tags || [];
-    const category = matterResult.data.category || '';
-    const assigned = resolvePostAssignment(
-      matterResult.data.title,
-      tags,
-      category,
-      matterResult.data.section,
-      matterResult.data.subsection,
-    );
-    const contentHtml = renderPostContent(matterResult.content);
+    const post = parsePostFile(slug, fileContents);
+    const contentHtml = renderPostContent(post.content || '');
 
     return {
-      id: 1, // 对于单个文章，ID 不太重要
-      slug,
-      date: matterResult.data.date,
-      title: matterResult.data.title,
-      excerpt: matterResult.data.excerpt || generateExcerpt(matterResult.content),
-      content: matterResult.content,
+      ...post,
+      id: 1,
       contentHtml,
-      tags,
-      category,
-      section: assigned.section,
-      subsection: assigned.subsection,
     };
   } catch (error) {
     console.error(`Failed to read post ${slug}:`, error);

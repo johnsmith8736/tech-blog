@@ -8,17 +8,19 @@ interface PostListProps {
   initialPosts: PostData[];
 }
 
+const POSTS_PER_PAGE = 10;
+
 export default function PostList({ initialPosts }: PostListProps) {
-  const [displayedPosts, setDisplayedPosts] = useState(initialPosts.slice(0, 10));
+  const [displayedPosts, setDisplayedPosts] = useState(initialPosts.slice(0, POSTS_PER_PAGE));
 
   useEffect(() => {
-    setDisplayedPosts(initialPosts.slice(0, 10));
+    setDisplayedPosts(initialPosts.slice(0, POSTS_PER_PAGE));
   }, [initialPosts]);
 
   const loadMore = () => {
     setDisplayedPosts((prev) => [
       ...prev,
-      ...initialPosts.slice(prev.length, prev.length + 10),
+      ...initialPosts.slice(prev.length, prev.length + POSTS_PER_PAGE),
     ]);
   };
   const hasMore = displayedPosts.length < initialPosts.length;
@@ -27,15 +29,15 @@ export default function PostList({ initialPosts }: PostListProps) {
     <div className="space-y-5">
       <div className="glass-panel edge-frame flex flex-col gap-3 px-4 py-4 md:flex-row md:items-center md:justify-between">
         <div className="space-y-1">
-          <p className="text-[10px] font-mono uppercase tracking-[0.22em] text-slate-400">Archive feed</p>
+          <p className="data-label text-[10px] text-slate-400">Latest transmissions</p>
           <p className="text-sm text-slate-200">
             Showing <span className="font-medium text-white">{displayedPosts.length}</span> of{' '}
-            <span className="font-medium text-white">{initialPosts.length}</span> posts
+            <span className="font-medium text-white">{initialPosts.length}</span> indexed packets
           </p>
         </div>
 
-        <div className="text-[10px] font-mono uppercase tracking-[0.18em] text-slate-400">
-          Progressive loading
+        <div className="data-label text-[10px] text-cyan-100">
+          Page 1 / 1 // live feed
         </div>
       </div>
 
@@ -49,9 +51,11 @@ export default function PostList({ initialPosts }: PostListProps) {
         <div className="py-6 text-center">
           <button
             onClick={loadMore}
-            className="glass-panel edge-frame panel-sheen rounded-full px-6 py-2.5 font-mono text-[11px] uppercase tracking-[0.18em] text-slate-100 transition-all hover:border-cyan-200/40 hover:text-white"
+            type="button"
+            className="glass-panel edge-frame panel-sheen rounded-full px-6 py-2.5 data-label text-[11px] text-slate-100 transition-all hover:border-yellow-300/40 hover:text-white"
+            aria-label={`Load ${Math.min(POSTS_PER_PAGE, initialPosts.length - displayedPosts.length)} more posts`}
           >
-            Load more posts
+            next_sector
           </button>
         </div>
       )}

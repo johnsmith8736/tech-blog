@@ -4,6 +4,8 @@ import assert from 'node:assert/strict';
 import {
   findValidSection,
   generateExcerpt,
+  getPostData,
+  getSortedPostsData,
   highlightBlock,
   inferSectionAndSubsection,
   normalizeToSlug,
@@ -82,4 +84,21 @@ test('renderPostContent sanitizes inline HTML and highlights fenced code blocks'
   assert.doesNotMatch(html, /<script>/);
   assert.match(html, /<pre data-lang="json">/);
   assert.match(html, /language-json/);
+});
+
+test('getSortedPostsData exposes normalized search metadata for posts', () => {
+  const [latestPost] = getSortedPostsData();
+
+  assert.ok(latestPost);
+  assert.equal(typeof latestPost.readingTimeMinutes, 'number');
+  assert.ok(latestPost.readingTimeMinutes! >= 1);
+  assert.equal(typeof latestPost.searchText, 'string');
+  assert.ok(latestPost.searchText!.includes(latestPost.title));
+});
+
+test('getPostData normalizes publish dates to YYYY-MM-DD when possible', () => {
+  const post = getPostData('python-web-scraping-beginners-guide');
+
+  assert.ok(post);
+  assert.match(post.date, /^\d{4}-\d{2}-\d{2}$/);
 });

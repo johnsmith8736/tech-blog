@@ -11,6 +11,8 @@ const posts: PostData[] = [
     date: '2026-03-10',
     title: 'Python Web Scraping Guide',
     excerpt: 'Learn Python scraping with requests and BeautifulSoup.',
+    tags: ['python', 'beautifulsoup'],
+    category: 'Tutorial',
     section: 'python',
     subsection: 'web-scraping',
   },
@@ -20,6 +22,8 @@ const posts: PostData[] = [
     date: '2026-03-09',
     title: 'Arch Linux Wayland Setup',
     excerpt: 'A practical Linux desktop setup walkthrough.',
+    tags: ['linux'],
+    category: 'Guide',
     section: 'linux',
     subsection: 'arch-linux',
   },
@@ -29,6 +33,8 @@ const posts: PostData[] = [
     date: '2026-03-08',
     title: 'Cloudflare Tunnel for VPS',
     excerpt: 'Networking notes for a proxy running on a VPS.',
+    tags: ['cloudflare', 'proxy'],
+    category: 'Infrastructure',
     section: 'networking',
     subsection: 'vps',
   },
@@ -76,10 +82,19 @@ test('filterPosts treats regex-like characters as plain text', () => {
       date: '2026-03-07',
       title: 'C++ Debugging Notes',
       excerpt: 'Escaping special characters in search should stay literal.',
+      searchText: 'C++ Debugging Notes Escaping special characters in search should stay literal.',
       section: 'tutorials',
       subsection: 'step-by-step-guides',
     },
   ], { query: 'c++' });
 
   assert.deepEqual(result.map((post) => post.slug), ['c-plus-plus']);
+});
+
+test('filterPosts matches prefixes and metadata fields such as tags', () => {
+  const byPrefix = filterPosts(posts, { query: 'scrap' });
+  const byTag = filterPosts(posts, { query: 'beautifulsoup' });
+
+  assert.deepEqual(byPrefix.map((post) => post.slug), ['python-web-scraping']);
+  assert.deepEqual(byTag.map((post) => post.slug), ['python-web-scraping']);
 });

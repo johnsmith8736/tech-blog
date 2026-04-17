@@ -32,6 +32,7 @@ export default async function HomePage() {
   const featuredTags = Array.from(
     new Set(allPostsData.flatMap((post) => post.tags ?? [])),
   ).slice(0, 4);
+  const recentSignals = allPostsData.slice(0, 3);
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
@@ -52,37 +53,49 @@ export default async function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <div className="glass-panel edge-frame panel-sheen relative overflow-hidden p-7 ring-1 ring-white/5 md:p-9 lg:p-11">
-        <div className="pointer-events-none absolute inset-0 soft-grid opacity-[0.075]" />
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(147,197,253,0.12),transparent_40%),radial-gradient(circle_at_bottom_left,rgba(209,180,111,0.08),transparent_34%)]" />
+      <div className="glass-panel edge-frame relative overflow-hidden p-6 md:p-8">
+        <div className="pointer-events-none absolute inset-0 soft-grid opacity-[0.05]" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-yellow-300/80 to-cyan-300/45" />
 
-        <div className="relative grid gap-12 lg:grid-cols-[1.28fr_0.92fr] lg:items-end">
+        <div className="relative grid gap-8 lg:grid-cols-[1.4fr_0.9fr]">
           <div className="space-y-6">
-            <div className="flex flex-wrap items-center gap-2 text-[10px] font-mono uppercase tracking-[0.24em] text-slate-300">
-              <span className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-slate-100 shadow-[0_10px_30px_rgba(0,0,0,0.12)]">Editorial archive</span>
-              <span className="rounded-full border border-cyan-200/20 bg-cyan-200/[0.06] px-3 py-1 text-cyan-100">Searchable notes</span>
-              <span className="rounded-full border border-amber-200/18 bg-amber-200/[0.06] px-3 py-1 text-amber-100">Data-rich reads</span>
+            <div className="flex flex-wrap items-center gap-2 data-label text-[10px] text-slate-300">
+              <span className="rounded-full border border-yellow-300/22 bg-yellow-300/[0.08] px-3 py-1 text-yellow-100">stream.live</span>
+              <span className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1 text-slate-200">night relay archive</span>
             </div>
 
-            <div className="space-y-4">
-              <p className="text-[11px] font-mono uppercase tracking-[0.28em] text-slate-400">
-                Refined technical writing
-              </p>
-              <h1 className="max-w-3xl font-display text-4xl font-semibold tracking-[-0.03em] text-white md:text-5xl lg:text-6xl">
-                <span className="block">A polished system</span>
-                <span className="block text-glow-cyan text-cyan-100">for practical engineering notes.</span>
+            <div className="space-y-3">
+              <p className="data-label text-[11px] text-slate-500">cityline channel // practical notes</p>
+              <h1 className="max-w-4xl font-display text-4xl font-semibold tracking-[-0.03em] text-white md:text-5xl lg:text-[3.7rem]">
+                <span className="block glitch-text">Signal-First Writing</span>
+                <span className="block text-yellow-100">for Systems, Relays, and Scrapers.</span>
               </h1>
               <p className="max-w-2xl text-sm leading-8 text-slate-300/90 md:text-base">
-                Linux, Python, networking, and infrastructure workflows presented with more breathing room,
-                softer contrast, and a cleaner reading surface.
+                A dense archive of Linux fieldwork, proxy experiments, and Python scraping notes.
+                Built to feel like a live terminal channel, not a polished magazine.
               </p>
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="rounded-[1.15rem] border border-white/8 bg-slate-950/32 p-4">
+                <div className="data-label text-[10px] text-slate-500">transmissions</div>
+                <div className="mt-2 font-display text-3xl font-semibold text-white">{allPostsData.length}</div>
+              </div>
+              <div className="rounded-[1.15rem] border border-white/8 bg-slate-950/32 p-4">
+                <div className="data-label text-[10px] text-slate-500">sectors</div>
+                <div className="mt-2 font-display text-3xl font-semibold text-white">{sectionCount}</div>
+              </div>
+              <div className="rounded-[1.15rem] border border-white/8 bg-slate-950/32 p-4">
+                <div className="data-label text-[10px] text-slate-500">nodes</div>
+                <div className="mt-2 font-display text-3xl font-semibold text-white">{topicCount}</div>
+              </div>
             </div>
 
             <div className="flex flex-wrap gap-3">
               {featuredTags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-[11px] font-mono uppercase tracking-[0.18em] text-slate-200"
+                  className="rounded-full border border-white/10 bg-white/[0.035] px-3 py-1 data-label text-[11px] text-slate-200"
                 >
                   #{tag}
                 </span>
@@ -90,28 +103,28 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
-            <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 shadow-[0_16px_45px_rgba(0,0,0,0.2)] backdrop-blur-sm">
-              <div className="text-[10px] font-mono uppercase tracking-[0.24em] text-slate-400">Archive stats</div>
-              <div className="mt-4 grid grid-cols-2 gap-3">
-                <div className="rounded-2xl border border-white/8 bg-slate-950/35 p-4">
-                  <div className="text-2xl font-display font-semibold text-white">{allPostsData.length}</div>
-                  <div className="mt-1 text-[10px] font-mono uppercase tracking-[0.2em] text-slate-400">Posts</div>
-                </div>
-                <div className="rounded-2xl border border-white/8 bg-slate-950/35 p-4">
-                  <div className="text-2xl font-display font-semibold text-white">{sectionCount}</div>
-                  <div className="mt-1 text-[10px] font-mono uppercase tracking-[0.2em] text-slate-400">Sections</div>
-                </div>
+          <div className="space-y-3">
+            <div className="rounded-[1.3rem] border border-yellow-300/10 bg-white/[0.035] p-5">
+              <div className="data-label text-[10px] text-slate-500">latest signal</div>
+              <div className="mt-3 font-display text-2xl font-semibold leading-tight text-white">
+                {latestPost?.title ?? 'No transmissions yet'}
+              </div>
+              <div className="mt-3 data-label text-[10px] text-yellow-100">
+                {latestPost?.date ?? '—'} || primary route online
               </div>
             </div>
 
-            <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 shadow-[0_16px_45px_rgba(0,0,0,0.2)] backdrop-blur-sm">
-              <div className="text-[10px] font-mono uppercase tracking-[0.24em] text-slate-400">Latest signal</div>
-              <div className="mt-4 space-y-2">
-                <div className="font-display text-xl font-semibold leading-snug text-white">{latestPost?.title ?? 'No transmissions yet'}</div>
-                <div className="text-xs font-mono uppercase tracking-[0.18em] text-cyan-100">
-                  {latestPost?.date ?? '—'} / {topicCount} subtopics
-                </div>
+            <div className="rounded-[1.3rem] border border-white/8 bg-slate-950/28 p-5">
+              <div className="data-label text-[10px] text-slate-500">recent packets</div>
+              <div className="mt-4 space-y-3">
+                {recentSignals.map((post, index) => (
+                  <div key={post.slug} className="border-b border-white/8 pb-3 last:border-0 last:pb-0">
+                    <div className="data-label text-[10px] text-slate-500">
+                      {String(index + 1).padStart(2, '0')} || {post.date}
+                    </div>
+                    <div className="mt-1 text-sm leading-6 text-slate-200">{post.title}</div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

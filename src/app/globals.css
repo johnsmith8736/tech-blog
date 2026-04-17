@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --background: #05070c;
-  --background-soft: #0b1220;
-  --foreground: #eef2f9;
-  --text-muted: #98a6ba;
-  --surface: rgba(10, 15, 24, 0.72);
-  --surface-strong: rgba(8, 12, 18, 0.9);
-  --surface-faint: rgba(18, 26, 40, 0.42);
-  --border: rgba(169, 183, 208, 0.18);
-  --border-strong: rgba(169, 183, 208, 0.28);
-  --accent: #8ee6df;
-  --accent-strong: #93c5fd;
-  --accent-warm: #d1b46f;
-  --accent-hot: #f6a65a;
-  --glow-cyan: rgba(142, 230, 223, 0.16);
-  --glow-blue: rgba(147, 197, 253, 0.12);
-  --glow-warm: rgba(209, 180, 111, 0.12);
+  --background: #07070b;
+  --background-soft: #10111a;
+  --foreground: #f5f7ff;
+  --text-muted: #8f97ad;
+  --surface: rgba(14, 16, 24, 0.82);
+  --surface-strong: rgba(7, 9, 14, 0.94);
+  --surface-faint: rgba(22, 24, 37, 0.58);
+  --border: rgba(255, 214, 10, 0.18);
+  --border-strong: rgba(98, 243, 255, 0.28);
+  --accent: #ffd60a;
+  --accent-strong: #ffb703;
+  --accent-warm: #62f3ff;
+  --accent-hot: #00c2ff;
+  --glow-cyan: rgba(98, 243, 255, 0.12);
+  --glow-blue: rgba(0, 194, 255, 0.1);
+  --glow-warm: rgba(255, 214, 10, 0.22);
 }
 
 html {
@@ -27,10 +27,10 @@ html {
 body {
   min-height: 100vh;
   background:
-    radial-gradient(circle at 14% 16%, rgba(147, 197, 253, 0.16) 0%, transparent 28%),
-    radial-gradient(circle at 82% 12%, rgba(142, 230, 223, 0.12) 0%, transparent 26%),
-    radial-gradient(circle at 50% 100%, rgba(209, 180, 111, 0.08) 0%, transparent 34%),
-    linear-gradient(180deg, rgba(14, 21, 34, 0.76) 0%, rgba(5, 7, 12, 0) 28%),
+    radial-gradient(circle at 18% 14%, rgba(255, 214, 10, 0.16) 0%, transparent 24%),
+    radial-gradient(circle at 82% 11%, rgba(255, 122, 24, 0.1) 0%, transparent 22%),
+    radial-gradient(circle at 62% 100%, rgba(98, 243, 255, 0.06) 0%, transparent 28%),
+    linear-gradient(180deg, rgba(29, 24, 10, 0.32) 0%, rgba(7, 7, 11, 0) 22%),
     var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -45,12 +45,12 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background-image:
-    linear-gradient(rgba(169, 183, 208, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(169, 183, 208, 0.07) 1px, transparent 1px),
-    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.018) 1px, transparent 1px);
-  background-size: 34px 34px, 34px 34px, 160px 160px, 160px 160px;
+    background-image:
+    linear-gradient(rgba(255, 214, 10, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 214, 10, 0.06) 1px, transparent 1px),
+    linear-gradient(rgba(98, 243, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(98, 243, 255, 0.03) 1px, transparent 1px);
+  background-size: 32px 32px, 32px 32px, 160px 160px, 160px 160px;
   background-position: 0 0, 0 0, 0 0, 0 0;
   z-index: -1;
   pointer-events: none;
@@ -62,14 +62,21 @@ body::after {
   position: fixed;
   inset: 0;
   background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.05), transparent 42%),
-    linear-gradient(to bottom, rgba(5, 7, 12, 0.1), rgba(5, 7, 12, 0.7));
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.024) 0,
+      rgba(255, 255, 255, 0.024) 1px,
+      transparent 1px,
+      transparent 4px
+    ),
+    linear-gradient(to bottom, rgba(7, 7, 11, 0.08), rgba(7, 7, 11, 0.75));
   pointer-events: none;
   z-index: -1;
+  opacity: 0.55;
 }
 
 :where(a, button, input, textarea, select, summary):focus-visible {
-  outline: 2px solid rgba(142, 230, 223, 0.8);
+  outline: 2px solid rgba(255, 214, 10, 0.8);
   outline-offset: 3px;
 }
 
@@ -93,22 +100,26 @@ body::after {
 
   .glitch-text {
     position: relative;
-    text-shadow: 0 0 16px rgba(142, 230, 223, 0.12);
+    text-shadow:
+      0 0 18px rgba(255, 214, 10, 0.2),
+      0 0 28px rgba(98, 243, 255, 0.08);
   }
 
   .glass-panel {
     background:
-      linear-gradient(145deg, rgba(18, 25, 37, 0.9), rgba(8, 12, 19, 0.8)),
-      radial-gradient(circle at top left, rgba(147, 197, 253, 0.08), transparent 44%);
+      linear-gradient(145deg, rgba(17, 18, 28, 0.94), rgba(8, 10, 16, 0.92)),
+      radial-gradient(circle at top left, rgba(255, 214, 10, 0.1), transparent 38%),
+      radial-gradient(circle at top right, rgba(98, 243, 255, 0.06), transparent 28%);
     border: 1px solid var(--border);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.08),
-      0 24px 70px rgba(0, 0, 0, 0.34);
+      inset 0 1px 0 rgba(255, 255, 255, 0.05),
+      0 0 0 1px rgba(255, 214, 10, 0.04),
+      0 20px 60px rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(18px);
   }
 
   .accent-gradient-text {
-    background: linear-gradient(90deg, #d9e8ff, #9ee7df 45%, #d4bc7e 78%, #f6a65a);
+    background: linear-gradient(90deg, #fffef6 0%, #ffd60a 32%, #ffb703 60%, #62f3ff 100%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -122,7 +133,7 @@ body::after {
     content: "";
     position: absolute;
     inset: 0;
-    border: 1px solid rgba(169, 183, 208, 0.14);
+    border: 1px solid rgba(255, 214, 10, 0.14);
     clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
     pointer-events: none;
   }
@@ -136,7 +147,7 @@ body::after {
     content: "";
     position: absolute;
     inset: -20% -30%;
-    background: linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.1) 50%, transparent 65%);
+    background: linear-gradient(115deg, transparent 32%, rgba(255, 214, 10, 0.12) 48%, rgba(98, 243, 255, 0.08) 56%, transparent 68%);
     transform: translateX(-58%);
     pointer-events: none;
   }
@@ -147,13 +158,41 @@ body::after {
 
   .soft-grid {
     background-image:
-      linear-gradient(rgba(169, 183, 208, 0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(169, 183, 208, 0.07) 1px, transparent 1px);
+      linear-gradient(rgba(255, 214, 10, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 214, 10, 0.06) 1px, transparent 1px);
     background-size: 28px 28px;
   }
 
   .text-glow-cyan {
-    text-shadow: 0 0 18px rgba(142, 230, 223, 0.14);
+    text-shadow:
+      0 0 18px rgba(255, 214, 10, 0.18),
+      0 0 30px rgba(98, 243, 255, 0.08);
+  }
+
+  .neon-yellow-text {
+    text-shadow:
+      0 0 16px rgba(255, 214, 10, 0.42),
+      0 0 30px rgba(255, 122, 24, 0.16);
+  }
+
+  .data-label {
+    font-family: var(--font-share-tech-mono), monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.24em;
+  }
+
+  .terminal-rule {
+    position: relative;
+  }
+
+  .terminal-rule::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 214, 10, 0), rgba(255, 214, 10, 0.8), rgba(98, 243, 255, 0.55), rgba(255, 214, 10, 0));
   }
 }
 
@@ -166,10 +205,10 @@ pre {
   top: 0.5rem;
   right: 0.5rem;
   padding: 0.12rem 0.52rem;
-  border: 1px solid rgba(169, 183, 208, 0.22);
+  border: 1px solid rgba(255, 214, 10, 0.28);
   border-radius: 6px;
-  background: rgba(11, 18, 31, 0.82);
-  color: #d9e1ec;
+  background: rgba(10, 14, 22, 0.88);
+  color: #fff4bf;
   font-size: 11px;
   font-family: var(--font-share-tech-mono), monospace;
   line-height: 1.4;
@@ -178,19 +217,19 @@ pre {
 }
 
 .code-copy-button:hover {
-  border-color: rgba(142, 230, 223, 0.45);
-  color: #f6fbff;
-  background: rgba(18, 28, 44, 0.92);
+  border-color: rgba(98, 243, 255, 0.45);
+  color: #ebfdff;
+  background: rgba(20, 24, 39, 0.96);
 }
 
 .code-copy-button[data-copied="true"] {
-  border-color: rgba(142, 230, 223, 0.45);
-  color: #baf9f2;
-  background: rgba(17, 43, 53, 0.88);
+  border-color: rgba(255, 214, 10, 0.5);
+  color: #fff3a1;
+  background: rgba(46, 38, 7, 0.92);
 }
 
   .focus-visible {
-    outline: 2px solid #8ee6df;
+    outline: 2px solid #ffd60a;
     outline-offset: 2px;
   }
 
