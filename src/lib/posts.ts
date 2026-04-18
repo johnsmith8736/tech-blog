@@ -93,6 +93,13 @@ export interface PostData {
   subsection?: string;
   readingTimeMinutes?: number;
   searchText?: string;
+  headings?: PostHeading[];
+}
+
+export interface PostHeading {
+  id: string;
+  text: string;
+  level: 2 | 3;
 }
 
 interface PostFrontmatter {
@@ -231,6 +238,78 @@ function estimateReadingTimeMinutes(content: string) {
   return Math.max(1, Math.ceil(wordCount / 200));
 }
 
+function stripInlineMarkdown(value: string) {
+  return value
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/_([^_]+)_/g, '$1')
+    .replace(/~~([^~]+)~~/g, '$1')
+    .replace(/\[(.*?)\]\(.*?\)/g, '$1')
+    .replace(/<[^>]+>/g, '')
+    .trim();
+}
+
+function createHeadingId(value: string) {
+  const normalized = stripInlineMarkdown(value)
+    .toLowerCase()
+    .replace(/&[#A-Za-z0-9]+;/g, '')
+    .replace(/[^\p{Letter}\p{Number}\s-]/gu, '')
+    .trim()
+    .replace(/\s+/g, '-');
+
+  return normalized || 'section';
+}
+
+function extractHeadings(markdown: string): PostHeading[] {
+  const headingCounts = new Map<string, number>();
+  const headings: PostHeading[] = [];
+
+  for (const line of markdown.split('\n')) {
+    const match = /^(#{2,3})\s+(.+)$/.exec(line.trim());
+
+    if (!match) {
+      continue;
+    }
+
+    const level = match[1].length as 2 | 3;
+    const text = stripInlineMarkdown(match[2]);
+
+    if (!text) {
+      continue;
+    }
+
+    const baseId = createHeadingId(text);
+    const seenCount = headingCounts.get(baseId) ?? 0;
+    headingCounts.set(baseId, seenCount + 1);
+
+    headings.push({
+      id: seenCount === 0 ? baseId : `${baseId}-${seenCount + 1}`,
+      text,
+      level,
+    });
+  }
+
+  return headings;
+}
+
+function annotateHeadingIds(contentHtml: string, headings: PostHeading[]) {
+  let headingIndex = 0;
+
+  return contentHtml.replace(/<h([23])([^>]*)>/g, (match, level, attributes) => {
+    const expectedHeading = headings[headingIndex];
+
+    if (!expectedHeading || expectedHeading.level !== Number(level)) {
+      return match;
+    }
+
+    headingIndex += 1;
+
+    const cleanedAttributes = attributes.replace(/\sid="[^"]*"/, '');
+    return `<h${level}${cleanedAttributes} id="${expectedHeading.id}">`;
+  });
+}
+
 function createSearchText({
   title,
   excerpt,
@@ -291,9 +370,11 @@ function parsePostFile(slug: string, fileContents: string): PostData {
 
 export function renderPostContent(markdown: string) {
   let contentHtml = converter.makeHtml(markdown);
+  const headings = extractHeadings(markdown);
 
   // Sanitize HTML to prevent XSS
   contentHtml = dompurify.sanitize(contentHtml);
+  contentHtml = annotateHeadingIds(contentHtml, headings);
 
   // 使用 highlight.js 进行语法高亮，GitHub 风格
   contentHtml = contentHtml.replace(codeBlockWithLangRegex, (match, lang, code) => {
@@ -314,6 +395,31 @@ export function renderPostContent(markdown: string) {
       return match;
     }
   });
+}
+
+function scoreRelatedPost(currentPost: PostData, candidatePost: PostData) {
+  let score = 0;
+
+  if (currentPost.section && currentPost.section === candidatePost.section) {
+    score += 4;
+  }
+
+  if (currentPost.subsection && currentPost.subsection === candidatePost.subsection) {
+    score += 3;
+  }
+
+  const currentTags = new Set(currentPost.tags ?? []);
+  for (const tag of candidatePost.tags ?? []) {
+    if (currentTags.has(tag)) {
+      score += 2;
+    }
+  }
+
+  if (currentPost.category && currentPost.category === candidatePost.category) {
+    score += 1;
+  }
+
+  return score;
 }
 
 export const getSortedPostsData = cache(function getSortedPostsData(): PostData[] {
@@ -359,17 +465,62 @@ export const getPostData = cache(function getPostData(slug: string): PostData | 
     const fileContents = fs.readFileSync(fullPath, 'utf8');
     const post = parsePostFile(slug, fileContents);
     const contentHtml = renderPostContent(post.content || '');
+    const headings = extractHeadings(post.content || '');
 
     return {
       ...post,
       id: 1,
       contentHtml,
+      headings,
     };
   } catch (error) {
     console.error(`Failed to read post ${slug}:`, error);
     return null;
   }
 });
+
+export function getRelatedPosts(slug: string, limit = 3): PostData[] {
+  const posts = getSortedPostsData();
+  const currentPost = posts.find((post) => post.slug === slug);
+
+  if (!currentPost) {
+    return [];
+  }
+
+  return posts
+    .filter((post) => post.slug !== slug)
+    .map((post) => ({
+      post,
+      score: scoreRelatedPost(currentPost, post),
+    }))
+    .filter(({ score }) => score > 0)
+    .sort((left, right) => {
+      if (right.score !== left.score) {
+        return right.score - left.score;
+      }
+
+      return left.post.id - right.post.id;
+    })
+    .slice(0, limit)
+    .map(({ post }) => post);
+}
+
+export function getAdjacentPosts(slug: string) {
+  const posts = getSortedPostsData();
+  const index = posts.findIndex((post) => post.slug === slug);
+
+  if (index === -1) {
+    return {
+      newerPost: null,
+      olderPost: null,
+    };
+  }
+
+  return {
+    newerPost: posts[index - 1] ?? null,
+    olderPost: posts[index + 1] ?? null,
+  };
+}
 
 export function getAllPostSlugs() {
   try {

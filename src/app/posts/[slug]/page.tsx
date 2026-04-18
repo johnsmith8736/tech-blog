@@ -1,6 +1,6 @@
 
 import Link from 'next/link';
-import { getPostData, getAllPostSlugs } from '@/lib/posts';
+import { getAdjacentPosts, getAllPostSlugs, getPostData, getRelatedPosts } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 import CodeCopyEnhancer from '@/components/CodeCopyEnhancer';
 import { getSectionLabel, getSubsectionLabel } from '@/lib/site-structure';
@@ -72,6 +72,8 @@ export default async function PostPage({ params }: PostPageProps) {
     }
 
     const canonicalPath = `/posts/${postData.slug}/`;
+    const relatedPosts = getRelatedPosts(postData.slug, 3);
+    const { newerPost, olderPost } = getAdjacentPosts(postData.slug);
     const sectionLabel = postData.section ? getSectionLabel(postData.section) : '';
     const subsectionLabel = postData.section && postData.subsection
         ? getSubsectionLabel(postData.section, postData.subsection)
@@ -205,6 +207,70 @@ export default async function PostPage({ params }: PostPageProps) {
                     />
                 </div>
 
+                {(postData.headings?.length || relatedPosts.length > 0) && (
+                    <section className="mt-8 grid gap-5 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.9fr)]">
+                        {postData.headings?.length ? (
+                            <div className="glass-panel edge-frame overflow-hidden p-5">
+                                <div className="flex items-center justify-between border-b border-white/8 pb-3">
+                                    <div className="data-label text-[10px] text-slate-400">signal map</div>
+                                    <div className="data-label text-[10px] text-cyan-100">{postData.headings.length} anchors</div>
+                                </div>
+
+                                <div className="mt-4 grid gap-2">
+                                    {postData.headings.map((heading, index) => (
+                                        <a
+                                            key={heading.id}
+                                            href={`#${heading.id}`}
+                                            className={`group flex items-center justify-between gap-4 rounded-2xl border border-white/8 bg-white/[0.025] px-4 py-3 transition-colors hover:border-cyan-300/28 hover:bg-white/[0.045] ${
+                                                heading.level === 3 ? 'ml-4' : ''
+                                            }`}
+                                        >
+                                            <div className="min-w-0">
+                                                <div className="data-label text-[10px] text-slate-500">
+                                                    {String(index + 1).padStart(2, '0')} {'//'} h{heading.level}
+                                                </div>
+                                                <div className="mt-1 text-sm text-slate-200 transition-colors group-hover:text-white">
+                                                    {heading.text}
+                                                </div>
+                                            </div>
+                                            <span className="text-sm text-slate-500 transition-transform group-hover:translate-x-0.5 group-hover:text-cyan-100">→</span>
+                                        </a>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : null}
+
+                        {relatedPosts.length > 0 ? (
+                            <div className="glass-panel edge-frame overflow-hidden p-5">
+                                <div className="flex items-center justify-between border-b border-white/8 pb-3">
+                                    <div className="data-label text-[10px] text-slate-400">linked signals</div>
+                                    <div className="data-label text-[10px] text-yellow-100">related traffic</div>
+                                </div>
+
+                                <div className="mt-4 space-y-3">
+                                    {relatedPosts.map((relatedPost) => (
+                                        <Link
+                                            key={relatedPost.slug}
+                                            href={`/posts/${relatedPost.slug}/`}
+                                            className="group block rounded-[1.1rem] border border-white/8 bg-white/[0.025] p-4 transition-colors hover:border-yellow-300/26 hover:bg-white/[0.045]"
+                                        >
+                                            <div className="data-label text-[10px] text-slate-500">
+                                                {relatedPost.date} / {relatedPost.readingTimeMinutes ?? 1} min
+                                            </div>
+                                            <div className="mt-2 text-base font-medium leading-7 text-slate-100 transition-colors group-hover:text-white">
+                                                {relatedPost.title}
+                                            </div>
+                                            <div className="mt-2 text-sm text-slate-400">
+                                                {relatedPost.excerpt}
+                                            </div>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        ) : null}
+                    </section>
+                )}
+
                 <div className="glass-panel edge-frame mt-8 overflow-hidden p-5">
                     <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div>
@@ -215,6 +281,22 @@ export default async function PostPage({ params }: PostPageProps) {
                         </div>
 
                         <div className="flex flex-wrap gap-3">
+                            {newerPost ? (
+                                <Link
+                                    href={`/posts/${newerPost.slug}/`}
+                                    className="inline-flex items-center gap-2 rounded-full border border-yellow-300/18 bg-yellow-300/[0.05] px-4 py-2 data-label text-[10px] text-yellow-100 transition-colors hover:border-yellow-300/35 hover:text-white"
+                                >
+                                    <span>↑</span> newer_signal
+                                </Link>
+                            ) : null}
+                            {olderPost ? (
+                                <Link
+                                    href={`/posts/${olderPost.slug}/`}
+                                    className="inline-flex items-center gap-2 rounded-full border border-amber-200/15 bg-amber-200/[0.05] px-4 py-2 data-label text-[10px] text-amber-100 transition-colors hover:border-amber-200/30 hover:text-white"
+                                >
+                                    <span>↓</span> older_signal
+                                </Link>
+                            ) : null}
                             <Link
                                 href="/"
                                 className="inline-flex items-center gap-2 rounded-full border border-cyan-300/18 bg-cyan-300/[0.05] px-4 py-2 data-label text-[10px] text-cyan-100 transition-colors hover:border-yellow-300/35 hover:text-white"

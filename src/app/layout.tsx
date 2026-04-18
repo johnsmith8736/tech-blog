@@ -1,6 +1,7 @@
 
 
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Inter, Rajdhani, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
 import "highlight.js/styles/github-dark.css";
@@ -109,7 +110,9 @@ export default function RootLayout({
               </div>
 
               <div className="w-full lg:sticky lg:top-28 lg:w-auto">
-                <CyberSidebar />
+                <Suspense fallback={<div className="glass-panel edge-frame hidden h-24 lg:block" />}>
+                  <CyberSidebar />
+                </Suspense>
               </div>
             </div>
           </div>

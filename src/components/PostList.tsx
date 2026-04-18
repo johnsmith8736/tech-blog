@@ -12,6 +12,8 @@ const POSTS_PER_PAGE = 10;
 
 export default function PostList({ initialPosts }: PostListProps) {
   const [displayedPosts, setDisplayedPosts] = useState(initialPosts.slice(0, POSTS_PER_PAGE));
+  const currentPage = Math.max(1, Math.ceil(displayedPosts.length / POSTS_PER_PAGE));
+  const totalPages = Math.max(1, Math.ceil(initialPosts.length / POSTS_PER_PAGE));
 
   useEffect(() => {
     setDisplayedPosts(initialPosts.slice(0, POSTS_PER_PAGE));
@@ -37,7 +39,7 @@ export default function PostList({ initialPosts }: PostListProps) {
         </div>
 
         <div className="data-label text-[10px] text-cyan-100">
-          Page 1 / 1 // live feed
+          Page {currentPage} / {totalPages} {'//'} live feed
         </div>
       </div>
 

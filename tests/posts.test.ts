@@ -2,9 +2,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 
 import {
+  getAdjacentPosts,
   findValidSection,
   generateExcerpt,
   getPostData,
+  getRelatedPosts,
   getSortedPostsData,
   highlightBlock,
   inferSectionAndSubsection,
@@ -76,14 +78,27 @@ test('renderPostContent sanitizes inline HTML and highlights fenced code blocks'
   const html = renderPostContent(`
 <script>alert('xss')</script>
 
+## 示例代码
+
 \`\`\`json
 {"safe": true}
 \`\`\`
 `);
 
   assert.doesNotMatch(html, /<script>/);
+  assert.match(html, /<h2 id="示例代码">/);
   assert.match(html, /<pre data-lang="json">/);
   assert.match(html, /language-json/);
+});
+
+test('getPostData extracts h2 and h3 headings for in-article navigation', () => {
+  const post = getPostData('python-web-scraping-beginners-guide');
+
+  assert.ok(post);
+  assert.ok(post.headings);
+  assert.ok(post.headings!.length > 0);
+  assert.ok(post.headings!.every((heading) => heading.level === 2 || heading.level === 3));
+  assert.ok(post.headings!.every((heading) => heading.id.length > 0));
 });
 
 test('getSortedPostsData exposes normalized search metadata for posts', () => {
@@ -101,4 +116,24 @@ test('getPostData normalizes publish dates to YYYY-MM-DD when possible', () => {
 
   assert.ok(post);
   assert.match(post.date, /^\d{4}-\d{2}-\d{2}$/);
+});
+
+test('getRelatedPosts returns distinct posts ranked from the same knowledge area', () => {
+  const relatedPosts = getRelatedPosts('python-web-scraping-beginners-guide', 3);
+
+  assert.ok(relatedPosts.length > 0);
+  assert.equal(relatedPosts.some((post) => post.slug === 'python-web-scraping-beginners-guide'), false);
+  assert.equal(relatedPosts.every((post) => post.section === 'python'), true);
+});
+
+test('getAdjacentPosts returns neighboring posts from the sorted archive', () => {
+  const posts = getSortedPostsData();
+  const middlePost = posts[1];
+
+  assert.ok(middlePost);
+
+  const adjacent = getAdjacentPosts(middlePost.slug);
+
+  assert.equal(adjacent.newerPost?.slug, posts[0].slug);
+  assert.equal(adjacent.olderPost?.slug, posts[2].slug);
 });
