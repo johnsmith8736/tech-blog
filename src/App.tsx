@@ -8,20 +8,26 @@ import { SystemStatus } from './components/SystemStatus';
 
 export default function App() {
   return (
-    <div className="app-shell">
-      <Header />
-      <main className="layout">
-        <aside className="sidebar" aria-label="Profile and navigation">
-          <AuthorPanel />
-          <NavigationPanel />
-          <NeuralActivity />
-          <SystemStatus />
-        </aside>
-        <section className="content-frame">
-          <Outlet />
-        </section>
-      </main>
-      <Footer />
+    <div className="app-container">
+      <div className="ambient-orbs" aria-hidden="true">
+        <div className="ambient-orb orb-1"></div>
+        <div className="ambient-orb orb-2"></div>
+      </div>
+      <div className="app-shell">
+        <Header />
+        <main className="layout">
+          <aside className="sidebar" aria-label="Profile and navigation">
+            <AuthorPanel />
+            <NavigationPanel />
+            <NeuralActivity />
+            <SystemStatus />
+          </aside>
+          <section className="content-frame">
+            <Outlet />
+          </section>
+        </main>
+        <Footer />
+      </div>
     </div>
   );
 }
