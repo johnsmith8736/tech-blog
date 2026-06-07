@@ -18,18 +18,18 @@ export function FeedPage() {
     <>
       <div id="signals" className="section-header">
         <div>
-          <p className="eyebrow">Encrypted public feed</p>
-          <h2>FEED</h2>
+          <p className="eyebrow">ENCRYPTED // PUBLIC KEY DETECTED</p>
+          <h2>LATEST TRANSMISSIONS</h2>
         </div>
-        <span className="online-pill">Online</span>
+        <span className="online-pill">ONLINE</span>
       </div>
       <section id="archive" className="brand-panel" aria-labelledby="brand-title">
-        <p className="eyebrow">LATEST TRANSMISSIONS</p>
-        <h1 id="brand-title">LATEST TRANSMISSIONS</h1>
+        <p className="eyebrow">INITIALIZING DATA LINK...</p>
+        <h1 id="brand-title">STANLEY CHAN</h1>
         <p>Live archive synchronized from local Markdown files in the posts directory.</p>
         <div className="brand-grid" aria-label="Project status">
           <span>{visiblePosts.length} POSTS ONLINE</span>
-          <span>AUTHOR SLOT READY</span>
+          <span>NETRUNNER ACTIVE</span>
           <span>MARKDOWN SOURCE</span>
         </div>
       </section>

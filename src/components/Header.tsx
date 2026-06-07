@@ -26,7 +26,7 @@ export function Header() {
     <header className="site-header">
       <NavLink to="/" className="brand" aria-label="Tech Blog home">
         <img className="brand-mark" src="/kali.svg" alt="" />
-        <span className="brand-name">Tech Blog</span>
+        <span className="brand-name glitch-text" data-text="STANLEY.CHAN">STANLEY.CHAN</span>
       </NavLink>
       <div className="header-actions">
         <label className="site-search" htmlFor={searchId}>
@@ -40,7 +40,7 @@ export function Header() {
           />
         </label>
         <nav className="top-nav" aria-label="Primary navigation">
-          <NavLink to="/">Feed</NavLink>
+          <NavLink to="/" className="glitch-text" data-text="FEED">FEED</NavLink>
         </nav>
       </div>
     </header>

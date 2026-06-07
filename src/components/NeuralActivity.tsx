@@ -29,19 +29,19 @@ function MeterBar({ val, min, max, activeColor }: { val: number; min: number; ma
 
 // 动态诊断 SVG 状态指示环 (LED Ring)
 function StatusRing({ status }: { status: 'NOMINAL' | 'SYSTOLE' | 'EXT-SYS' | 'COMPENSATE' }) {
-  let color = 'rgba(197, 168, 128, 0.85)';
-  let glow = 'rgba(197, 168, 128, 0.3)';
+  let color = 'rgba(0, 240, 255, 0.85)';
+  let glow = 'rgba(0, 240, 255, 0.3)';
   let spinClass = 'spin-slow';
   let pulseClass = 'pulse-slow';
 
   if (status === 'SYSTOLE') {
     color = '#ffffff';
-    glow = 'rgba(197, 168, 128, 0.7)';
+    glow = 'rgba(0, 240, 255, 0.7)';
     spinClass = 'spin-fast';
     pulseClass = 'pulse-fast';
   } else if (status === 'EXT-SYS') {
-    color = '#ef4444';
-    glow = 'rgba(239, 68, 68, 0.8)';
+    color = '#ff003c';
+    glow = 'rgba(255, 0, 60, 0.8)';
     spinClass = 'spin-v-fast';
     pulseClass = 'pulse-v-fast';
   } else if (status === 'COMPENSATE') {
@@ -257,12 +257,12 @@ export function NeuralActivity() {
   const secondaryPath = generateSmoothPath(secondaryPoints);
 
   let statusColorClass = 'status-green';
-  let activeBarColor = 'rgba(197, 168, 128, 0.85)';
+  let activeBarColor = 'rgba(0, 240, 255, 0.85)';
   if (ecgStatus === 'SYSTOLE') {
     statusColorClass = 'status-yellow';
   } else if (ecgStatus === 'EXT-SYS') {
     statusColorClass = 'status-red';
-    activeBarColor = '#ef4444';
+    activeBarColor = '#ff003c';
   } else if (ecgStatus === 'COMPENSATE') {
     statusColorClass = 'status-blue';
     activeBarColor = '#00f0ff';
@@ -285,12 +285,12 @@ export function NeuralActivity() {
         <svg className="quantum-waves atlassc-waves" viewBox="0 0 280 60" preserveAspectRatio="none">
           <defs>
             <linearGradient id="ecg-fade-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(197, 168, 128, 0)" />
-              <stop offset="8%" stopColor="rgba(197, 168, 128, 0.45)" />
-              <stop offset="15%" stopColor="rgba(197, 168, 128, 0.9)" />
-              <stop offset="85%" stopColor="rgba(197, 168, 128, 0.9)" />
-              <stop offset="92%" stopColor="rgba(197, 168, 128, 0.45)" />
-              <stop offset="100%" stopColor="rgba(197, 168, 128, 0)" />
+              <stop offset="0%" stopColor="rgba(0, 240, 255, 0)" />
+              <stop offset="8%" stopColor="rgba(0, 240, 255, 0.5)" />
+              <stop offset="15%" stopColor="rgba(0, 240, 255, 0.95)" />
+              <stop offset="85%" stopColor="rgba(0, 240, 255, 0.95)" />
+              <stop offset="92%" stopColor="rgba(0, 240, 255, 0.5)" />
+              <stop offset="100%" stopColor="rgba(0, 240, 255, 0)" />
             </linearGradient>
 
             <linearGradient id="cyan-fade-grad" x1="0%" y1="0%" x2="100%" y2="0%">

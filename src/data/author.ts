@@ -1,11 +1,15 @@
 import type { AuthorProfile } from '../types/blog';
 
 export const author: AuthorProfile = {
-  name: 'Stanley Chan',
+  name: 'STANLEY CHAN',
   handle: '@stanleychan87',
   url: 'https://github.com/johnsmith8736',
-  role: 'Systems Writer',
-  bio: "Sorrow calls no time that's gone!",
+  role: 'NETRUNNER',
+  bio: '"Navigating the datastreams of Night City..."',
   avatarUrl: '/kali.svg',
-  metrics: [],
+  metrics: [
+    { label: 'RAM', value: '64%' },
+    { label: 'ICE', value: '88%' },
+    { label: 'UPLINK', value: '42MS' },
+  ],
 };

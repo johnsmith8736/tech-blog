@@ -1,8 +1,8 @@
 export function Footer() {
   return (
     <footer className="site-footer">
-      <span>© 2026 Tech Blog</span>
-      <span>Static relay v0.1</span>
+      <span>© 2077 STANLEY CHAN // NO RIGHTS RESERVED</span>
+      <span>Netwatch Protocol v.2.55</span>
     </footer>
   );
 }

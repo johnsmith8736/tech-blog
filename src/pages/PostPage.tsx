@@ -15,7 +15,7 @@ export function PostPage() {
     <article className="post-page">
       <Link className="back-link" to="/">
         <ArrowLeft size={17} aria-hidden="true" />
-        Back to feed
+        BACK TO FEED
       </Link>
       <div className="post-meta">
         <span>{post.category}</span>

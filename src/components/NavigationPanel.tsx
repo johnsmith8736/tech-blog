@@ -8,19 +8,19 @@ const items = [
 export function NavigationPanel() {
   return (
     <section className="panel" aria-labelledby="navigation-title">
-      <h2 id="navigation-title">Navigation</h2>
+      <h2 id="navigation-title">NAVIGATION</h2>
       <div className="side-nav">
         {items.map((item) => {
           const Icon = item.icon;
           return item.href === '/' ? (
             <NavLink key={item.label} to={item.href}>
               <Icon size={17} aria-hidden="true" />
-              {item.label}
+              <span className="glitch-text" data-text={item.label}>{item.label}</span>
             </NavLink>
           ) : (
             <a key={item.label} href={item.href}>
               <Icon size={17} aria-hidden="true" />
-              {item.label}
+              <span className="glitch-text" data-text={item.label}>{item.label}</span>
             </a>
           );
         })}

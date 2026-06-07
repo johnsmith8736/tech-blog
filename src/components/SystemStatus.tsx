@@ -1,15 +1,16 @@
-import { Activity, ShieldCheck, Wifi } from 'lucide-react';
+import { ShieldCheck, Wifi, Database, Radio } from 'lucide-react';
 
 const statusItems = [
-  { label: 'Firewall', value: 'Active', icon: ShieldCheck },
-  { label: 'Index', value: '4 Nodes', icon: Activity },
-  { label: 'Feed', value: 'Online', icon: Wifi },
+  { label: 'FIREWALL', value: 'ACTIVE', icon: ShieldCheck },
+  { label: 'TRACE_ROUTE', value: 'BLOCKED', icon: Radio },
+  { label: 'DATA_FRAGMENTS', value: '0', icon: Database },
+  { label: 'INDEX_NODES', value: '4', icon: Wifi },
 ];
 
 export function SystemStatus() {
   return (
     <section className="panel" aria-labelledby="status-title">
-      <h2 id="status-title">System Status</h2>
+      <h2 id="status-title">SYSTEM STATUS</h2>
       <ul className="status-list">
         {statusItems.map((item) => {
           const Icon = item.icon;
