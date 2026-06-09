@@ -32,24 +32,6 @@ body {
   background-size: 24px 24px;
 }
 
-body::before,
-body::after {
-  position: fixed;
-  inset: 0;
-  content: "";
-  pointer-events: none;
-}
-
-body::before {
-  z-index: -1;
-  background: none;
-}
-
-body::after {
-  z-index: 20;
-  background: none;
-}
-
 a {
   color: inherit;
   text-decoration: none;
@@ -1034,16 +1016,6 @@ h1 {
   }
 }
 
-@keyframes datastream-shift {
-  from {
-    background-position: 0% 50%;
-  }
-
-  to {
-    background-position: 220% 50%;
-  }
-}
-
 @keyframes heartbeat-trace {
   0% {
     stroke-dashoffset: 420;
@@ -1058,21 +1030,6 @@ h1 {
   100% {
     stroke-dashoffset: 0;
     opacity: 0.5;
-  }
-}
-
-@keyframes header-sweep {
-  0%,
-  58% {
-    transform: translateX(-115%);
-  }
-
-  72% {
-    transform: translateX(115%);
-  }
-
-  100% {
-    transform: translateX(115%);
   }
 }
 

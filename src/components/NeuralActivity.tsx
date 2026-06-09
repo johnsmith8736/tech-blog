@@ -85,185 +85,126 @@ function StatusRing({ status }: { status: 'NOMINAL' | 'SYSTOLE' | 'EXT-SYS' | 'C
 }
 
 export function NeuralActivity() {
-  const [points, setPoints] = useState<number[]>(() =>
-    Array.from({ length: 40 }, () => 0.16 + Math.random() * 0.03)
+  // Single audio waveform — bell-envelope, multi-harmonic, center-peaked
+  const [waveData, setWaveData] = useState<number[]>(() =>
+    Array.from({ length: 100 }, (_, i) => {
+      const x = i / 99;
+      const env = Math.sin(Math.PI * x) ** 1.3;
+      return 0.5 + env * 0.35 * Math.sin(2 * Math.PI * 18 * x);
+    })
   );
 
-  const [frequency, setFrequency] = useState(720.54);
-  const [stability, setStability] = useState(99.87);
-  const [load, setLoad] = useState(12.4);
-  const [ecgStatus, setEcgStatus] = useState<'NOMINAL' | 'SYSTOLE' | 'EXT-SYS' | 'COMPENSATE'>('NOMINAL');
+  const [freq, setFreq] = useState(440);
+  const [amplitude, setAmplitude] = useState(72);
+  const [harmonics, setHarmonics] = useState(3);
+  const [waveStatus, setWaveStatus] = useState<'SINE' | 'CHORD' | 'FM' | 'RING'>('SINE');
 
-  const pointsRef = useRef<number[]>([]);
-  pointsRef.current = points;
+  const waveDataRef = useRef<number[]>([]);
+  waveDataRef.current = waveData;
 
-  const ticksSinceLastBeatRef = useRef(0);
-  const targetPeriodRef = useRef(13);
+  const phaseRef = useRef(0);
+  const envPhaseRef = useRef(0);
 
-  const isExtraSystoleRef = useRef(false);
-  const isCompensatoryRef = useRef(false);
-  const noiseStateRef = useRef(0.16);
-
+  // Audio waveform generator — bell envelope (low→high→low), multi-harmonic
   useEffect(() => {
+    const N = 100;
     const timer = setInterval(() => {
-      ticksSinceLastBeatRef.current += 1;
-      let ticksSince = ticksSinceLastBeatRef.current;
-      let currTarget = targetPeriodRef.current;
+      phaseRef.current += 0.038;
+      envPhaseRef.current += 0.008;
 
-      if (ticksSince >= currTarget) {
-        ticksSinceBeat();
-        ticksSince = 0;
-        currTarget = targetPeriodRef.current;
+      const p = phaseRef.current;
+      const ep = envPhaseRef.current;
+
+      // Dynamic envelope breathing
+      const breath = 0.75 + 0.25 * Math.sin(ep);
+
+      const data = new Array(N);
+      for (let i = 0; i < N; i++) {
+        const x = i / (N - 1);
+
+        // Bell-shaped envelope: 0 at edges, 1 at center
+        const envelope = Math.sin(Math.PI * x) ** 1.4 * breath;
+
+        // Multi-harmonic scrolling wave
+        const scroll = x * 22 + p;
+        const wave = envelope * (
+          0.40 * Math.sin(2 * Math.PI * scroll) +
+          0.26 * Math.sin(2 * Math.PI * (scroll * 2.3 + 0.3)) +
+          0.18 * Math.sin(2 * Math.PI * (scroll * 4.1 + 0.9)) +
+          0.12 * Math.sin(2 * Math.PI * (scroll * 7.5 + 1.6)) +
+          0.08 * Math.sin(2 * Math.PI * (scroll * 11 + 2.7)) +
+          0.05 * Math.sin(2 * Math.PI * (scroll * 16 + 4.2))
+        );
+
+        // Micro noise for texture
+        const noise = envelope * 0.04 * (Math.random() - 0.5);
+
+        data[i] = Math.max(0.02, Math.min(0.98, 0.5 + wave + noise));
       }
 
-      const rem = currTarget - ticksSince;
-      let ecgDelta = 0;
+      setWaveData(data);
 
-      if (ticksSince === 0) {
-        ecgDelta = 0.72;
-      } else if (ticksSince === 1) {
-        ecgDelta = -0.24;
-      } else if (ticksSince === 2) {
-        ecgDelta = -0.06;
-      } else if (ticksSince === 3) {
-        ecgDelta = 0.0;
-      } else if (ticksSince === 4) {
-        ecgDelta = 0.08;
-      } else if (ticksSince === 5) {
-        ecgDelta = 0.22;
-      } else if (ticksSince === 6) {
-        ecgDelta = 0.10;
-      } else if (ticksSince === 7) {
-        ecgDelta = 0.02;
-      } else if (ticksSince >= 8 && ticksSince < currTarget - 3) {
-        ecgDelta = 0.0;
-      } else {
-        const isNotExtra = !isExtraSystoleRef.current;
-        if (rem === 3 && isNotExtra) {
-          ecgDelta = 0.04;
-        } else if (rem === 2 && isNotExtra) {
-          ecgDelta = 0.12;
-        } else if (rem === 1 && isNotExtra) {
-          ecgDelta = -0.12;
-        }
-      }
-
-      const rand = Math.random();
-      let nextNoise = noiseStateRef.current * 0.75 + (rand - 0.5) * 0.05 + 0.042;
-      nextNoise = Math.max(0.12, Math.min(0.18, nextNoise));
-      noiseStateRef.current = nextNoise;
-
-      const nextVal = Math.max(0.02, Math.min(0.96, nextNoise + ecgDelta));
-      const nextPoints = [...pointsRef.current.slice(1), nextVal];
-      setPoints(nextPoints);
-
-      const isNormalPeak = ticksSince === 0 && !isExtraSystoleRef.current;
-      const isExtraPeak = ticksSince === 0 && isExtraSystoleRef.current;
-
-      setFrequency((prev) => {
-        if (isExtraPeak) {
-          const boost = 32.0 + Math.random() * 8.0;
-          return Number((720.54 + boost).toFixed(2));
-        } else if (isNormalPeak) {
-          const boost = 18.0 + Math.random() * 6.0;
-          return Number((720.54 + boost).toFixed(2));
-        } else {
-          return Number((prev + (720.54 - prev) * 0.15).toFixed(2));
-        }
+      // Telemetry
+      setFreq((prev) => {
+        const goal = 380 + Math.round(160 * Math.sin(ep * 0.6));
+        return Math.round(prev + (goal - prev) * 0.08);
       });
 
-      setStability((prev) => {
-        if (isExtraPeak) {
-          return Number((99.87 - (1.6 + Math.random() * 0.8)).toFixed(2));
-        } else if (isNormalPeak) {
-          return Number((99.87 - (0.6 + Math.random() * 0.4)).toFixed(2));
-        } else {
-          return Number(Math.max(99.75, Math.min(99.95, prev + (99.87 - prev) * 0.15)).toFixed(2));
-        }
+      setAmplitude((prev) => {
+        const goal = 45 + 45 * breath;
+        return Number((prev + (goal - prev) * 0.12).toFixed(1));
       });
 
-      setLoad((prev) => {
-        if (isExtraPeak) {
-          return Number((52.0 + Math.random() * 8.0).toFixed(1));
-        } else if (isNormalPeak) {
-          return Number((32.0 + Math.random() * 6.0).toFixed(1));
-        } else {
-          return Number(Math.max(10.0, Math.min(14.5, prev + (12.4 - prev) * 0.15)).toFixed(1));
-        }
+      setHarmonics((prev) => {
+        if (Math.sin(p * 0.7 + ep) > 0.94) return Math.min(5, prev + 1);
+        if (Math.sin(p * 0.7 + ep) < -0.94) return Math.max(1, prev - 1);
+        return prev;
       });
 
-      if (isExtraPeak) {
-        setEcgStatus('EXT-SYS');
-      } else if (isNormalPeak) {
-        setEcgStatus('SYSTOLE');
-      } else if (ticksSince === 4 && ecgStatus === 'SYSTOLE') {
-        setEcgStatus('NOMINAL');
-      } else if (currTarget === 22 && ticksSince >= 8 && ticksSince < 16) {
-        setEcgStatus('COMPENSATE');
-      } else if (ticksSince >= 16 && ecgStatus === 'COMPENSATE') {
-        setEcgStatus('NOMINAL');
-      }
-    }, 80);
-
-    function ticksSinceBeat() {
-      ticksSinceLastBeatRef.current = 0;
-      if (isCompensatoryRef.current) {
-        targetPeriodRef.current = 22;
-        isCompensatoryRef.current = false;
-        isExtraSystoleRef.current = false;
-      } else {
-        if (Math.random() < 0.045) {
-          isExtraSystoleRef.current = true;
-          targetPeriodRef.current = 6;
-          isCompensatoryRef.current = true;
-        } else {
-          isExtraSystoleRef.current = false;
-          targetPeriodRef.current = 11 + Math.floor(Math.random() * 6);
-        }
-      }
-    }
+      const centerVal = data[Math.floor(N / 2)];
+      const centerAmp = Math.abs(centerVal - 0.5) * 2;
+      if (centerAmp > 0.82) setWaveStatus('FM');
+      else if (harmonics > 3) setWaveStatus('CHORD');
+      else if (centerAmp > 0.55) setWaveStatus('RING');
+      else setWaveStatus('SINE');
+    }, 50);
 
     return () => clearInterval(timer);
-  }, [ecgStatus]);
+  }, []);
 
-  const generateSmoothPath = (data: number[]) => {
+  // Renders a jagged sawtooth-like waveform as straight line segments
+  const generateWavePath = (
+    data: number[],
+    w = 280,
+    h = 60,
+    amp = 0.92,
+    baseline = 0.5
+  ) => {
     if (data.length === 0) return '';
-    const pointsCount = data.length;
-    const w = 280;
-    const h = 60;
-    const step = w / (pointsCount - 1);
-
-    const coords = data.map((val, idx) => {
-      const x = idx * step;
-      const y = h - 4 - val * (h - 8);
-      return { x, y };
-    });
-
-    let d = `M ${coords[0].x} ${coords[0].y}`;
-    for (let i = 0; i < coords.length - 1; i++) {
-      const p0 = coords[i];
-      const p1 = coords[i + 1];
-      const xc = (p0.x + p1.x) / 2;
-      const yc = (p0.y + p1.y) / 2;
-      d += ` Q ${p0.x} ${p0.y}, ${xc} ${yc}`;
+    const step = w / (data.length - 1);
+    const pts = data.map((v, i) => ({
+      x: i * step,
+      y: h * (1 - (baseline + (v - 0.5) * amp))
+    }));
+    // Use straight line segments for sharp jagged edges
+    let d = `M ${pts[0].x} ${pts[0].y}`;
+    for (let i = 1; i < pts.length; i++) {
+      d += ` L ${pts[i].x} ${pts[i].y}`;
     }
-    d += ` L ${coords[coords.length - 1].x} ${coords[coords.length - 1].y}`;
     return d;
   };
 
-  const secondaryPoints = points.slice(10).concat(points.slice(0, 10)).map(val => val * 0.26);
-
-  const mainPath = generateSmoothPath(points);
-  const secondaryPath = generateSmoothPath(secondaryPoints);
+  const mainPath = generateWavePath(waveData, 280, 60, 0.92, 0.5);
 
   let statusColorClass = 'status-green';
   let activeBarColor = 'rgba(0, 240, 255, 0.85)';
-  if (ecgStatus === 'SYSTOLE') {
+  if (waveStatus === 'CHORD') {
     statusColorClass = 'status-yellow';
-  } else if (ecgStatus === 'EXT-SYS') {
+    activeBarColor = '#fbbf24';
+  } else if (waveStatus === 'FM') {
     statusColorClass = 'status-red';
     activeBarColor = '#ff003c';
-  } else if (ecgStatus === 'COMPENSATE') {
+  } else if (waveStatus === 'RING') {
     statusColorClass = 'status-blue';
     activeBarColor = '#00f0ff';
   }
@@ -284,78 +225,62 @@ export function NeuralActivity() {
 
         <svg className="quantum-waves atlassc-waves" viewBox="0 0 280 60" preserveAspectRatio="none">
           <defs>
-            <linearGradient id="ecg-fade-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(0, 240, 255, 0)" />
-              <stop offset="8%" stopColor="rgba(0, 240, 255, 0.5)" />
-              <stop offset="15%" stopColor="rgba(0, 240, 255, 0.95)" />
-              <stop offset="85%" stopColor="rgba(0, 240, 255, 0.95)" />
-              <stop offset="92%" stopColor="rgba(0, 240, 255, 0.5)" />
-              <stop offset="100%" stopColor="rgba(0, 240, 255, 0)" />
-            </linearGradient>
-
-            <linearGradient id="cyan-fade-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(0, 240, 255, 0)" />
-              <stop offset="12%" stopColor="rgba(0, 240, 255, 0.16)" />
-              <stop offset="88%" stopColor="rgba(0, 240, 255, 0.16)" />
-              <stop offset="100%" stopColor="rgba(0, 240, 255, 0)" />
+            <linearGradient id="wave-fade-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="rgba(0, 240, 255, 0.15)" />
+              <stop offset="10%" stopColor="rgba(0, 240, 255, 0.6)" />
+              <stop offset="30%" stopColor="rgba(0, 240, 255, 0.95)" />
+              <stop offset="70%" stopColor="rgba(0, 240, 255, 0.95)" />
+              <stop offset="90%" stopColor="rgba(0, 240, 255, 0.6)" />
+              <stop offset="100%" stopColor="rgba(0, 240, 255, 0.15)" />
             </linearGradient>
           </defs>
 
-          {/* Layer 1: Background Interfering Cyan Line */}
+          {/* Single audio waveform — bell envelope, multi-harmonic */}
           <path
-            className="neural-wave wave-secondary"
-            d={secondaryPath}
-            fill="none"
-            stroke="url(#cyan-fade-grad)"
-            strokeWidth="0.8"
-            vectorEffect="non-scaling-stroke"
-          />
-
-          {/* Layer 2: Main Continuous ECG Golden Line */}
-          <path
-            className="neural-wave wave-main"
             d={mainPath}
             fill="none"
-            stroke="url(#ecg-fade-grad)"
-            strokeWidth="1.6"
+            stroke="url(#wave-fade-grad)"
+            strokeWidth="2.0"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             vectorEffect="non-scaling-stroke"
           />
         </svg>
       </div>
 
-      {/* Telemetry Info Area with Graphical MeterBars and Status LED Ring */}
-      <div className="telemetry-info graphical-panel" aria-label="System diagnostic panel">
+      {/* Telemetry Info Area — Sound Wave Metrics */}
+      <div className="telemetry-info graphical-panel" aria-label="Sound wave diagnostic panel">
         <div className="telemetry-col">
           <div className="telemetry-header">
-            <span className="telemetry-label">CORE FREQ</span>
-            <span className="telemetry-val">{frequency} GHz</span>
+            <span className="telemetry-label">FREQ</span>
+            <span className={`telemetry-val ${freq > 700 ? 'status-red' : freq < 300 ? 'status-blue' : ''}`}>{freq} Hz</span>
           </div>
-          <MeterBar val={frequency} min={720.54} max={755.54} activeColor={activeBarColor} />
-        </div>
-        
-        <div className="telemetry-col">
-          <div className="telemetry-header">
-            <span className="telemetry-label">STABILITY</span>
-            <span className={`telemetry-val ${ecgStatus === 'EXT-SYS' ? 'status-red' : ''}`}>{stability}%</span>
-          </div>
-          <MeterBar val={stability} min={97.5} max={99.95} activeColor={activeBarColor} />
+          <MeterBar val={freq} min={220} max={880} activeColor={activeBarColor} />
         </div>
 
         <div className="telemetry-col">
           <div className="telemetry-header">
-            <span className="telemetry-label">SYSTEM LOAD</span>
-            <span className="telemetry-val">{load}%</span>
+            <span className="telemetry-label">AMPL</span>
+            <span className="telemetry-val">{amplitude}%</span>
           </div>
-          <MeterBar val={load} min={10.0} max={60.0} activeColor={activeBarColor} />
+          <MeterBar val={amplitude} min={20} max={95} activeColor={activeBarColor} />
+        </div>
+
+        <div className="telemetry-col">
+          <div className="telemetry-header">
+            <span className="telemetry-label">HARM</span>
+            <span className="telemetry-val">{harmonics}</span>
+          </div>
+          <MeterBar val={harmonics} min={1} max={6} activeColor={activeBarColor} />
         </div>
 
         <div className="telemetry-col align-right flex-status" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
           <div className="telemetry-header">
-            <span className="telemetry-label">STATUS</span>
-            <span className={`telemetry-val ${statusColorClass}`}>{ecgStatus}</span>
+            <span className="telemetry-label">MODE</span>
+            <span className={`telemetry-val ${statusColorClass}`}>{waveStatus}</span>
           </div>
           <div className="status-graphic-ring" style={{ marginTop: '2px', display: 'flex', justifyContent: 'flex-end' }}>
-            <StatusRing status={ecgStatus} />
+            <StatusRing status={waveStatus === 'FM' ? 'EXT-SYS' : waveStatus === 'CHORD' ? 'SYSTOLE' : waveStatus === 'RING' ? 'COMPENSATE' : 'NOMINAL'} />
           </div>
         </div>
       </div>

@@ -94,7 +94,7 @@ function renderInline(text: string) {
       const linkMatch = token.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
       if (linkMatch) {
         parts.push(
-          <a href={linkMatch[2]} key={match.index} rel="noreferrer" target="_blank">
+          <a href={linkMatch[2]} key={match.index} rel="noopener noreferrer" target="_blank">
             {linkMatch[1]}
           </a>,
         );

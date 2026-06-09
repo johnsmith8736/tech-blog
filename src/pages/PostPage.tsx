@@ -1,5 +1,5 @@
-import { ArrowLeft } from 'lucide-react';
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { ArrowLeft, FileX } from 'lucide-react';
+import { Link, useParams } from 'react-router-dom';
 import { MarkdownContent } from '../components/MarkdownContent';
 import { onlinePosts } from '../data/posts';
 
@@ -8,7 +8,21 @@ export function PostPage() {
   const post = onlinePosts.find((item) => item.slug === slug);
 
   if (!post) {
-    return <Navigate to="/" replace />;
+    return (
+      <div className="post-page">
+        <Link className="back-link" to="/">
+          <ArrowLeft size={17} aria-hidden="true" />
+          BACK TO FEED
+        </Link>
+        <div className="empty-state" style={{ marginTop: '40px' }}>
+          <FileX size={48} aria-hidden="true" style={{ marginBottom: '12px' }} />
+          <p>POST NOT FOUND</p>
+          <p style={{ fontSize: '0.78rem', marginTop: '8px', color: '#7a7a7a' }}>
+            The post "{slug}" does not exist or has been archived.
+          </p>
+        </div>
+      </div>
+    );
   }
 
   return (

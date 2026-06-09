@@ -7,7 +7,7 @@ export function AuthorPanel() {
       <img className="avatar" src={author.avatarUrl} alt="" />
       <div>
         <h1 id="author-name">{author.name}</h1>
-        <a className="handle" href={author.url} target="_blank" rel="noreferrer">
+        <a className="handle" href={author.url} target="_blank" rel="noopener noreferrer">
           <Github size={16} aria-hidden="true" />
           {author.handle}
         </a>
