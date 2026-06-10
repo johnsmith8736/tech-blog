@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import { AuthorPanel } from './components/AuthorPanel';
+import { AuthorPanel, SystemStatusProvider } from './components/AuthorPanel';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { NavigationPanel } from './components/NavigationPanel';
@@ -13,6 +13,7 @@ export default function App() {
         <div className="ambient-orb orb-1"></div>
         <div className="ambient-orb orb-2"></div>
       </div>
+      <SystemStatusProvider>
       <div className="app-shell">
         <Header />
         <main className="layout">
@@ -28,6 +29,7 @@ export default function App() {
         </main>
         <Footer />
       </div>
+      </SystemStatusProvider>
     </div>
   );
 }
