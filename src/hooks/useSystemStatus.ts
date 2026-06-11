@@ -23,6 +23,9 @@ export interface SystemStatusData {
   ice: SystemMetric;
   uplink: SystemMetric;
   firewall: { active: boolean };
+  traceRoute: { blocked: boolean };
+  dataFragments: { value: number };
+  indexNodes: { value: number };
 }
 
 export function useSystemStatus(): SystemStatusData {
@@ -30,6 +33,9 @@ export function useSystemStatus(): SystemStatusData {
   const [ice, setIce] = useState(88);
   const [uplink, setUplink] = useState(42);
   const [firewall, setFirewall] = useState(true);
+  const [traceBlocked, setTraceBlocked] = useState(true);
+  const [fragments, setFragments] = useState(498);
+  const [indexNodes, setIndexNodes] = useState(952);
 
   // Use refs to track mounted state for cleanup
   const mounted = useRef(true);
@@ -64,6 +70,23 @@ export function useSystemStatus(): SystemStatusData {
 
       // Firewall: mostly on, rare toggle
       setFirewall(Math.random() > 0.003);
+
+      // Trace route: mostly blocked, rare brief openings
+      setTraceBlocked(Math.random() > 0.008);
+
+      // Data fragments: slow drift around 450-550
+      setFragments((prev) => {
+        const target = 450 + 100 * (0.5 + 0.5 * Math.sin(Date.now() * 0.0003 + 5.1));
+        const next = prev + (target - prev) * 0.03 + (Math.random() - 0.5) * 2;
+        return Math.round(Math.max(380, Math.min(620, next)));
+      });
+
+      // Index nodes: gentle wander around 900-1050
+      setIndexNodes((prev) => {
+        const target = 900 + 150 * (0.5 + 0.5 * Math.sin(Date.now() * 0.0004 + 3.8));
+        const next = prev + (target - prev) * 0.04 + (Math.random() - 0.5) * 3;
+        return Math.round(Math.max(820, Math.min(1150, next)));
+      });
     }, 800);
 
     return () => {
@@ -77,5 +100,8 @@ export function useSystemStatus(): SystemStatusData {
     ice: { value: ice, status: ringStatus(ice, 85, 95), color: colorFor(ringStatus(ice, 85, 95)) },
     uplink: { value: uplink, status: ringStatus(uplink, 65, 90), color: colorFor(ringStatus(uplink, 65, 90)) },
     firewall: { active: firewall },
+    traceRoute: { blocked: traceBlocked },
+    dataFragments: { value: fragments },
+    indexNodes: { value: indexNodes },
   };
 }
