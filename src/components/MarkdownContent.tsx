@@ -19,7 +19,8 @@ export function MarkdownContent({ blocks }: MarkdownContentProps) {
 function MarkdownBlockView({ block }: { block: MarkdownBlock }) {
   if (block.type === 'heading') {
     const HeadingTag = `h${block.level}` as 'h1' | 'h2' | 'h3' | 'h4';
-    return <HeadingTag>{renderInline(block.text)}</HeadingTag>;
+    const id = block.text.toLowerCase().replace(/[^a-z0-9一-鿿]+/g, '-').replace(/(^-|-$)/g, '');
+    return <HeadingTag id={id}>{renderInline(block.text)}</HeadingTag>;
   }
 
   if (block.type === 'paragraph') {

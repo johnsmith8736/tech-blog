@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>STANLEY.CHAN // NETRUNNER</title>
+    <link>https://atlassc.net</link>
+    <description>Technical blog covering network infrastructure, proxy protocols, and self-hosted solutions — cyberpunk edition.</description>
+    <language>zh-CN</language>
+    <lastBuildDate>2026-06-12</lastBuildDate>
+    <atom:link href="https://atlassc.net/feed.xml" rel="self" type="application/rss+xml"/>
+  </channel>
+</rss>

@@ -1,9 +1,13 @@
-import { Search } from 'lucide-react';
+import { Search, Menu } from 'lucide-react';
 import { useId } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 
-export function Header() {
+type HeaderProps = {
+  onMenuToggle: () => void;
+};
+
+export function Header({ onMenuToggle }: HeaderProps) {
   const searchId = useId();
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('q') ?? '';
@@ -40,8 +44,17 @@ export function Header() {
           />
         </label>
         <nav className="top-nav" aria-label="Primary navigation">
-          <NavLink to="/" className="glitch-text" data-text="FEED">FEED</NavLink>
+          <NavLink to="/feed" className="glitch-text" data-text="FEED">FEED</NavLink>
+          <NavLink to="/about" className="glitch-text" data-text="ABOUT">ABOUT</NavLink>
         </nav>
+        <button
+          type="button"
+          className="hamburger"
+          onClick={onMenuToggle}
+          aria-label="Toggle navigation menu"
+        >
+          <Menu size={20} aria-hidden="true" />
+        </button>
       </div>
     </header>
   );

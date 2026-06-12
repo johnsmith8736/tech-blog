@@ -1,27 +1,28 @@
-import { Rss } from 'lucide-react';
+import { Rss, LayoutDashboard, User } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 const items = [
-  { label: 'Feed', href: '/', icon: Rss },
+  { label: 'Home', href: '/', icon: LayoutDashboard },
+  { label: 'Feed', href: '/feed', icon: Rss },
+  { label: 'About', href: '/about', icon: User },
 ];
 
-export function NavigationPanel() {
+type NavigationPanelProps = {
+  onNavigate?: () => void;
+};
+
+export function NavigationPanel({ onNavigate }: NavigationPanelProps) {
   return (
     <section className="panel" aria-labelledby="navigation-title">
       <h2 id="navigation-title">NAVIGATION</h2>
-      <div className="side-nav">
+      <div className="side-nav" onClick={onNavigate}>
         {items.map((item) => {
           const Icon = item.icon;
-          return item.href === '/' ? (
-            <NavLink key={item.label} to={item.href}>
+          return (
+            <NavLink key={item.label} to={item.href} end={item.href === '/'}>
               <Icon size={17} aria-hidden="true" />
               <span className="glitch-text" data-text={item.label}>{item.label}</span>
             </NavLink>
-          ) : (
-            <a key={item.label} href={item.href}>
-              <Icon size={17} aria-hidden="true" />
-              <span className="glitch-text" data-text={item.label}>{item.label}</span>
-            </a>
           );
         })}
       </div>
