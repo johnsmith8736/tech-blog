@@ -1,8 +1,26 @@
 # VLESS + WS + ENC + 固定 Argo + Xray + WARP（JP）
+## 目录
 
-> **目标**：稳定解锁 **Abema + TVer**，非流媒体自动直连（fallback to direct）
+1. 一、整体架构
 
----
+2. 二、准备条件
+
+3. 三、安装 Xray
+
+4. 四、部署 WARP（日本出口，关键）
+
+5. 五、Xray 服务端配置（Abema + TVer 分流）
+
+6. 六、固定 Argo Tunnel 配置（详细教程）
+
+7. 七、客户端配置（VLESS）
+
+8. 八、解锁验证
+
+9. 九、常见问题排错
+
+10. 十、总结
+
 
 ## 一、整体架构
 
@@ -27,7 +45,10 @@ Cloudflare 固定 Argo Tunnel（域名）
 * **WARP（JP）** 提供日本家宽级出口
 * **非流媒体 fallback 到 direct**，节省 WARP 资源
 
----
+
+
+> **目标**：稳定解锁 **Abema + TVer**，非流媒体自动直连（fallback to direct）
+
 
 ## 二、准备条件
 
@@ -45,7 +66,6 @@ Cloudflare 固定 Argo Tunnel（域名）
 
 * v2rayN / v2rayNG / mihomo（任选）
 
----
 
 ## 三、安装 Xray
 
@@ -59,7 +79,6 @@ bash <(curl -Ls https://raw.githubusercontent.com/XTLS/Xray-install/main/install
 xray version
 ```
 
----
 
 ## 四、部署 WARP（日本出口，关键）
 
@@ -77,13 +96,11 @@ bash menu.sh
 
 > 在菜单中选择 **WARP SOCKS5** 模式，并指定 **日本（JP）** 节点。
 
----
 
 ### 4.2 启动 WARP SOCKS5（日本）
 
 若你使用脚本自动安装，通常会监听在本地 SOCKS5 端口（示例：`127.0.0.1:40000`）。
 
----
 
 ### 4.3 验证（必须）
 
@@ -96,7 +113,6 @@ curl --socks5 127.0.0.1:40000 https://ipinfo.io
 * `country: JP`
 * `org: Cloudflare, Inc.`
 
----
 
 ## 五、Xray 服务端配置（Abema + TVer 分流）
 
@@ -200,7 +216,6 @@ systemctl restart xray
 systemctl enable xray
 ```
 
----
 
 ## 六、固定 Argo Tunnel 配置（详细教程）
 
@@ -210,7 +225,6 @@ systemctl enable xray
 > * Cloudflare TLS 加密（即你说的 ENC）
 > * 隐藏真实服务器 IP
 
----
 
 ### 6.1 什么是「固定 Argo Tunnel」？
 
@@ -229,7 +243,6 @@ systemctl enable xray
 
 👉 对 VLESS + WS 来说，是**最稳、最抗封锁**的入口方式。
 
----
 
 ### 6.2 安装 cloudflared
 
@@ -245,7 +258,6 @@ mv cloudflared-linux-amd64 /usr/bin/cloudflared
 cloudflared version
 ```
 
----
 
 ### 6.3 登录 Cloudflare（绑定账号）
 
@@ -265,7 +277,6 @@ cloudflared tunnel login
 ~/.cloudflared/cert.pem
 ```
 
----
 
 ### 6.4 创建固定 Tunnel
 
@@ -285,7 +296,6 @@ Tunnel ID: xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 * **Tunnel Name**：`xray-stream`
 * **Tunnel ID**：`xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx`
 
----
 
 ### 6.5 绑定域名到 Tunnel（DNS 自动创建）
 
@@ -299,7 +309,6 @@ cloudflared tunnel route dns xray-stream stream.yourdomain.com
 * 指向 `xxxx.cfargotunnel.com`
 * 你无需手动改 DNS
 
----
 
 ### 6.6 编写 Tunnel 配置文件（重点）
 
@@ -326,7 +335,6 @@ ingress:
 
 ⚠️ **这里的端口必须和 Xray inbound 一致**。
 
----
 
 ### 6.7 启动 Tunnel（systemd，推荐）
 
@@ -351,7 +359,6 @@ journalctl -u cloudflared -f
 
 看到 `Connection registered` 即成功。
 
----
 
 ### 6.8 Argo Tunnel 常见错误排查
 
@@ -362,7 +369,6 @@ journalctl -u cloudflared -f
 | 能连但不通           | Xray 未监听 127.0.0.1    |
 | 连不上             | Tunnel ID / json 路径错误 |
 
----
 
 ### 6.9 为什么不用临时 Argo？
 
@@ -375,7 +381,6 @@ journalctl -u cloudflared -f
 
 👉 **流媒体 + 长期使用 = 必须固定 Argo**
 
----
 
 ### 6.10 与 VLESS-WS-ENC 的关系
 
@@ -392,7 +397,6 @@ journalctl -u cloudflared -f
 
 ```
 
----
 
 ## 七、客户端配置（VLESS）
 
@@ -410,7 +414,6 @@ journalctl -u cloudflared -f
 
 > 客户端 **不要写分流规则**，全部由服务端处理。
 
----
 
 ## 八、解锁验证
 
@@ -419,7 +422,6 @@ journalctl -u cloudflared -f
 
 能直接播放即成功。
 
----
 
 ## 九、常见问题排错
 
@@ -430,7 +432,6 @@ journalctl -u cloudflared -f
 | 所有流量走 WARP | fallback 规则错误 |
 | 502 | Argo ingress 端口错误 |
 
----
 
 ## 十、总结
 

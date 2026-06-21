@@ -2,7 +2,6 @@ import { ArrowLeft, FileX } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 import { SeoMeta } from '../components/SeoMeta';
 import { MarkdownContent } from '../components/MarkdownContent';
-import { TableOfContents } from '../components/TableOfContents';
 import { ReadingProgress } from '../components/ReadingProgress';
 import { onlinePosts } from '../data/posts';
 
@@ -44,11 +43,8 @@ export function PostPage() {
         </div>
         <h2>{post.title}</h2>
         <p className="lead">{post.excerpt}</p>
-        <div className="post-layout">
-          <div className="post-content">
-            <MarkdownContent blocks={post.body} />
-          </div>
-          <TableOfContents blocks={post.body} />
+        <div className="post-content">
+          <MarkdownContent blocks={post.body} />
         </div>
       </article>
     </>

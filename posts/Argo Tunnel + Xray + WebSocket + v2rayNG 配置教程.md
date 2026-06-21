@@ -1,4 +1,21 @@
 # 手动搭建固定 Argo Tunnel + Xray + WebSocket + v2rayNG 配置教程（详细版）
+## 目录
+
+1. 前置要求
+
+2. 步骤 1：Cloudflare Dashboard 创建固定 Tunnel 并获取 Token
+
+3. 步骤 2：VPS 上安装并运行 Cloudflared（固定 Tunnel）
+
+4. 步骤 3：安装并配置 Xray（VLESS + WebSocket）
+
+5. 步骤 4：在 v2rayNG 客户端配置
+
+6. 常见问题排查
+
+7. 结语
+
+
 
 本教程基于2025年12月当前的最佳实践，完全**手动配置**，不依赖任何一键脚本。实现**固定域名 Cloudflare Tunnel（Argo Tunnel）** + **Xray 核心的 VLESS-WebSocket** 协议。
 
@@ -157,7 +174,6 @@
    sudo systemctl status xray
    journalctl -u xray -f    # 查看日志
     ```
-
 
 5. # 启用 BBR 拥塞控制
 echo "net.core.default_qdisc=fq" | sudo tee -a /etc/sysctl.conf

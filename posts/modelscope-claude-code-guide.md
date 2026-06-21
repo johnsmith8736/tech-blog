@@ -1,4 +1,13 @@
 # 免费使用魔搭（ModelScope）Anthropic 兼容 API 配置 Claude Code 指南
+## 目录
+
+1. 第一章：准备工作——获取魔搭 Access Token
+
+2. 第二章：核心——Anthropic API 兼容接口的使用
+
+3. 第三章：手把手教你配置 Claude Code，免费调用魔搭 API！
+
+
 
 ## 第一章：准备工作——获取魔搭 Access Token
 
@@ -14,7 +23,6 @@
 
 > **重要提示**：你的 Access Token 通常以 `ms-` 开头。在配置 Claude Code 时，请务必去掉 `ms-` 前缀，只保留实际的密钥部分！例如，如果你的 Token 是 `ms-abcdef123456`，那么在配置时只填写 `abcdef123456`。
 
----
 
 ## 第二章：核心——Anthropic API 兼容接口的使用
 
@@ -95,7 +103,6 @@ print(message.content[0].text)  # 访问响应内容
 
 > **更多 Anthropic API 用法**：魔搭的兼容接口旨在尽可能地模拟 Anthropic 官方 API 的行为。因此，如果你需要了解更多高级用法、参数设置或错误处理，强烈建议参考 [Anthropic API 官方文档](https://docs.anthropic.com/en/api)。
 
----
 
 ## 第三章：手把手教你配置 Claude Code，免费调用魔搭 API！
 
@@ -161,6 +168,5 @@ Claude Code 通常会通过读取环境变量或配置文件来获取 Anthropic 
 }
 ```
 
----
 
 *本文档整理自用户提供的教程内容，用于在 tech-blog 项目中发布。*
