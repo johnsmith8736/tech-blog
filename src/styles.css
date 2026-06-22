@@ -4,10 +4,11 @@
   --cyber-panel: rgba(12, 12, 16, 0.82); /* Glassmorphism background */
   --cyber-gray: #111115;
   --cyber-line: rgba(255, 255, 255, 0.06); /* Ultra thin divider */
-  --cyber-cyan: #00f0ff; /* Neon cyan */
-  --cyber-magenta: #ff00ff; /* Neon magenta */
-  --cyber-red: #ff003c; /* Cyberpunk red */
-  --cyber-green: #00ff41; /* Terminal green */
+  --cyber-yellow: #fbbf24; /* Amber yellow */
+  --cyber-gold: #f59e0b; /* Golden orange */
+  --cyber-amber: #d97706; /* Deep amber */
+  --cyber-red: #dc2626; /* Red accent */
+  --cyber-green: #22c55e; /* Terminal green */
   font-family:
     'Share Tech Mono', 'Inter', ui-monospace, SFMono-Regular, monospace;
   color: #e0e0e0;
@@ -100,18 +101,18 @@ button {
 .brand-mark {
   width: 42px;
   height: 42px;
-  border: 2px solid var(--cyber-cyan);
+  border: 2px solid var(--cyber-yellow);
   border-radius: 4px;
   object-fit: cover;
-  background: var(--cyber-cyan);
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
+  background: var(--cyber-yellow);
+  box-shadow: 0 0 20px rgba(251, 191, 36, 0.35);
   filter: grayscale(1) contrast(1.28);
 }
 
 .brand-name {
   text-shadow:
-    0 0 10px rgba(0, 240, 255, 0.4),
-    2px 0 0 rgba(255, 0, 255, 0.25);
+    0 0 10px rgba(251, 191, 36, 0.4),
+    2px 0 0 rgba(245, 158, 11, 0.25);
 }
 
 .brand-name,
@@ -145,17 +146,17 @@ button {
   width: min(260px, 34vw);
   min-height: 38px;
   padding: 0 10px;
-  border: 1px solid rgba(0, 240, 255, 0.15);
+  border: 1px solid rgba(251, 191, 36, 0.15);
   border-radius: 6px;
-  color: var(--cyber-cyan);
+  color: var(--cyber-yellow);
   background: rgba(0, 0, 0, 0.45);
   transition: all 0.3s ease;
 }
 
 .site-search:focus-within {
-  border-color: var(--cyber-cyan);
-  box-shadow: 0 0 16px rgba(0, 240, 255, 0.25);
-  color: var(--cyber-cyan);
+  border-color: var(--cyber-yellow);
+  box-shadow: 0 0 16px rgba(251, 191, 36, 0.25);
+  color: var(--cyber-yellow);
 }
 
 .site-search input {
@@ -197,7 +198,7 @@ button {
 .top-nav a.active,
 .side-nav a:hover,
 .side-nav a.active {
-  color: var(--cyber-cyan);
+  color: var(--cyber-yellow);
 }
 
 .top-nav a::after,
@@ -208,7 +209,7 @@ button {
   left: 50%;
   width: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--cyber-cyan), transparent);
+  background: linear-gradient(90deg, transparent, var(--cyber-yellow), transparent);
   transition: all 0.3s ease;
   transform: translateX(-50%);
 }
@@ -292,14 +293,14 @@ h1 {
 
 .panel h2 {
   margin-bottom: 14px;
-  color: var(--cyber-cyan);
+  color: var(--cyber-yellow);
   font-size: 0.82rem;
   text-transform: uppercase;
   font-family: 'Share Tech Mono', monospace;
   letter-spacing: 1px;
-  text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
   padding-bottom: 8px;
-  border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+  border-bottom: 1px solid rgba(251, 191, 36, 0.15);
 }
 
 .handle,
@@ -312,26 +313,26 @@ h1 {
 }
 
 .handle {
-  color: var(--cyber-cyan);
+  color: var(--cyber-yellow);
   font-size: 0.92rem;
   font-family: 'Share Tech Mono', monospace;
-  text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
   transition: all 0.3s ease;
 }
 
 .handle:hover {
-  color: var(--cyber-magenta);
-  text-shadow: 0 0 8px rgba(255, 0, 255, 0.5);
+  color: var(--cyber-gold);
+  text-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
 }
 
 .role {
   margin-bottom: 0;
-  color: var(--cyber-magenta);
+  color: var(--cyber-gold);
   font-weight: 700;
   text-transform: uppercase;
   font-family: 'Share Tech Mono', monospace;
   letter-spacing: 1px;
-  text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+  text-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
   font-size: 0.85rem;
 }
 
@@ -353,15 +354,15 @@ h1 {
 
 .metrics div {
   padding: 10px;
-  border: 1px solid rgba(0, 240, 255, 0.25);
+  border: 1px solid rgba(251, 191, 36, 0.25);
   border-radius: 4px;
-  background: rgba(0, 240, 255, 0.04);
+  background: rgba(251, 191, 36, 0.04);
   transition: all 0.3s ease;
 }
 
 .metrics div:hover {
-  border-color: var(--cyber-cyan);
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+  border-color: var(--cyber-yellow);
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.2);
 }
 
 .metrics dt,
@@ -376,10 +377,10 @@ h1 {
 
 .metrics dd {
   margin: 4px 0 0;
-  color: var(--cyber-cyan);
+  color: var(--cyber-yellow);
   font-weight: 800;
   font-family: 'Share Tech Mono', monospace;
-  text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
   font-size: 0.9rem;
 }
 
@@ -390,7 +391,7 @@ h1 {
 .side-nav a {
   min-height: 38px;
   padding: 9px 10px;
-  border: 1px solid rgba(0, 240, 255, 0.2);
+  border: 1px solid rgba(251, 191, 36, 0.2);
   border-radius: 4px;
   transition: all 0.3s ease;
   font-family: 'Share Tech Mono', monospace;
@@ -399,10 +400,10 @@ h1 {
 }
 
 .side-nav a:hover {
-  border-color: var(--cyber-cyan);
-  background: rgba(0, 240, 255, 0.05);
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.15);
-  color: var(--cyber-cyan);
+  border-color: var(--cyber-yellow);
+  background: rgba(251, 191, 36, 0.05);
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.15);
+  color: var(--cyber-yellow);
 }
 
 .status-list {
@@ -421,14 +422,14 @@ h1 {
   font-family: 'Share Tech Mono', monospace;
   font-size: 0.75rem;
   padding: 6px 8px;
-  border: 1px solid rgba(0, 240, 255, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.1);
   border-radius: 4px;
   transition: all 0.3s ease;
 }
 
 .status-list li:hover {
-  border-color: rgba(0, 240, 255, 0.25);
-  background: rgba(0, 240, 255, 0.03);
+  border-color: rgba(251, 191, 36, 0.25);
+  background: rgba(251, 191, 36, 0.03);
 }
 
 .status-list span {
@@ -438,10 +439,10 @@ h1 {
 }
 
 .status-list strong {
-  color: var(--cyber-cyan);
+  color: var(--cyber-yellow);
   font-size: 0.78rem;
   text-transform: uppercase;
-  text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
   font-family: 'Share Tech Mono', monospace;
 }
 
@@ -456,7 +457,7 @@ h1 {
   justify-content: space-between;
   gap: 18px;
   padding-bottom: 18px;
-  border-bottom: 1px solid rgba(0, 240, 255, 0.3);
+  border-bottom: 1px solid rgba(251, 191, 36, 0.3);
 }
 
 .section-header h2,
@@ -465,18 +466,18 @@ h1 {
   font-size: clamp(2rem, 5vw, 4.2rem);
   text-transform: uppercase;
   text-shadow:
-    0 0 18px rgba(0, 240, 255, 0.35),
-    3px 0 0 rgba(255, 0, 255, 0.3);
+    0 0 18px rgba(251, 191, 36, 0.35),
+    3px 0 0 rgba(245, 158, 11, 0.3);
   animation: title-glitch 8s steps(2, end) infinite;
 }
 
 .eyebrow {
   margin-bottom: 8px;
-  color: var(--cyber-cyan);
+  color: var(--cyber-yellow);
   font-weight: 800;
   font-family: 'Share Tech Mono', monospace;
   letter-spacing: 1px;
-  text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
   font-size: 0.75rem;
 }
 
@@ -504,23 +505,23 @@ h1 {
 .empty-state {
   margin-top: 18px;
   padding: 22px;
-  border: 1px solid rgba(255, 0, 255, 0.3);
+  border: 1px solid rgba(245, 158, 11, 0.3);
   border-radius: 6px;
-  color: var(--cyber-magenta);
-  background: rgba(255, 0, 255, 0.06);
+  color: var(--cyber-gold);
+  background: rgba(245, 158, 11, 0.06);
   font-size: 0.78rem;
   font-weight: 800;
   text-align: center;
   text-transform: uppercase;
   font-family: 'Share Tech Mono', monospace;
   letter-spacing: 1px;
-  text-shadow: 0 0 8px rgba(255, 0, 255, 0.5);
+  text-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px rgba(255, 0, 255, 0.2); }
-  50% { box-shadow: 0 0 20px rgba(255, 0, 255, 0.4); }
+  0%, 100% { box-shadow: 0 0 8px rgba(245, 158, 11, 0.2); }
+  50% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.4); }
 }
 
 .neural-activity {
@@ -532,12 +533,12 @@ h1 {
   position: relative;
   height: 118px;
   overflow: hidden;
-  border: 1px solid rgba(0, 240, 255, 0.18);
+  border: 1px solid rgba(251, 191, 36, 0.18);
   border-radius: 4px;
   background:
-    linear-gradient(rgba(0, 240, 255, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 240, 255, 0.08) 1px, transparent 1px),
-    radial-gradient(circle at 50% 60%, rgba(0, 240, 255, 0.13), transparent 58%),
+    linear-gradient(rgba(251, 191, 36, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(251, 191, 36, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 50% 60%, rgba(251, 191, 36, 0.13), transparent 58%),
     rgba(0, 0, 0, 0.88);
   background-size:
     18px 18px,
@@ -555,7 +556,7 @@ h1 {
 }
 
 .neural-graph::before {
-  background: linear-gradient(180deg, transparent, rgba(0, 240, 255, 0.12), transparent);
+  background: linear-gradient(180deg, transparent, rgba(251, 191, 36, 0.12), transparent);
   opacity: 0.75;
   animation: neural-pulse 2.8s ease-in-out infinite;
 }
@@ -586,12 +587,12 @@ h1 {
   width: calc(100% - 20px);
   height: calc(100% - 30px);
   overflow: visible;
-  filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.56));
+  filter: drop-shadow(0 0 8px rgba(251, 191, 36, 0.56));
 }
 
 .heartbeat-line polyline {
   fill: none;
-  stroke: #00f0ff;
+  stroke: #fbbf24;
   stroke-dasharray: 420;
   stroke-dashoffset: 420;
   stroke-linecap: round;
@@ -606,11 +607,11 @@ h1 {
   gap: 10px;
   margin-top: 24px;
   padding: 16px 20px;
-  border: 1px solid rgba(0, 240, 255, 0.3);
+  border: 1px solid rgba(251, 191, 36, 0.3);
   border-radius: 6px;
   background:
-    linear-gradient(90deg, rgba(255, 0, 255, 0.1), transparent 18%, transparent 82%, rgba(0, 240, 255, 0.12)),
-    linear-gradient(135deg, rgba(0, 240, 255, 0.08), transparent 46%),
+    linear-gradient(90deg, rgba(245, 158, 11, 0.1), transparent 18%, transparent 82%, rgba(251, 191, 36, 0.12)),
+    linear-gradient(135deg, rgba(251, 191, 36, 0.08), transparent 46%),
     rgba(255, 255, 255, 0.025);
   overflow: hidden;
 }
@@ -626,8 +627,8 @@ h1 {
   height: 1px;
   margin-top: 6px;
   content: "";
-  background: linear-gradient(90deg, #00f0ff, #ff00ff, transparent);
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+  background: linear-gradient(90deg, #fbbf24, #f59e0b, transparent);
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.4);
 }
 
 .brand-panel h1 {
@@ -637,8 +638,8 @@ h1 {
   letter-spacing: 0;
   text-transform: uppercase;
   text-shadow:
-    0 0 22px rgba(0, 240, 255, 0.3),
-    4px 0 0 rgba(255, 0, 255, 0.25);
+    0 0 22px rgba(251, 191, 36, 0.3),
+    4px 0 0 rgba(245, 158, 11, 0.25);
 }
 
 .brand-panel p {
@@ -659,10 +660,10 @@ h1 {
 
 .brand-grid span {
   padding: 8px 12px;
-  border: 1px solid rgba(0, 240, 255, 0.25);
+  border: 1px solid rgba(251, 191, 36, 0.25);
   border-radius: 4px;
   color: #8a8a8a;
-  background: rgba(0, 240, 255, 0.03);
+  background: rgba(251, 191, 36, 0.03);
   font-size: 0.7rem;
   text-transform: uppercase;
   display: flex;
@@ -674,16 +675,16 @@ h1 {
 }
 
 .brand-grid span:hover {
-  border-color: var(--cyber-cyan);
-  color: var(--cyber-cyan);
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.25);
-  background: rgba(0, 240, 255, 0.06);
+  border-color: var(--cyber-yellow);
+  color: var(--cyber-yellow);
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.25);
+  background: rgba(251, 191, 36, 0.06);
 }
 
 .post-card {
   overflow: hidden;
   padding: 18px;
-  border: 1px solid rgba(0, 240, 255, 0.15);
+  border: 1px solid rgba(251, 191, 36, 0.15);
   transition:
     border-color 160ms ease,
     transform 160ms ease,
@@ -692,12 +693,12 @@ h1 {
 }
 
 .post-card:hover {
-  border-color: rgba(0, 240, 255, 0.7);
+  border-color: rgba(251, 191, 36, 0.7);
   transform: translateY(-2px);
   background: rgba(10, 10, 10, 0.9);
   box-shadow:
-    0 0 0 1px rgba(0, 240, 255, 0.1) inset,
-    0 0 28px rgba(0, 240, 255, 0.2),
+    0 0 0 1px rgba(251, 191, 36, 0.1) inset,
+    0 0 28px rgba(251, 191, 36, 0.2),
     0 18px 60px rgba(0, 0, 0, 0.35);
 }
 
@@ -743,10 +744,10 @@ h1 {
   width: 36px;
   height: 36px;
   place-items: center;
-  border: 1px solid rgba(255, 0, 255, 0.6);
+  border: 1px solid rgba(245, 158, 11, 0.6);
   border-radius: 4px;
-  color: var(--cyber-magenta);
-  box-shadow: 0 0 16px rgba(255, 0, 255, 0.2);
+  color: var(--cyber-gold);
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.2);
 }
 
 .tag-row {
@@ -757,7 +758,7 @@ h1 {
 
 .tag-row span {
   padding: 5px 8px;
-  border: 1px solid rgba(0, 240, 255, 0.2);
+  border: 1px solid rgba(251, 191, 36, 0.2);
   border-radius: 4px;
   color: #9ca3af;
   font-size: 0.78rem;
@@ -766,9 +767,9 @@ h1 {
 }
 
 .tag-row span:hover {
-  border-color: var(--cyber-cyan);
-  color: var(--cyber-cyan);
-  box-shadow: 0 0 8px rgba(0, 240, 255, 0.2);
+  border-color: var(--cyber-yellow);
+  color: var(--cyber-yellow);
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.2);
 }
 
 .pagination {
@@ -788,7 +789,7 @@ h1 {
   width: 40px;
   height: 40px;
   place-items: center;
-  border: 1px solid rgba(0, 240, 255, 0.25);
+  border: 1px solid rgba(251, 191, 36, 0.25);
   border-radius: 4px;
   color: #5f5f5f;
   background: rgba(255, 255, 255, 0.03);
@@ -797,9 +798,9 @@ h1 {
 }
 
 .pagination button:hover {
-  border-color: var(--cyber-cyan);
-  color: var(--cyber-cyan);
-  box-shadow: 0 0 12px rgba(0, 240, 255, 0.2);
+  border-color: var(--cyber-yellow);
+  color: var(--cyber-yellow);
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.2);
 }
 
 .post-page {
@@ -816,8 +817,8 @@ h1 {
 }
 
 .back-link:hover {
-  color: var(--cyber-cyan);
-  text-shadow: 0 0 8px rgba(0, 240, 255, 0.5);
+  color: var(--cyber-yellow);
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
 }
 
 .lead {
@@ -871,8 +872,8 @@ h1 {
 .article-body blockquote {
   margin: 18px 0;
   padding: 14px 16px;
-  border-left: 3px solid var(--cyber-magenta);
-  background: rgba(255, 0, 255, 0.06);
+  border-left: 3px solid var(--cyber-gold);
+  background: rgba(245, 158, 11, 0.06);
   font-family: 'Share Tech Mono', monospace;
   font-style: italic;
   color: #b0b0b0;
@@ -882,28 +883,28 @@ h1 {
   height: 1px;
   margin: 28px 0;
   border: 0;
-  background: linear-gradient(90deg, transparent, var(--cyber-cyan), var(--cyber-magenta), transparent);
-  box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+  background: linear-gradient(90deg, transparent, var(--cyber-yellow), var(--cyber-gold), transparent);
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.3);
 }
 
 .article-body a {
-  color: var(--cyber-cyan);
+  color: var(--cyber-yellow);
   text-decoration: underline;
   text-underline-offset: 3px;
   transition: all 0.3s ease;
 }
 
 .article-body a:hover {
-  color: var(--cyber-magenta);
-  text-shadow: 0 0 8px rgba(255, 0, 255, 0.5);
-  text-decoration-color: var(--cyber-magenta);
+  color: var(--cyber-gold);
+  text-shadow: 0 0 8px rgba(245, 158, 11, 0.5);
+  text-decoration-color: var(--cyber-gold);
 }
 
 .article-body code {
   padding: 2px 5px;
-  border: 1px solid rgba(0, 240, 255, 0.2);
+  border: 1px solid rgba(251, 191, 36, 0.2);
   border-radius: 4px;
-  color: var(--cyber-magenta);
+  color: var(--cyber-gold);
   background: rgba(255, 255, 255, 0.04);
   font-family: 'Share Tech Mono', monospace;
   font-size: 0.92em;
@@ -912,13 +913,13 @@ h1 {
 .code-block {
   margin: 18px 0;
   overflow: hidden;
-  border: 1px solid rgba(0, 240, 255, 0.3);
+  border: 1px solid rgba(251, 191, 36, 0.3);
   border-radius: 6px;
   background:
-    linear-gradient(rgba(0, 240, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(rgba(251, 191, 36, 0.04) 1px, transparent 1px),
     rgba(0, 0, 0, 0.9);
   background-size: 100% 22px;
-  box-shadow: 0 0 22px rgba(0, 240, 255, 0.1);
+  box-shadow: 0 0 22px rgba(251, 191, 36, 0.1);
 }
 
 .code-toolbar {
@@ -928,7 +929,7 @@ h1 {
   gap: 12px;
   min-height: 38px;
   padding: 8px 10px;
-  border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+  border-bottom: 1px solid rgba(251, 191, 36, 0.2);
   color: #7a7a7a;
   font-size: 0.75rem;
   font-weight: 800;
@@ -943,10 +944,10 @@ h1 {
   gap: 7px;
   min-height: 28px;
   padding: 5px 8px;
-  border: 1px solid rgba(255, 0, 255, 0.5);
+  border: 1px solid rgba(245, 158, 11, 0.5);
   border-radius: 4px;
-  color: var(--cyber-magenta);
-  background: rgba(255, 0, 255, 0.08);
+  color: var(--cyber-gold);
+  background: rgba(245, 158, 11, 0.08);
   cursor: pointer;
   font-family: 'Share Tech Mono', monospace;
   font-size: 0.7rem;
@@ -955,8 +956,8 @@ h1 {
 }
 
 .code-toolbar button:hover {
-  background: rgba(255, 0, 255, 0.15);
-  box-shadow: 0 0 12px rgba(255, 0, 255, 0.3);
+  background: rgba(245, 158, 11, 0.15);
+  box-shadow: 0 0 12px rgba(245, 158, 11, 0.3);
 }
 
 .code-block pre {
@@ -1158,7 +1159,7 @@ h1 {
   left: 20%;
   width: 50vw;
   height: 50vw;
-  background: radial-gradient(circle, rgba(0, 240, 255, 0.6), transparent);
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.6), transparent);
   animation: orb-drift-1 25s ease-in-out infinite alternate;
 }
 
@@ -1167,7 +1168,7 @@ h1 {
   right: 15%;
   width: 45vw;
   height: 45vw;
-  background: radial-gradient(circle, rgba(255, 0, 255, 0.4), transparent);
+  background: radial-gradient(circle, rgba(245, 158, 11, 0.4), transparent);
   animation: orb-drift-2 30s ease-in-out infinite alternate;
 }
 
@@ -1184,19 +1185,19 @@ h1 {
 /* Card & Panel Elegant Hover */
 .post-card:hover,
 .panel:hover {
-  border-color: rgba(0, 240, 255, 0.4) !important;
+  border-color: rgba(251, 191, 36, 0.4) !important;
   transform: translateY(-3px);
   box-shadow:
-    0 0 0 1px rgba(0, 240, 255, 0.1) inset,
+    0 0 0 1px rgba(251, 191, 36, 0.1) inset,
     0 16px 48px 0 rgba(0, 0, 0, 0.55),
-    0 0 24px rgba(0, 240, 255, 0.08) !important;
+    0 0 24px rgba(251, 191, 36, 0.08) !important;
 }
 
 /* Typography & Titles Accentuation */
 .brand-name {
   font-family: 'Share Tech Mono', monospace;
   font-weight: 700;
-  background: linear-gradient(135deg, #ffffff 30%, var(--cyber-cyan) 70%, var(--cyber-magenta) 100%);
+  background: linear-gradient(135deg, #ffffff 30%, var(--cyber-yellow) 70%, var(--cyber-gold) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: none !important;
@@ -1208,7 +1209,7 @@ h1 {
   font-family: 'Share Tech Mono', monospace;
   font-weight: 700;
   letter-spacing: 3px !important;
-  background: linear-gradient(135deg, #ffffff 30%, #00f0ff 60%, #ff00ff 100%);
+  background: linear-gradient(135deg, #ffffff 30%, #fbbf24 60%, #f59e0b 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: none !important;
@@ -1216,7 +1217,7 @@ h1 {
 }
 
 .brand-panel h1::after {
-  background: linear-gradient(90deg, var(--cyber-cyan) 30%, var(--cyber-magenta), transparent) !important;
+  background: linear-gradient(90deg, var(--cyber-yellow) 30%, var(--cyber-gold), transparent) !important;
   box-shadow: none !important;
   opacity: 0.4;
 }
@@ -1240,12 +1241,12 @@ h1 {
 }
 
 .glitch-text::before {
-  color: var(--cyber-magenta);
+  color: var(--cyber-gold);
   animation: glitch-1 3s infinite linear alternate-reverse;
 }
 
 .glitch-text::after {
-  color: var(--cyber-cyan);
+  color: var(--cyber-yellow);
   animation: glitch-2 3s infinite linear alternate-reverse;
 }
 
@@ -1279,11 +1280,11 @@ h1 {
 }
 
 .neural-wave {
-  filter: drop-shadow(0 0 1px rgba(0, 240, 255, 0.3));
+  filter: drop-shadow(0 0 1px rgba(251, 191, 36, 0.3));
 }
 
 .neural-wave.wave-main {
-  filter: drop-shadow(0 0 2.5px rgba(0, 240, 255, 0.7));
+  filter: drop-shadow(0 0 2.5px rgba(251, 191, 36, 0.7));
 }
 
 
@@ -1291,8 +1292,8 @@ h1 {
 
 /* Author Panel Avatar Glow */
 .author-panel .brand-mark {
-  border: 1px solid rgba(0, 240, 255, 0.5) !important;
-  box-shadow: 0 0 24px rgba(0, 240, 255, 0.25) !important;
+  border: 1px solid rgba(251, 191, 36, 0.5) !important;
+  box-shadow: 0 0 24px rgba(251, 191, 36, 0.25) !important;
   filter: none !important;
 }
 
@@ -1325,7 +1326,7 @@ h1 {
 
 .post-page .lead {
   animation-delay: 0.14s;
-  color: var(--cyber-cyan);
+  color: var(--cyber-yellow);
   line-height: 1.6;
 }
 
@@ -1428,14 +1429,14 @@ h1 {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.68rem;
   font-weight: 600;
-  color: var(--cyber-cyan);
+  color: var(--cyber-yellow);
   white-space: nowrap;
 }
 
 .telemetry-val.status-green { color: var(--cyber-green); }
 .telemetry-val.status-yellow { color: #fbbf24; }
 .telemetry-val.status-red { color: var(--cyber-red); }
-.telemetry-val.status-blue { color: var(--cyber-cyan); }
+.telemetry-val.status-blue { color: var(--cyber-yellow); }
 
 /* Scanline Overlay */
 body::after {
