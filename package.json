@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/generate-worker.mjs > worker/index.ts",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -19,6 +19,7 @@
     "vite": "^7.1.10"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260721.1",
     "@playwright/test": "^1.61.0",
     "@types/node": "^25.9.3",
     "@types/react": "^19.2.14",
