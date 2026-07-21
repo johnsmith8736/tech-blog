@@ -1,11 +1,6 @@
 name = "tech-blog"
 compatibility_date = "2024-01-01"
+compatibility_flags = ["nodejs_compat"]
 
 # Required for Vite static sites
 pages_build_output_dir = "dist"
-
-# Node.js version (Cloudflare Pages supports 18+)
-node_compat = true
-
-[env.production]
-name = "tech-blog-production"
