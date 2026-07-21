@@ -1,5 +1,15 @@
 # Claude Code 接入 Agnes AI 配置指南（Arch Linux + LiteLLM）
 
+## 目录结构约定
+
+本指南统一使用 `~/litellm/` 作为 LiteLLM 相关文件的存放目录：
+
+```
+~/litellm/
+├── litellm_config.yaml   # 模型路由配置
+└── litellm.env             # API 密钥与环境变量（权限 600）
+```
+
 ## 背景
 
 Claude Code 原生只支持 Anthropic Messages API 协议（`/v1/messages`），而 Agnes AI 提供的是 OpenAI Chat Completions 协议（`/v1/chat/completions`）。两者请求格式不兼容，无法直接在 `~/.claude/settings.json` 里改个 `ANTHROPIC_BASE_URL` 就接通。
@@ -36,9 +46,14 @@ litellm --version
 
 ---
 
-## 二、编写 LiteLLM 配置文件
+## 二、创建目录与配置文件
 
-创建 `~/litellm_config.yaml`：
+```bash
+mkdir -p ~/litellm
+nano ~/litellm/litellm_config.yaml
+```
+
+内容：
 
 ```yaml
 model_list:
@@ -74,11 +89,41 @@ general_settings:
 
 ---
 
-## 三、手动测试（先跑通再做成服务）
+## 三、创建密钥文件
+
+```bash
+nano ~/litellm/litellm.env
+```
+
+内容（格式 `变量名=值`，不需要 `export`，不需要引号）：
+
+```
+AGNES_API_KEY=你的Agnes密钥
+LITELLM_USE_CHAT_COMPLETIONS_URL_FOR_ANTHROPIC_MESSAGES=true
+```
+
+> `LITELLM_USE_CHAT_COMPLETIONS_URL_FOR_ANTHROPIC_MESSAGES=true` 是必备项——LiteLLM 默认会把 Claude Code 发来的 `/v1/messages` 请求转换成较新的 Responses API（`/v1/responses`）格式再转发，而 Agnes 这类第三方 OpenAI 兼容网关通常只支持传统的 Chat Completions（`/v1/chat/completions`）格式，不加这条容易遇到 404 / 429（No deployments available）报错。
+
+锁定文件权限：
+
+```bash
+chmod 600 ~/litellm/litellm.env
+```
+
+如果该目录纳入了 git 版本控制，记得加入 `.gitignore`：
+
+```bash
+echo "litellm.env" >> ~/litellm/.gitignore
+```
+
+---
+
+## 四、手动测试（先跑通再做成服务）
 
 ```bash
 export AGNES_API_KEY="你的Agnes密钥"
-litellm --config ~/litellm_config.yaml --port 4000
+export LITELLM_USE_CHAT_COMPLETIONS_URL_FOR_ANTHROPIC_MESSAGES=true
+litellm --config ~/litellm/litellm_config.yaml --port 4000
 ```
 
 看到 `Uvicorn running on http://0.0.0.0:4000` 说明启动成功。
@@ -108,7 +153,7 @@ curl http://localhost:4000/v1/chat/completions \
 
 ---
 
-## 四、配置为 systemd 用户级服务（开机自启常驻）
+## 五、配置为 systemd 用户级服务（开机自启常驻）
 
 ### 1. 创建 service 文件
 
@@ -117,7 +162,7 @@ mkdir -p ~/.config/systemd/user
 nano ~/.config/systemd/user/litellm.service
 ```
 
-内容（注意把路径替换为你自己 `which litellm` 的实际结果）：
+内容（**注意 `ExecStart=` 和 `EnvironmentFile=` 必须用绝对路径，不能写 `~`**，请替换成实际用户名）：
 
 ```ini
 [Unit]
@@ -126,8 +171,8 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
-Environment=AGNES_API_KEY=你的Agnes密钥
-ExecStart=/home/arch/.local/bin/litellm --config /home/arch/litellm_config.yaml --port 4000
+EnvironmentFile=/home/arch/litellm/litellm.env
+ExecStart=/home/arch/.local/bin/litellm --config /home/arch/litellm/litellm_config.yaml --port 4000
 Restart=on-failure
 RestartSec=5
 
@@ -158,7 +203,7 @@ loginctl show-user arch | grep Linger    # 确认输出 Linger=yes
 
 ---
 
-## 五、配置 Claude Code 指向本地代理
+## 六、配置 Claude Code 指向本地代理
 
 编辑 `~/.claude/settings.json`：
 
@@ -176,7 +221,7 @@ loginctl show-user arch | grep Linger    # 确认输出 Linger=yes
 
 ---
 
-## 六、验证
+## 七、验证
 
 ```bash
 claude
@@ -187,8 +232,16 @@ claude
 
 ---
 
+## 常见问题排查
+
+- **429 / 404 报错（No deployments available / 404 page not found for /v1/responses）**：说明 `LITELLM_USE_CHAT_COMPLETIONS_URL_FOR_ANTHROPIC_MESSAGES=true` 没生效或没配置，检查 `~/litellm/litellm.env` 是否正确写入，并确认 systemd service 已重启加载新配置。
+- **改了配置文件，测试结果还是旧模型**：多半是旧的 litellm 进程没杀干净，占用了端口。先 `pkill -f litellm` 确认无残留进程（`ps aux | grep litellm`），再重新启动。
+- **`WARNING: register_model ... not in built-in cost map`**：可以忽略，只是 LiteLLM 没有该自定义模型的官方计费数据，不影响实际调用功能。
+
+---
+
 ## 注意事项
 
 - **密钥安全**：Agnes API Key 属于敏感信息，不要在聊天记录、公开仓库或截图中明文暴露。如曾意外泄露，建议立即在 Agnes 后台作废旧密钥并重新生成。
-- **成本告警提示（可忽略）**：启动时出现的 `WARNING: register_model ... not in built-in cost map` 只是 LiteLLM 没有该自定义模型的官方计费数据，不影响实际调用功能。
+- **密钥文件权限**：`~/litellm/litellm.env` 务必 `chmod 600`，并加入 `.gitignore`（如果目录有 git 版本控制）。
 - **工具调用（tool use）稳定性**：第三方 OpenAI 兼容网关在处理 Claude Code 的工具调用（文件读写、命令执行等）时偶尔可能不稳定，如遇到异常行为，可先检查 LiteLLM 日志排查是格式问题还是网络问题。
