@@ -385,3 +385,71 @@ systemctl status cloudflared
 
 [1]: https://developers.cloudflare.com/warp-client/get-started/linux/?utm_source=chatgpt.com "Linux desktop client · Cloudflare WARP client docs"
 [2]: https://anyun.org/a/xitongwendang/2023/1228/15568.html?utm_source=chatgpt.com "CloudFlare Argo Tunnel教程 | 安云网 – AnYun.ORG"
+
+下面给你一个简单可靠的看门狗脚本，专门监控 cloudflared（可选同时监控 xray 和 warp）。
+1. 创建脚本
+Bashsudo tee /usr/local/bin/tunnel-watchdog.sh > /dev/null << 'EOF'
+#!/bin/bash
+
+# 日志文件
+LOG="/var/log/tunnel-watchdog.log"
+DATE=$(date '+%Y-%m-%d %H:%M:%S')
+
+# 记录日志函数
+log() {
+    echo "[$DATE] $1" >> "$LOG"
+}
+
+# 检查并重启服务
+check_and_restart() {
+    local service=$1
+    if ! systemctl is-active --quiet "$service"; then
+        log "$service 已停止，正在重启..."
+        systemctl restart "$service"
+        sleep 3
+        if systemctl is-active --quiet "$service"; then
+            log "$service 重启成功"
+        else
+            log "$service 重启失败！"
+        fi
+    fi
+}
+
+# 检查 cloudflared
+check_and_restart cloudflared
+
+# 可选：同时检查 xray（建议开启）
+check_and_restart xray
+
+# 可选：检查 WARP 是否还在 proxy 模式并连接
+if command -v warp-cli >/dev/null 2>&1; then
+    MODE=$(warp-cli mode 2>/dev/null | grep -o 'proxy\|tunnel' || echo "unknown")
+    if [ "$MODE" != "proxy" ]; then
+        log "WARP 模式异常 ($MODE)，强制切换回 proxy"
+        warp-cli mode proxy
+        warp-cli disconnect
+        sleep 1
+        warp-cli connect
+    fi
+fi
+
+# 限制日志大小（保留最近 500 行）
+tail -n 500 "$LOG" > "${LOG}.tmp" && mv "${LOG}.tmp" "$LOG"
+EOF
+2. 赋予执行权限
+Bashsudo chmod +x /usr/local/bin/tunnel-watchdog.sh
+3. 用 cron 每 2 分钟跑一次
+Bashsudo crontab -e
+在文件末尾加上这一行：
+cron*/2 * * * * /usr/local/bin/tunnel-watchdog.sh
+保存退出即可。
+4. 手动测试一次
+Bashsudo /usr/local/bin/tunnel-watchdog.sh
+cat /var/log/tunnel-watchdog.log
+
+说明
+
+每 2 分钟检查一次，发现 cloudflared 或 xray 挂了就自动重启。
+如果 WARP 模式被改乱了，也会强制改回 proxy 模式。
+日志记录在 /var/log/tunnel-watchdog.log，方便以后排查。
+非常轻量，对甲骨文免费实例几乎没有负担。
