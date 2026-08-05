@@ -387,8 +387,11 @@ systemctl status cloudflared
 [2]: https://anyun.org/a/xitongwendang/2023/1228/15568.html?utm_source=chatgpt.com "CloudFlare Argo Tunnel教程 | 安云网 – AnYun.ORG"
 
 下面给你一个简单可靠的看门狗脚本，专门监控 cloudflared（可选同时监控 xray 和 warp）。
-1. 创建脚本
-Bashsudo tee /usr/local/bin/tunnel-watchdog.sh > /dev/null << 'EOF'
+
+### 1. 创建脚本
+
+```bash
+sudo tee /usr/local/bin/tunnel-watchdog.sh > /dev/null << 'EOF'
 #!/bin/bash
 
 # 日志文件
@@ -436,20 +439,38 @@ fi
 # 限制日志大小（保留最近 500 行）
 tail -n 500 "$LOG" > "${LOG}.tmp" && mv "${LOG}.tmp" "$LOG"
 EOF
-2. 赋予执行权限
-Bashsudo chmod +x /usr/local/bin/tunnel-watchdog.sh
-3. 用 cron 每 2 分钟跑一次
-Bashsudo crontab -e
+```
+
+### 2. 赋予执行权限
+
+```bash
+sudo chmod +x /usr/local/bin/tunnel-watchdog.sh
+```
+
+### 3. 用 cron 每 2 分钟跑一次
+
+```bash
+sudo crontab -e
+```
+
 在文件末尾加上这一行：
-cron*/2 * * * * /usr/local/bin/tunnel-watchdog.sh
+
+```
+*/2 * * * * /usr/local/bin/tunnel-watchdog.sh
+```
+
 保存退出即可。
-4. 手动测试一次
-Bashsudo /usr/local/bin/tunnel-watchdog.sh
+
+### 4. 手动测试一次
+
+```bash
+sudo /usr/local/bin/tunnel-watchdog.sh
 cat /var/log/tunnel-watchdog.log
+```
 
 说明
 
-每 2 分钟检查一次，发现 cloudflared 或 xray 挂了就自动重启。
-如果 WARP 模式被改乱了，也会强制改回 proxy 模式。
-日志记录在 /var/log/tunnel-watchdog.log，方便以后排查。
-非常轻量，对甲骨文免费实例几乎没有负担。
+- 每 2 分钟检查一次，发现 cloudflared 或 xray 挂了就自动重启。
+- 如果 WARP 模式被改乱了，也会强制改回 proxy 模式。
+- 日志记录在 `/var/log/tunnel-watchdog.log`，方便以后排查。
+- 非常轻量，对甲骨文免费实例几乎没有负担。
