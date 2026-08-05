@@ -19,10 +19,9 @@
     "vite": "^7.1.10"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^5.20260721.1",
     "@playwright/test": "^1.61.0",
-    "@types/node": "^25.9.3",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3"
-  }
+  },
+  "build": "vite build"
 }
