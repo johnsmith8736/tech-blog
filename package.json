@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/generate-worker.mjs > worker/index.ts",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -22,6 +22,5 @@
     "@playwright/test": "^1.61.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3"
-  },
-  "build": "vite build"
+  }
 }
