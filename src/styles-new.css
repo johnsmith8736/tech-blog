@@ -45,9 +45,9 @@
   border: 2px solid var(--cyber-cyan);
   border-radius: 6px;
   object-fit: cover;
-  background: var(--cyber-gray);
+  background: var(--cyber-yellow);
   box-shadow: 0 0 24px rgba(0, 240, 255, 0.25);
-  filter: grayscale(1) contrast(1.28);
+  filter: grayscale(0.5) contrast(1.05) drop-shadow(0 0 14px rgba(0, 240, 255, 0.25));
 }
 
 .home-hero-text {
