@@ -16,10 +16,10 @@ export function PostPage() {
           <ArrowLeft size={17} aria-hidden="true" />
           BACK TO FEED
         </Link>
-        <div className="empty-state" style={{ marginTop: '40px' }}>
-          <FileX size={48} aria-hidden="true" style={{ marginBottom: '12px' }} />
+        <div className="empty-state empty-state--missing">
+          <FileX size={48} aria-hidden="true" className="filex-icon" />
           <p>POST NOT FOUND</p>
-          <p style={{ fontSize: '0.78rem', marginTop: '8px', color: '#7a7a7a' }}>
+          <p className="empty-state-hint">
             The post "{slug}" does not exist or has been archived.
           </p>
         </div>

@@ -21,7 +21,7 @@ export function NavigationPanel({ onNavigate }: NavigationPanelProps) {
           return (
             <NavLink key={item.label} to={item.href} end={item.href === '/'}>
               <Icon size={17} aria-hidden="true" />
-              <span className="glitch-text" data-text={item.label}>{item.label}</span>
+              <span>{item.label}</span>
             </NavLink>
           );
         })}

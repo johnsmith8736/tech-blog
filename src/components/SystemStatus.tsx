@@ -8,23 +8,23 @@ export function SystemStatus() {
     {
       label: 'FIREWALL',
       value: firewall.active ? 'ACTIVE' : 'BREACH',
-      color: firewall.active ? '#00f0ff' : '#ff003c',
+      tone: firewall.active ? 'status--ok' : 'status--err',
     },
     {
       label: 'TRACE_ROUTE',
       value: traceRoute.blocked ? 'BLOCKED' : 'OPEN',
-      color: traceRoute.blocked ? '#ff003c' : '#00f0ff',
+      tone: traceRoute.blocked ? 'status--err' : 'status--ok',
     },
     {
       label: 'DATA_FRAGMENTS',
       value: dataFragments.value,
-      color: '#a3a3a3',
+      tone: 'status--muted',
       animated: true,
     },
     {
       label: 'INDEX_NODES',
       value: indexNodes.value,
-      color: '#00f0ff',
+      tone: 'status--ok',
       animated: true,
     },
   ];
@@ -37,21 +37,9 @@ export function SystemStatus() {
           <li key={item.label}>
             <span>{item.label}</span>
             {item.animated ? (
-              <AnimatedCounter value={item.value as number} color={item.color} />
+              <AnimatedCounter value={item.value as number} className={item.tone} />
             ) : (
-              <strong
-                style={{
-                  color: item.color,
-                  textShadow: `0 0 8px ${
-                    item.color === '#ff003c'
-                      ? 'rgba(255,0,60,0.6)'
-                      : 'rgba(0,240,255,0.5)'
-                  }`,
-                  transition: 'color 0.3s ease, text-shadow 0.3s ease',
-                }}
-              >
-                {item.value}
-              </strong>
+              <strong className={item.tone}>{item.value}</strong>
             )}
           </li>
         ))}

@@ -3,19 +3,12 @@ import { useEffect, useState, useRef } from 'react';
 export interface SystemMetric {
   value: number;
   status: 'nominal' | 'warn' | 'crit';
-  color: string;
 }
 
 function ringStatus(val: number, warn = 85, crit = 95) {
   if (val >= crit) return 'crit';
   if (val >= warn) return 'warn';
   return 'nominal';
-}
-
-function colorFor(val: 'nominal' | 'warn' | 'crit') {
-  if (val === 'crit') return '#ff003c';
-  if (val === 'warn') return '#fbbf24';
-  return '#00f0ff';
 }
 
 export interface SystemStatusData {
@@ -96,9 +89,9 @@ export function useSystemStatus(): SystemStatusData {
   }, []);
 
   return {
-    ram: { value: ram, status: ringStatus(ram, 80, 92), color: colorFor(ringStatus(ram, 80, 92)) },
-    ice: { value: ice, status: ringStatus(ice, 85, 95), color: colorFor(ringStatus(ice, 85, 95)) },
-    uplink: { value: uplink, status: ringStatus(uplink, 65, 90), color: colorFor(ringStatus(uplink, 65, 90)) },
+    ram: { value: ram, status: ringStatus(ram, 80, 92) },
+    ice: { value: ice, status: ringStatus(ice, 85, 95) },
+    uplink: { value: uplink, status: ringStatus(uplink, 65, 90) },
     firewall: { active: firewall },
     traceRoute: { blocked: traceBlocked },
     dataFragments: { value: fragments },

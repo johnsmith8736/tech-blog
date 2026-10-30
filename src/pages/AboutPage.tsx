@@ -11,7 +11,7 @@ const contacts = [
 
 export function AboutPage() {
   return (
-    <div className="content-frame" style={{ animation: 'premium-fade-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both' }}>
+    <div className="content-frame about-page">
       <div className="section-header">
         <div>
           <p className="eyebrow">ENCRYPTED // USER PROFILE</p>
@@ -20,19 +20,17 @@ export function AboutPage() {
         <span className="online-pill">ONLINE</span>
       </div>
 
-      <section className="brand-panel" style={{ marginTop: '18px' }}>
+      <section className="brand-panel">
         <h1>{author.name}</h1>
-        <p className="role" style={{ marginTop: '6px', marginBottom: '10px', fontSize: '0.82rem' }}>
-          {author.role}
-        </p>
+        <p className="role">{author.role}</p>
         <p>
           Full-stack engineer and infrastructure tinkerer navigating the datastreams of distributed systems.
           {author.bio.replace(/["']/g, '')}
         </p>
       </section>
 
-      <section style={{ marginTop: '22px' }}>
-        <p className="eyebrow" style={{ marginBottom: '12px' }}>TECH STACK // SKILLS</p>
+      <section className="about-section">
+        <p className="eyebrow">TECH STACK // SKILLS</p>
         <div className="brand-grid">
           {skills.map((skill) => (
             <span key={skill}>{skill}</span>
@@ -40,11 +38,11 @@ export function AboutPage() {
         </div>
       </section>
 
-      <section style={{ marginTop: '22px' }}>
-        <p className="eyebrow" style={{ marginBottom: '12px' }}>CONTACT // CHANNELS</p>
-        <div className="side-nav" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <section className="about-section">
+        <p className="eyebrow">CONTACT // CHANNELS</p>
+        <div className="side-nav about-contact">
           {contacts.map(({ label, icon: Icon, href, handle }) => (
-            <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="handle" style={{ fontSize: '0.85rem' }}>
+            <a key={label} href={href} target="_blank" rel="noopener noreferrer" className="handle">
               <Icon size={17} aria-hidden="true" />
               {handle}
             </a>

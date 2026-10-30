@@ -1,13 +1,29 @@
-import { Search, Menu } from 'lucide-react';
+import { Search, Menu, Monitor, Sun, Moon } from 'lucide-react';
 import { useId } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 
-type HeaderProps = {
-  onMenuToggle: () => void;
+export type ThemeMode = 'system' | 'light' | 'dark';
+
+const THEME_LABELS: Record<ThemeMode, string> = {
+  system: '跟随系统',
+  light: '浅色',
+  dark: '深色',
 };
 
-export function Header({ onMenuToggle }: HeaderProps) {
+const NEXT_THEME: Record<ThemeMode, ThemeMode> = {
+  system: 'light',
+  light: 'dark',
+  dark: 'system',
+};
+
+type HeaderProps = {
+  onMenuToggle: () => void;
+  theme: ThemeMode;
+  onThemeToggle: (next: ThemeMode) => void;
+};
+
+export function Header({ onMenuToggle, theme, onThemeToggle }: HeaderProps) {
   const searchId = useId();
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('q') ?? '';
@@ -30,7 +46,7 @@ export function Header({ onMenuToggle }: HeaderProps) {
     <header className="site-header">
       <NavLink to="/" className="brand" aria-label="Tech Blog home">
         <img className="brand-mark" src="/kali.svg" alt="" />
-        <span className="brand-name glitch-text" data-text="STANLEY.CHAN">STANLEY.CHAN</span>
+        <span className="brand-name">STANLEY.CHAN</span>
       </NavLink>
       <div className="header-actions">
         <label className="site-search" htmlFor={searchId}>
@@ -44,9 +60,18 @@ export function Header({ onMenuToggle }: HeaderProps) {
           />
         </label>
         <nav className="top-nav" aria-label="Primary navigation">
-          <NavLink to="/feed" className="glitch-text" data-text="FEED">FEED</NavLink>
-          <NavLink to="/about" className="glitch-text" data-text="ABOUT">ABOUT</NavLink>
+          <NavLink to="/feed">FEED</NavLink>
+          <NavLink to="/about">ABOUT</NavLink>
         </nav>
+        <button
+          type="button"
+          className="theme-toggle"
+          onClick={() => onThemeToggle(NEXT_THEME[theme])}
+          aria-label={`主题：${THEME_LABELS[theme]}，点击切换`}
+          title={`主题：${THEME_LABELS[theme]}`}
+        >
+          {theme === 'system' ? <Monitor size={19} /> : theme === 'light' ? <Sun size={19} /> : <Moon size={19} />}
+        </button>
         <button
           type="button"
           className="hamburger"

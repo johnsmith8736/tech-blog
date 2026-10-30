@@ -62,9 +62,9 @@ export function AuthorPanel() {
   }, []);
 
   const metrics = [
-    { label: 'RAM', value: `${ram.value}%`, color: ram.color },
-    { label: 'ICE', value: `${ice.value}%`, color: ice.color },
-    { label: 'UPLINK', value: `${uplink.value}MS`, color: uplink.color },
+    { label: 'RAM', value: `${ram.value}%`, status: ram.status },
+    { label: 'ICE', value: `${ice.value}%`, status: ice.status },
+    { label: 'UPLINK', value: `${uplink.value}MS`, status: uplink.status },
   ];
 
   return (
@@ -77,17 +77,7 @@ export function AuthorPanel() {
           {author.handle}
         </a>
       </div>
-      <p
-        className="role"
-        style={{
-          opacity: roleGlitch ? 0.6 : 1,
-          textShadow: roleGlitch
-            ? '3px 0 6px rgba(255,0,60,0.7), -1px 0 4px rgba(0,240,255,0.6)'
-            : undefined,
-          transform: roleGlitch ? 'skewX(-2deg) translateX(1px)' : undefined,
-          transition: 'opacity 0.08s ease, text-shadow 0.08s ease, transform 0.08s ease',
-        }}
-      >
+      <p className={`role${roleGlitch ? ' role--glitch' : ''}`}>
         {roleGlitch ? 'N3TRUNN3R' : author.role}
       </p>
       <p className="bio">{GLITCH_QUOTES[glitchIdx]}</p>
@@ -95,21 +85,7 @@ export function AuthorPanel() {
         {metrics.map((metric) => (
           <div key={metric.label}>
             <dt>{metric.label}</dt>
-            <dd
-              style={{
-                color: metric.color,
-                textShadow: `0 0 8px ${
-                  metric.color === '#ff003c'
-                    ? 'rgba(255,0,60,0.6)'
-                    : metric.color === '#fbbf24'
-                      ? 'rgba(251,191,36,0.5)'
-                      : 'rgba(0,240,255,0.5)'
-                }`,
-                transition: 'color 0.3s ease, text-shadow 0.3s ease',
-              }}
-            >
-              {metric.value}
-            </dd>
+            <dd className={`metric-${metric.status}`}>{metric.value}</dd>
           </div>
         ))}
       </dl>

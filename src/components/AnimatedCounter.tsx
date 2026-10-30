@@ -2,8 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 interface AnimatedCounterProps {
   value: number;
-  color?: string;
-  glitchColor?: string;
+  className?: string;
 }
 
 function scramble(str: string): string {
@@ -13,7 +12,7 @@ function scramble(str: string): string {
     .join('');
 }
 
-export function AnimatedCounter({ value, color = '#00f0ff', glitchColor = '#ff003c' }: AnimatedCounterProps) {
+export function AnimatedCounter({ value, className }: AnimatedCounterProps) {
   const [display, setDisplay] = useState(String(value));
   const [glitching, setGlitching] = useState(false);
   const prevRef = useRef(value);
@@ -48,7 +47,7 @@ export function AnimatedCounter({ value, color = '#00f0ff', glitchColor = '#ff00
     animateTransition(value);
   }, [value, animateTransition]);
 
-  // ── random glitch flicker ──
+  // ── random scramble flicker ──
   useEffect(() => {
     mounted.current = true;
 
@@ -80,13 +79,7 @@ export function AnimatedCounter({ value, color = '#00f0ff', glitchColor = '#ff00
 
   return (
     <strong
-      style={{
-        color: glitching ? glitchColor : color,
-        textShadow: glitching
-          ? `0 0 12px ${glitchColor}, 2px 0 6px ${glitchColor}, -1px 0 4px rgba(0,240,255,0.3)`
-          : `0 0 8px ${color}`,
-        transition: 'color 0.05s ease, text-shadow 0.05s ease',
-      }}
+      className={`animated-counter${className ? ` ${className}` : ''}${glitching ? ' is-glitching' : ''}`}
     >
       {display}
     </strong>

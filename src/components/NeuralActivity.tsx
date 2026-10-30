@@ -1,85 +1,47 @@
 import { useEffect, useState, useRef } from 'react';
 
-// 微缩段状发光进度条组件 (水平格栅电平表)
-function MeterBar({ val, min, max, activeColor }: { val: number; min: number; max: number; activeColor: string }) {
+type Tone = 'ok' | 'warn' | 'err';
+
+// M3E 色块电平表
+function MeterBar({ val, min, max, tone }: { val: number; min: number; max: number; tone: Tone }) {
   const pct = Math.max(0, Math.min(1, (val - min) / (max - min)));
   const litCount = Math.max(1, Math.round(pct * 8));
   return (
-    <div className="meter-bar" style={{ display: 'flex', gap: '3px', marginTop: '4px' }}>
-      {Array.from({ length: 8 }).map((_, i) => {
-        const isLit = i < litCount;
-        return (
-          <div
-            key={i}
-            className="meter-segment"
-            style={{
-              width: '6px',
-              height: '3px',
-              borderRadius: '0.5px',
-              backgroundColor: isLit ? activeColor : 'rgba(255, 255, 255, 0.05)',
-              boxShadow: isLit ? `0 0 5px ${activeColor}` : 'none',
-              transition: 'background-color 0.15s ease, box-shadow 0.15s ease'
-            }}
-          />
-        );
-      })}
+    <div className="meter-bar">
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div
+          key={i}
+          className={`meter-segment${i < litCount ? ` is-lit seg-${tone}` : ''}`}
+        />
+      ))}
     </div>
   );
 }
 
-// 动态诊断 SVG 状态指示环 (LED Ring)
+// M3E 状态环：纯色描边 + 形状呼吸
 function StatusRing({ status }: { status: 'NOMINAL' | 'SYSTOLE' | 'EXT-SYS' | 'COMPENSATE' }) {
-  let color = 'rgba(0, 240, 255, 0.85)';
-  let glow = 'rgba(0, 240, 255, 0.3)';
+  let variant = 'status-ring--nominal';
   let spinClass = 'spin-slow';
   let pulseClass = 'pulse-slow';
 
   if (status === 'SYSTOLE') {
-    color = '#ffffff';
-    glow = 'rgba(0, 240, 255, 0.7)';
+    variant = 'status-ring--sys';
     spinClass = 'spin-fast';
     pulseClass = 'pulse-fast';
   } else if (status === 'EXT-SYS') {
-    color = '#ff003c';
-    glow = 'rgba(255, 0, 60, 0.8)';
+    variant = 'status-ring--err';
     spinClass = 'spin-v-fast';
     pulseClass = 'pulse-v-fast';
   } else if (status === 'COMPENSATE') {
-    color = '#00f0ff';
-    glow = 'rgba(0, 240, 255, 0.7)';
+    variant = 'status-ring--comp';
     spinClass = 'spin-none';
     pulseClass = 'pulse-deep';
   }
 
   return (
-    <svg width="20" height="20" viewBox="0 0 22 22" className="status-ring-svg" style={{ display: 'block' }}>
-      <defs>
-        <filter id="ring-glow" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="1.2" result="blur" />
-          <feComposite in="SourceGraphic" in2="blur" operator="over" />
-        </filter>
-      </defs>
-      {/* 外部雷达刻度环 */}
-      <circle
-        cx="11"
-        cy="11"
-        r="9"
-        fill="none"
-        stroke={color}
-        strokeWidth="1.2"
-        strokeDasharray="4, 2.5"
-        className={`ring-outer ${spinClass}`}
-        style={{ filter: 'url(#ring-glow)', transformOrigin: 'center' }}
-      />
-      {/* 中心生理心搏实体点 */}
-      <circle
-        cx="11"
-        cy="11"
-        r="3"
-        fill={color}
-        className={`ring-inner ${pulseClass}`}
-        style={{ transformOrigin: 'center', filter: `drop-shadow(0 0 3px ${glow})` }}
-      />
+    <svg width="20" height="20" viewBox="0 0 22 22" className={`status-ring-svg ${variant}`}>
+      <circle cx="11" cy="11" r="9" className={`ring-outer ${spinClass}`} />
+      <circle cx="11" cy="11" r="3" className={`ring-inner ${pulseClass}`} />
     </svg>
   );
 }
@@ -172,7 +134,7 @@ export function NeuralActivity() {
     return () => clearInterval(timer);
   }, []);
 
-  // Renders a jagged sawtooth-like waveform as straight line segments
+  // Smooth flowing curve (M3E: no jagged neon edges)
   const generateWavePath = (
     data: number[],
     w = 280,
@@ -186,34 +148,40 @@ export function NeuralActivity() {
       x: i * step,
       y: h * (1 - (baseline + (v - 0.5) * amp))
     }));
-    // Use straight line segments for sharp jagged edges
     let d = `M ${pts[0].x} ${pts[0].y}`;
-    for (let i = 1; i < pts.length; i++) {
-      d += ` L ${pts[i].x} ${pts[i].y}`;
+    for (let i = 1; i < pts.length - 1; i++) {
+      const mx = (pts[i].x + pts[i + 1].x) / 2;
+      const my = (pts[i].y + pts[i + 1].y) / 2;
+      d += ` Q ${pts[i].x} ${pts[i].y} ${mx} ${my}`;
     }
+    d += ` L ${pts[pts.length - 1].x} ${pts[pts.length - 1].y}`;
     return d;
   };
 
   const mainPath = generateWavePath(waveData, 280, 60, 0.92, 0.5);
+  const areaPath = `${mainPath} L 280 30 L 0 30 Z`;
 
-  let statusColorClass = 'status-green';
-  let activeBarColor = 'rgba(0, 240, 255, 0.85)';
+  let statusClass = 'status--ok';
+  let tone: Tone = 'ok';
+  let ringStatus: 'NOMINAL' | 'SYSTOLE' | 'EXT-SYS' | 'COMPENSATE' = 'NOMINAL';
   if (waveStatus === 'CHORD') {
-    statusColorClass = 'status-yellow';
-    activeBarColor = '#fbbf24';
+    statusClass = 'status--warn';
+    tone = 'warn';
+    ringStatus = 'SYSTOLE';
   } else if (waveStatus === 'FM') {
-    statusColorClass = 'status-red';
-    activeBarColor = '#ff003c';
+    statusClass = 'status--err';
+    tone = 'err';
+    ringStatus = 'EXT-SYS';
   } else if (waveStatus === 'RING') {
-    statusColorClass = 'status-blue';
-    activeBarColor = '#00f0ff';
+    statusClass = 'status--ok';
+    tone = 'ok';
+    ringStatus = 'COMPENSATE';
   }
 
   return (
     <section className="panel neural-activity" aria-labelledby="neural-activity-title">
       <h2 id="neural-activity-title">QUANTUM FREQUENCY</h2>
       <div className="neural-graph" aria-hidden="true">
-        {/* Precision Grid Backdrop */}
         <div className="telemetry-grid">
           <div className="grid-h-line h-1"></div>
           <div className="grid-h-line h-2"></div>
@@ -223,24 +191,12 @@ export function NeuralActivity() {
           <div className="grid-v-line v-3"></div>
         </div>
 
-        <svg className="quantum-waves atlassc-waves" viewBox="0 0 280 60" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="wave-fade-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="rgba(0, 240, 255, 0.15)" />
-              <stop offset="10%" stopColor="rgba(0, 240, 255, 0.6)" />
-              <stop offset="30%" stopColor="rgba(0, 240, 255, 0.95)" />
-              <stop offset="70%" stopColor="rgba(0, 240, 255, 0.95)" />
-              <stop offset="90%" stopColor="rgba(0, 240, 255, 0.6)" />
-              <stop offset="100%" stopColor="rgba(0, 240, 255, 0.15)" />
-            </linearGradient>
-          </defs>
-
-          {/* Single audio waveform — bell envelope, multi-harmonic */}
+        <svg className="quantum-waves" viewBox="0 0 280 60" preserveAspectRatio="none">
+          <path d={areaPath} className="wave-area" />
           <path
             d={mainPath}
             fill="none"
-            stroke="url(#wave-fade-grad)"
-            strokeWidth="2.0"
+            strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"
             vectorEffect="non-scaling-stroke"
@@ -248,14 +204,13 @@ export function NeuralActivity() {
         </svg>
       </div>
 
-      {/* Telemetry Info Area — Sound Wave Metrics */}
       <div className="telemetry-info graphical-panel" aria-label="Sound wave diagnostic panel">
         <div className="telemetry-col">
           <div className="telemetry-header">
             <span className="telemetry-label">FREQ</span>
-            <span className={`telemetry-val ${freq > 700 ? 'status-red' : freq < 300 ? 'status-blue' : ''}`}>{freq} Hz</span>
+            <span className={`telemetry-val${freq > 700 ? ' status--err' : ''}`}>{freq} Hz</span>
           </div>
-          <MeterBar val={freq} min={220} max={880} activeColor={activeBarColor} />
+          <MeterBar val={freq} min={220} max={880} tone={tone} />
         </div>
 
         <div className="telemetry-col">
@@ -263,7 +218,7 @@ export function NeuralActivity() {
             <span className="telemetry-label">AMPL</span>
             <span className="telemetry-val">{amplitude}%</span>
           </div>
-          <MeterBar val={amplitude} min={20} max={95} activeColor={activeBarColor} />
+          <MeterBar val={amplitude} min={20} max={95} tone={tone} />
         </div>
 
         <div className="telemetry-col">
@@ -271,16 +226,16 @@ export function NeuralActivity() {
             <span className="telemetry-label">HARM</span>
             <span className="telemetry-val">{harmonics}</span>
           </div>
-          <MeterBar val={harmonics} min={1} max={6} activeColor={activeBarColor} />
+          <MeterBar val={harmonics} min={1} max={6} tone={tone} />
         </div>
 
-        <div className="telemetry-col align-right flex-status" style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+        <div className="telemetry-col align-right flex-status">
           <div className="telemetry-header">
             <span className="telemetry-label">MODE</span>
-            <span className={`telemetry-val ${statusColorClass}`}>{waveStatus}</span>
+            <span className={`telemetry-val ${statusClass}`}>{waveStatus}</span>
           </div>
-          <div className="status-graphic-ring" style={{ marginTop: '2px', display: 'flex', justifyContent: 'flex-end' }}>
-            <StatusRing status={waveStatus === 'FM' ? 'EXT-SYS' : waveStatus === 'CHORD' ? 'SYSTOLE' : waveStatus === 'RING' ? 'COMPENSATE' : 'NOMINAL'} />
+          <div className="status-graphic-ring">
+            <StatusRing status={ringStatus} />
           </div>
         </div>
       </div>

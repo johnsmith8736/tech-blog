@@ -8,8 +8,7 @@ import { PostPage } from './pages/PostPage';
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { NotFoundPage } from './pages/NotFoundPage';
-import './styles.css';
-import './styles-new.css';
+import './styles/m3e.css';
 
 const router = createBrowserRouter([
   {

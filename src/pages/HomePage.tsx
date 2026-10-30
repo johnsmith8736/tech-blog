@@ -70,14 +70,13 @@ export function HomePage() {
               key={post.slug}
               to={`/posts/${post.slug}`}
               className="post-card"
-              style={{ textDecoration: 'none' }}
             >
               <div className="post-meta">
                 <span>{post.category}</span>
                 <span>{post.readTime}</span>
               </div>
-              <h3 style={{ margin: '8px 0', fontSize: 'clamp(0.95rem, 2.5vw, 1.2rem)' }}>{post.title}</h3>
-              <p style={{ fontSize: '0.82rem', color: '#a0a0a5' }}>{post.excerpt}</p>
+              <h3>{post.title}</h3>
+              <p>{post.excerpt}</p>
             </Link>
           ))}
         </div>
